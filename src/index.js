@@ -8,9 +8,10 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import './index.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import Dashboard from './components/organisms/Dashboard/Dashboard.js';
+import LogIn from './components/organisms/LogIn/LogIn';
 import reportWebVitals from './reportWebVitals';
 
-
+// FIXME: this is a hack to get the theme to work, but it doesn't work :P
 const theme = createTheme({
   palette: {
     secondary: {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <div>Hello world!</div>,
+  },
+  {
+    path: "/LogIn",
+    element: <LogIn />,
   },
   {
     path: "/dashboard",
