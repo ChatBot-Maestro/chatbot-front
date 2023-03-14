@@ -4,10 +4,26 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { createTheme, ThemeProvider } from '@mui/material';
 import './index.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import Dashboard from './components/organisms/Dashboard/Dashboard.js';
 import reportWebVitals from './reportWebVitals';
+
+
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#f44336',
+    },
+  }
+});
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}/>
+  );
+}
 
 const router = createBrowserRouter([
   {
