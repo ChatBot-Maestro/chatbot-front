@@ -1,11 +1,10 @@
 // imports here
 import Button from '@mui/material/Button';
 
-export default function ButtonAtom() {
+const ButtonAtom = (props) => {
+  return(
+    <Button id={props.id} variant={props.variant} color={ props.color } >{props.text}</Button>
+  );
+}
 
-    console.log('in button');
-  
-    return (
-    <Button color="secondary">Secondary</Button>
-    );
-  }
+export default ButtonAtom;
