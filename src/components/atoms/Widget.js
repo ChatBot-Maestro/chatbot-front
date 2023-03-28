@@ -1,24 +1,25 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import PropTypes from 'prop-types';
+// import './WidgetAtom.css';
 
-const WidgetAtom = (props) => {
-  /*
-    Props description
-        titleH: Is the hierachy of the heading (h1,h2,h3,h4,h5,h6)
-        id: Is the id on the complete component
-        title: Is the heading title value
-        smallDescription: Is the small description of the widget content
-    */
-const HeadingLevel = props.titleH;
-return (
-    <div id={props.id}>
-    <Card sx={{ minWidth: 275 }}>
-        <CardContent>
-            <Typography variant={HeadingLevel}>{props.title}</Typography>
-            <Typography variant="body2">
-                {props.smallDescription}
-            </Typography>
-            {/* TO-DO: Atom graph props each report kind */}
-        </CardContent>
-    </Card>;
-</div>
-)};
+export default function WidgetAtom({ image, title, imagePosition = 'left', titlePosition = 'bottom' }) {
+  const isImageLeft = imagePosition === 'left';
+  const isTitleTop = titlePosition === 'top';
+
+  return (
+    <div className="widget-atom">
+      <div className={`widget-image ${isImageLeft ? 'left' : 'right'}`}>
+        <img src={image} alt="widget" />
+      </div>
+      <div className={`widget-title ${isTitleTop ? 'top' : 'bottom'}`}>
+        <h2>{title}</h2>
+      </div>
+    </div>
+  );
+}
+
+WidgetAtom.propTypes = {
+  image: PropTypes.string.isRequired, // image source URL
+  title: PropTypes.string.isRequired, // widget title text
+  imagePosition: PropTypes.oneOf(['left', 'right']), // position of image relative to title
+  titlePosition: PropTypes.oneOf(['top', 'bottom']), // position of title relative to image
+};

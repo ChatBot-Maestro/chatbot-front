@@ -1,10 +1,19 @@
-// imports here
+import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
+import MdiIconAtom from '../atoms/MDI.js';
 
-const ButtonAtom = (props) => {
-  return(
-    <Button id={props.id} variant={props.variant} color={ props.color } >{props.text}</Button>
+export default function ButtonAtom({ label, variant = 'contained', color = 'primary', iconPath, onClick, size }) {
+  return (
+    <Button className="button-atom" variant={variant} color={color} onClick={onClick} startIcon={iconPath && <MdiIconAtom path={iconPath} size/>}>
+      {label}
+    </Button>
   );
 }
 
-export default ButtonAtom;
+ButtonAtom.propTypes = {
+  label: PropTypes.string.isRequired,
+  variant: PropTypes.oneOf(['contained', 'outlined', 'text']),
+  color: PropTypes.oneOf(['primary', 'secondary']),
+  iconPath: PropTypes.string, // MDI icon path (optional)
+  onClick: PropTypes.func,
+};
