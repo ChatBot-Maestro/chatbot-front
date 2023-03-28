@@ -1,0 +1,36 @@
+body{
+    background-color: #72C2B7;
+}
+
+.login-main{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.form-space{
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
+.fun_logos{
+    margin-top: 100%;
+    display: flex;
+    justify-content: right;
+}
+
+#forget_pass{
+    text-align: right;
+    color: #72C2B7;
+    text-decoration: none;
+}
+
+#login_button{
+    width: var(--width,auto);
+}
+
+.card-title{
+    text-align: center;
+}
