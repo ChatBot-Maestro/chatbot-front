@@ -11,11 +11,16 @@ import Dashboard from './components/organisms/Dashboard/Dashboard.js';
 import LogIn from './components/organisms/LogIn/LogIn';
 import reportWebVitals from './reportWebVitals';
 
-// FIXME: this is a hack to get the theme to work, but it doesn't work :P
 const theme = createTheme({
   palette: {
+    primary: {
+      main: '#72C2B7',
+    },
     secondary: {
-      main: '#f44336',
+      light: '#0066ff',
+      main: '#E0652C',
+      // dark: will be calculated from palette.secondary.main,
+      contrastText: '#ffcc00',
     },
   }
 });
@@ -44,9 +49,11 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <ThemeProvider theme={theme}>
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
+  </ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

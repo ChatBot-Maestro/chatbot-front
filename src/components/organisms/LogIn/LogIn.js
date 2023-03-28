@@ -1,6 +1,5 @@
 // imports here
 import ButtonAtom from '../../atoms/Button.js';
-import InputAtom from '../../atoms/Input.js';
 export default function Dashboard() {
   console.log('in LogIn');
 
@@ -10,7 +9,6 @@ export default function Dashboard() {
 
       {/* Calling Atoms for testing */}
       <ButtonAtom />
-      <InputAtom />
     </div>
   );
 }
