@@ -12,6 +12,26 @@ code {
     monospace;
 }
 
+.container{
+  // Delete margins on container bootstrap
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  //Delete paddings on container bootstrap
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+  //Fix with and height
+  max-width: none !important;
+
+  //Remove glutter container bootstrap
+  --bs-gutter-x: 0rem !important;
+}
+
 .dashboard-main{
   background-color: red;
 }
