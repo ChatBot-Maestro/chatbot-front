@@ -14,7 +14,7 @@ export default function Dashboard() {
     <div class="dashboard-main m-1">
       <h1>dashboard</h1>
 
-      {/* Calling Atoms for testing */}
+      Calling Atoms for testing
       <ButtonAtom label="hola" variant = 'text'/>
       <ButtonAtom label="hola 2" variant = 'contained' iconPath={mdiAccount} size={2}/>
       <LoaderAtom type="spinner"/>

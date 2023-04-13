@@ -9,7 +9,10 @@ import './index.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import Dashboard from './components/organisms/Dashboard/Dashboard.js';
 import LogIn from './components/organisms/LogIn/LogIn';
+import UsersManagement from './components/organisms/Dashboard/UsersManagement';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux'
+import store from "./app/store"
 
 const theme = createTheme({
   palette: {
@@ -44,6 +47,10 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <Dashboard />,
   },
+  {
+    path: "/usersManagement",
+    element: <UsersManagement />,
+  }
 ]);
 
 
@@ -51,7 +58,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ThemeProvider theme={theme}>
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
   </ThemeProvider>
 );
