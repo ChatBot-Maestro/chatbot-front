@@ -14,41 +14,45 @@ function handleDeleteEvent(event) {
   console.log("TODO delete event");
 }
 
+
+
 function handleEditEvent(event) {
   console.log("TODO edit event");
 }
 
-export default function BasicTable({rows}) {
+export default function BasicTable({rows,tableHeader,iterableFields}) {
+
+  const tableHeaderList = tableHeader.map((header) => (
+    <TableCell align="center">{header}</TableCell>
+  ));
+
+  const rowsList = rows.map((row) => (
+    <TableRow
+      key = {row.id}
+    >
+      {iterableFields.map((field) => (
+        <TableCell align="center">{row[field]}</TableCell>
+      ))}
+
+      <TableCell align="right">
+        <EditIcon className="editIcon" onClick={handleEditEvent}/>
+        <DeleteIcon className="editIcon" onClick={handleDeleteEvent}/>
+      </TableCell>
+    </TableRow>
+  ));
+  
+  
 
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Student Name</TableCell>
-            <TableCell align="right">Teacher Name</TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">Sheduled Date</TableCell>
-            <TableCell align="right">Edition space</TableCell>
+            {tableHeaderList}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.id}
-            >
-              <TableCell component="th" scope="row">
-                {row.studentName}
-              </TableCell>
-              <TableCell align="right">{row.teacherName}</TableCell>
-              <TableCell align="right">{row.status}</TableCell>
-              <TableCell align="right">{row.sheduledDate}</TableCell>
-              <TableCell align="right">
-                <EditIcon className="editIcon" onClick={handleEditEvent}/>
-                <DeleteIcon className="editIcon" onClick={handleDeleteEvent}/>
-              </TableCell>
-            </TableRow>
-          ))}
+          {rowsList}
         </TableBody>
       </Table>
     </TableContainer>

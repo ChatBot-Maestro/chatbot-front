@@ -15,6 +15,11 @@ import "./requestmanagement.scss";
 //Import React
 import React, { useState, useEffect } from "react";
 
+//Create the table
+const tableHeader = ["studentName", "teacherName", "status", "sheduledDate", "Edit/Delete"];
+const iterableFields = ["studentName","teacherName","status","sheduledDate"]
+
+
 function createData(id, studentName, teacherName, status, sheduledDate) {
   return { id, studentName, teacherName, status, sheduledDate };
 }
@@ -63,6 +68,8 @@ let rows = [
   createData(40, "John Doe", "John Doe", "Pending", "2021-09-14"),
 ];
 
+
+
 //Create a temp variable to store the rows
 let tempRows = rows;
 
@@ -99,6 +106,8 @@ export default function RequestManagement() {
           <Card className="table-card">
             <CardContent>
               <TableAtom 
+                tableHeader={tableHeader}
+                iterableFields={iterableFields}
                 rows={tempRows}
               />
             </CardContent>
