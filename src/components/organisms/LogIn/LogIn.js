@@ -1,55 +1,77 @@
-// imports here
-import ButtonAtom from "../../atoms/Button.js";
-import InputAtom from "../../atoms/Input.js";
+//Mui imports
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+
+//Import atoms
 import ImageAtom from "../../atoms/Image.js";
+import TextFieldAtom from "../../atoms/TextField.js";
 import AnchorAtom from "../../atoms/Anchor.js";
+import ButtonAtom from "../../atoms/Button.js";
 
 //Add css
 import "./LogIn.scss";
 
-export default function Dashboard() {
-  console.log("in LogIn");
-
+export default function LogIn() {
   return (
-    <div class="container">
-      <div class="row login-main">
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h3 class="card-title">Iniciar sesión</h3>
-              <div class="form-space">
-                <InputAtom />
-                <br />
-                <InputAtom />
-                <AnchorAtom 
-                  text="¿Olvidaste tu contraseña?"
-                  href="#"
-                  id="forget_pass"
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <div className="login-card">
+            <Card>
+              <CardContent>
+                <div className="card-title">
+                  <Typography variant="h5" component="div">
+                    Iniciar sesión
+                  </Typography>
+                </div>
+                <div className="login-form">
+                  <div className="email-input">
+                    <TextFieldAtom label="Email" value="" required={true} />
+                  </div>
+                  <div className="pass-input">
+                    <TextFieldAtom
+                      label="Contraseña"
+                      value=""
+                      required={true}
+                    />
+                  </div>
+                </div>
+                <div className="forget-pass">
+                  <AnchorAtom
+                    class="forget-pass-anchor"
+                    text="¿Olvidaste tu contraseña?"
+                    href="#"
                   />
-              </div>
-              <ButtonAtom 
-              variant="contained"
-              color="primary"
-              text="Iniciar sesión"
-              id="login_button"
-              />
-            </div>
+                </div>
+
+                <div className="login-button">
+                  <ButtonAtom 
+                  label="Iniciar sesión" 
+                  variant="contained"
+                  size="large"
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
-        <div class="col">
-          <div class="fun_logos">
-            <ImageAtom
-              src="./logos/chat_hola_white.png"
-              alt="Chat Hola Maestro"
-              height="100px"
-              width="100px"
-            />
-            <ImageAtom
-              src="./logos/fsa_white.png"
-              alt="Fundacion San Antonio"
-              height="100"
-              width="100"
-            />
+        <div className="col">
+          <div className="logos-side">
+            <div className="norm-logos">
+              <ImageAtom
+                src="./logos/chat_hola_white.png"
+                alt="Chat Hola Maestro"
+                height="100"
+                width="100"
+              />
+              <ImageAtom
+                src="./logos/fsa_white.png"
+                alt="Fundacion San Antonio"
+                height="100"
+                width="100"
+              />
+            </div>
           </div>
         </div>
       </div>
