@@ -23,7 +23,7 @@ function handleEditEvent(event) {
 export default function BasicTable({rows,tableHeader,iterableFields}) {
 
   const tableHeaderList = tableHeader.map((header) => (
-    <TableCell align="center">{header}</TableCell>
+    <TableCell align="center" key={header}>{header}</TableCell>
   ));
 
   const rowsList = rows.map((row) => (
@@ -31,10 +31,10 @@ export default function BasicTable({rows,tableHeader,iterableFields}) {
       key = {row.id}
     >
       {iterableFields.map((field) => (
-        <TableCell align="center">{row[field]}</TableCell>
+        <TableCell align="center" key={row[field]+row.id+field}>{row[field]}</TableCell>
       ))}
 
-      <TableCell align="right">
+      <TableCell align="center"key={"edit" + row.id}>
         <EditIcon className="editIcon" onClick={handleEditEvent}/>
         <DeleteIcon className="editIcon" onClick={handleDeleteEvent}/>
       </TableCell>
