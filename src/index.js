@@ -7,12 +7,15 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material';
 import './index.scss';
 import 'bootstrap/dist/css/bootstrap.css';
-import Dashboard from './components/organisms/Dashboard/Dashboard.js';
-import LogIn from './components/organisms/LogIn/LogIn';
-import UsersManagement from './components/organisms/Dashboard/UsersManagement';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import store from "./app/store"
+
+//Import organisms
+import Dashboard from './components/organisms/Dashboard/Dashboard.js';
+import LogIn from './components/organisms/LogIn/LogIn.js';
+import RequestManagement from './components/organisms/RequestManagement/requestmanagement.js';
+import UsersManagement from './components/organisms/Dashboard/UsersManagement';
 
 const theme = createTheme({
   palette: {
@@ -37,10 +40,6 @@ export default function App() {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
-  },
-  {
-    path: "/LogIn",
     element: <LogIn />,
   },
   {
@@ -50,7 +49,11 @@ const router = createBrowserRouter([
   {
     path: "/usersManagement",
     element: <UsersManagement />,
-  }
+  },
+  {
+    path: "/requestManagement",
+    element: <RequestManagement />,
+  },
 ]);
 
 
