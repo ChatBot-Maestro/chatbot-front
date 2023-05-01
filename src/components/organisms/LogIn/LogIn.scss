@@ -1,36 +1,49 @@
-body{
+.logos-side{
     background-color: #72C2B7;
-}
 
-.login-main{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    position: relative;
+
+    //set div height to 100% of the screen
     height: 100vh;
+    width: 100%;
 }
 
-
-.form-space{
-    margin-top: 4rem;
-    margin-bottom: 4rem;
+.norm-logos{
+    position: absolute;
+    bottom: 12px;
+    right: 35px;
 }
 
-.fun_logos{
-    margin-top: 100%;
-    display: flex;
-    justify-content: right;
-}
+.login-card{
+    margin-top: 20%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
 
-#forget_pass{
-    text-align: right;
-    color: #72C2B7;
-    text-decoration: none;
-}
-
-#login_button{
-    width: var(--width,auto);
+    //Center align
+    align-items: center;
+    text-align: center;
 }
 
 .card-title{
-    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 3.5rem;
+}
+
+.email-input{
+    margin-bottom: 1rem;
+}
+
+.forget-pass{
+    margin-top: 0.5rem;
+}
+
+.forget-pass-anchor{
+    text-align: right;
+    text-decoration: none;
+    color: #72C2B7;
+}
+
+.forget-pass-anchor:hover{
+    text-decoration: underline;
 }

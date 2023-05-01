@@ -7,9 +7,12 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material';
 import './index.scss';
 import 'bootstrap/dist/css/bootstrap.css';
-import Dashboard from './components/organisms/Dashboard/Dashboard.js';
-import LogIn from './components/organisms/LogIn/LogIn';
 import reportWebVitals from './reportWebVitals';
+
+//Import organisms
+import Dashboard from './components/organisms/Dashboard/Dashboard.js';
+import LogIn from './components/organisms/LogIn/LogIn.js';
+import RequestManagement from './components/organisms/RequestManagement/requestmanagement.js';
 
 const theme = createTheme({
   palette: {
@@ -34,15 +37,15 @@ export default function App() {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
-  },
-  {
-    path: "/LogIn",
     element: <LogIn />,
   },
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/rm",
+    element: <RequestManagement />,
   },
 ]);
 
@@ -50,9 +53,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ThemeProvider theme={theme}>
-  <React.StrictMode>
+  
     <RouterProvider router={router} />
-  </React.StrictMode>
+  
   </ThemeProvider>
 );
 

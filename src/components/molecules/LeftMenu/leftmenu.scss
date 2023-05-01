@@ -1,16 +1,28 @@
 .menu{
     align-content: center;
     text-align: center;
+
+    width: 100hv;
+    height: 90vh;
+
+    //Position
+    position: sticky;
+    top: 0;
 }
 
 .button-section{
     text-align: center;
+    
 }
 
 .logo-section{
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .button-menu{
     margin-bottom: 10px;
+}
+
+.section-button{
+    margin-bottom: 15px;
 }
