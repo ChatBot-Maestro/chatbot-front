@@ -17,6 +17,11 @@ import LogIn from './components/organisms/LogIn/LogIn.js';
 import RequestManagement from './components/organisms/RequestManagement/requestmanagement.js';
 import UsersManagement from './components/organisms/userManagement/UserManagement.js';
 
+//Import organisms
+import Dashboard from './components/organisms/Dashboard/Dashboard.js';
+import LogIn from './components/organisms/LogIn/LogIn.js';
+import RequestManagement from './components/organisms/RequestManagement/requestmanagement.js';
+
 const theme = createTheme({
   palette: {
     primary: {
