@@ -1,37 +1,42 @@
-import UsersManagementStyle from '../../../styles/Dashboard/usersManagement.scss'
 import { DataGrid } from '@mui/x-data-grid';
 import { mdiPlus } from '@mdi/js';
 import { useState } from 'react';
 import ButtonAtom from '../../atoms/Button.js';
-import TextFieldAtom from '../../atoms/TextField.js';
-
 import Modal from 'react-modal';
-
-export default function UsersManagement() {
+import UsersManagementStyle from '../../../styles/Dashboard/usersManagement.scss'
+import LeftMenu from "../../molecules/LeftMenu/leftmenu.js";
+import TextAtom from "../../atoms/Text.js";
+import NewUser from '../../molecules/Dashboard/NewUser.js';
+export default function UserManagement() {
     let users = [
         {
             image: 'https://www.w3schools.com/howto/img_avatar.png',
             name: 'Estudiantes',
+            singleName: 'Estudiante',
             count: 0,
         },
         {
             image: 'https://www.w3schools.com/howto/img_avatar.png',
             name: 'Profesores',
+            singleName: 'Profesor',
             count: 0,
         },
         {
             image: 'https://www.w3schools.com/howto/img_avatar.png',
             name: 'Gestores Escolares',
+            singleName: 'Gestor Escolar',
             count: 0,
         },
         {
             image: 'https://www.w3schools.com/howto/img_avatar.png',
             name: 'Acudientes',
+            singleName: 'Acudiente',
             count: 0,
         },
         {
             image: 'https://www.w3schools.com/howto/img_avatar.png',
             name: 'Administradores',
+            singleName: 'Administrador',
             count: 0,
         }
     ]
@@ -67,50 +72,55 @@ export default function UsersManagement() {
         { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
         { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
       ];
-
-      const renderBackdrop = (props) => <div className="backdrop" {...props} />;
+    const [selectedUser, setSelectedUser] = useState(users[0]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleUserClick = (user) => {
+        setSelectedUser(user);
+    };
     const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-    }
+        setIsModalOpen(!isModalOpen); // update state variable to show/hide modal
+      };
+    
 
     return (
         <div className="users-management">
-            <div className="users-management--list">
-                {users.map((user, index) => (
-                    <div className="users-management--user" key={index}>
-                        <img className="users-management--img" width={50} src={user.image} alt="avatar" />
-                        <p>{user.name}</p>
-                        <p>{user.count}</p>
-                    </div>
-                ))}
+            <LeftMenu/>
+            <div className="users-management__content">
+                <TextAtom text="Resumen" weight="bold" align="left" size="22px"/>
+                <div className="users-management--list">
+                    {users.map((user, index) => (
+                        <div
+                        className={`users-management--user ${selectedUser.name === user.name ? 'selected' : ''}`}
+                        key={index}
+                        onClick={() => handleUserClick(user)}>
+                            <img className="users-management--img" width={50} src={user.image} alt="avatar" />
+                            <p>{user.name}</p>
+                            <p className="users-management--count">{user.count}</p>
+                        </div>
+                    ))}
+                </div>
+                <div className='d-flex justify-content-between mt-5 mb-4'>
+                    <TextAtom text={`Gestion de ${selectedUser ? selectedUser.name : 'none'}`} weight="bold" align="left" size="22px"/>
+                    <ButtonAtom  onClick={toggleModal} label={`Nuevo ${selectedUser ? selectedUser.singleName : 'none'}`} variant = 'contained' iconPath={mdiPlus} size={1} textColor={"white"}/>
+                </div>
+                <div style={{ height: 400, width: '100%' }}>
+                    <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    checkboxSelection
+                    />
+                </div>
             </div>
-            <div className='d-flex justify-content-between mt-5 mb-5'>
-            <p> Gestion de Estudiantes </p>
-            <ButtonAtom onClick={toggleModal} label="Nuevo Estudiante" variant = 'contained' iconPath={mdiPlus} size={1}/>
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={toggleModal}
                 className="users-management--modal"
-                renderBackdrop={renderBackdrop}
-            >
-            <h2>Agregar</h2>
-            <TextFieldAtom label="hola" minLength="1" maxLength="6"/>
-            <TextFieldAtom label="hola" minLength="1" maxLength="6"/>
-            <TextFieldAtom label="hola" minLength="1" maxLength="6"/>
-            <ButtonAtom onClick={toggleModal} label="Agregar" variant = 'contained' iconPath={mdiPlus} size={1}/>
+            > 
+                <NewUser toggleModal={toggleModal} selectedUser={selectedUser}/>
             </Modal>
-            </div>
-            {/* Make table in another component */}
-            <div style={{ height: 400, width: '100%' }}>
-                <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                checkboxSelection
-                />
-            </div>
         </div>
     )
 }

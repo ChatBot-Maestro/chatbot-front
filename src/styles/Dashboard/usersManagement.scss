@@ -1,13 +1,20 @@
 .users-management{
-    background-color: #F2F4F7;
-    padding: 30px 20px;
+    display: flex;
+    height: 100vh;
+    margin: 0px !important;
 
     &--modal{
         background-color: white;
         border-radius: 10px;
         width: 500px;
-        margin-right: auto;
-        margin-left: auto;
+        //center the modal
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: -2px 2px 23px 0px #a3939340;
     }
     &--list{
         display: flex;
@@ -18,12 +25,42 @@
     &--user{
         background-color: white;
         border-radius: 10px;
-        min-width: 200px;
+        min-width: 250px;
         padding: 20px 30px;
+        height: 180px;
+        box-shadow: -2px 2px 16px 0px #a6a3a340;
+        color: #344054;
+        &.selected{
+            background-color: #72C2B7;
+            color: white;
+        }
     }
     
     &--img{
         border-radius: 50%;
+        margin-bottom: 10px;
+    }
+
+    &--count{
+        display: flex;
+        justify-content: flex-end;
+        font-weight: 600;
+        font-size: 30px;
+    }
+
+    &__content{
+        padding: 25px;
+        background-color: #F2F4F7;
+        width: calc(100% - 20vh);
     }
 }
 
+.new-user{
+   height: 80vh;
+
+   &__save{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+   }
+}

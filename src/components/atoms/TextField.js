@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
+import "../../styles/base/base.scss"
 
 const TextInput = (props) => {
   const { label, value, onChange, required, minLength, maxLength } = props;
@@ -24,6 +25,7 @@ const TextInput = (props) => {
 
   return (
     <TextField
+      className='text-input'
       label={label}
       value={value}
       onChange={handleInputChange}

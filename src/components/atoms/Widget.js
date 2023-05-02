@@ -1,17 +1,15 @@
 import PropTypes from 'prop-types';
+import "../../styles/base/base.scss"
 // import './WidgetAtom.css';
 
-export default function WidgetAtom({ image, title, imagePosition = 'left', titlePosition = 'bottom' }) {
-  const isImageLeft = imagePosition === 'left';
-  const isTitleTop = titlePosition === 'top';
-
+export default function WidgetAtom({ image, title, size, cursor }) {
   return (
-    <div className="widget-atom">
-      <div className={`widget-image ${isImageLeft ? 'left' : 'right'}`}>
-        <img src={image} alt="widget" />
-      </div>
-      <div className={`widget-title ${isTitleTop ? 'top' : 'bottom'}`}>
+    <div className="widget-atom" style={{ cursor: cursor }}>
+      <div className={`widget-title`}>
         <h2>{title}</h2>
+      </div>
+      <div className={`widget-image`}>
+        <img src={image} alt="widget" style={{ width: size }} />
       </div>
     </div>
   );
@@ -20,6 +18,6 @@ export default function WidgetAtom({ image, title, imagePosition = 'left', title
 WidgetAtom.propTypes = {
   image: PropTypes.string.isRequired, // image source URL
   title: PropTypes.string.isRequired, // widget title text
-  imagePosition: PropTypes.oneOf(['left', 'right']), // position of image relative to title
-  titlePosition: PropTypes.oneOf(['top', 'bottom']), // position of title relative to image
+  size: PropTypes.string, // width of the image
+  cursor: PropTypes.string // cursor type
 };
