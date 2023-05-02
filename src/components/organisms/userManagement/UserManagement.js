@@ -16,7 +16,7 @@ export default function UserManagement() {
             count: 0,
         },
         {
-            image: 'https://www.w3schools.com/howto/img_avatar.png',
+            image: 'https://www.w3schools.com/howto/img_avatar2.png',
             name: 'Profesores',
             singleName: 'Profesor',
             count: 0,
@@ -28,7 +28,7 @@ export default function UserManagement() {
             count: 0,
         },
         {
-            image: 'https://www.w3schools.com/howto/img_avatar.png',
+            image: 'https://www.w3schools.com/howto/img_avatar2.png',
             name: 'Acudientes',
             singleName: 'Acudiente',
             count: 0,

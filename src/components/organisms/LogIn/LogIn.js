@@ -35,11 +35,11 @@ export default function LogIn() {
                   </div>
                 </div>
                 <div className="forget-pass">
-                  <AnchorAtom
+                  {/* <AnchorAtom
                     class="forget-pass-anchor"
                     text="¿Olvidaste tu contraseña?"
                     href="#"
-                  />
+                  /> */}
                 </div>
 
                 <div className="login-button">
