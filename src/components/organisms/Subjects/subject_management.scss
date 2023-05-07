@@ -1,0 +1,60 @@
+.navbar{
+    background-color: white;
+    color: black;
+
+    // Margin title
+    padding-left: 25%;
+    padding-right: 2%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    
+    //Set position sticky
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.title{
+    width: fit-content;
+    block-size: fit-content;
+}
+
+.title-anchor{
+    color: black;
+    text-decoration: none;
+}
+
+.title-anchor:hover{
+    color: #72C2B7;
+    text-decoration: none;
+}
+
+.leftMenu{
+    background-color: white;
+
+    //set menu position
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.job-subtitle{
+    padding-top: 15px;
+    padding-left: 20px;
+}
+
+.row{
+    --bs-gutter-x: 0rem !important;
+}
+
+.table-card{
+    margin-top: 2%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    margin-bottom: 2%;
+}
+
+// Table styling space
+.editIcon:hover{
+    color: #72C2B7;
+}

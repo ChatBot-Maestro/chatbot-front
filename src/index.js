@@ -16,7 +16,7 @@ import Dashboard from './components/organisms/Dashboard/Dashboard.js';
 import LogIn from './components/organisms/LogIn/LogIn.js';
 import RequestManagement from './components/organisms/RequestManagement/requestmanagement.js';
 import UsersManagement from './components/organisms/userManagement/UserManagement.js';
-
+import SubjectManagement from './components/organisms/Subjects/subject_management.js';
 
 const theme = createTheme({
   palette: {
@@ -54,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: "/requestManagement",
     element: <RequestManagement />,
+  },
+  {
+    path: "/subjectManagement",
+    element: <SubjectManagement />
   },
 ]);
 
