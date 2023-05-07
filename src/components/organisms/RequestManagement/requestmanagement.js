@@ -10,7 +10,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
 //Import scss
-import "./requestmanagement.scss";
+import "./request_management.scss";
 
 //Import Backend API
 import { API_ENDPOINT } from "../../../config.js";
