@@ -68,20 +68,28 @@ function organizeTableData(apiData){
 let tempRows = rows;
 
 export default function RequestManagement() {
+ 
   //Set background color with js
   document.body.style.backgroundColor = "#F2F4F7";
+  const [newTemp, setNewTemp] = useState([]);
   
 
   //Call functions on component mounting
   useEffect(() => {
     async function fetchRequestData(){
       await requestGet();
-      tempRows = rows;
-      console.log(tempRows.length)
+      setInitRowsState();
     }
 
     fetchRequestData()
   },[]);
+
+  function setInitRowsState(){
+    //This is just 4 update the render after adding rows
+    tempRows = rows.map((row) => row);
+    setNewTemp([rows])
+    console.log("Rows size: " + tempRows.length)
+  }
 
   const [search, setSearch] = useState('');
 
@@ -89,6 +97,7 @@ export default function RequestManagement() {
     setSearch(searchData);
     tempRows = rows.filter((row) => row.studentName.toLowerCase().includes(searchData.toLowerCase()));
   }
+
 
   return (
     <div class="d-flex">
