@@ -12,7 +12,8 @@ import reportWebVitals from './reportWebVitals';
 //Import organisms
 import Dashboard from './components/organisms/Dashboard/Dashboard.js';
 import LogIn from './components/organisms/LogIn/LogIn.js';
-import RequestManagement from './components/organisms/RequestManagement/requestmanagement.js';
+import RequestManagement from './components/organisms/RequestManagement/request_management.js';
+import SubjectManagement from './components/organisms/Subjects/subject_management.js';
 
 const theme = createTheme({
   palette: {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
   {
     path: "/rm",
     element: <RequestManagement />,
+  },
+  {
+    path: "/sm",
+    element: <SubjectManagement />
   },
 ]);
 

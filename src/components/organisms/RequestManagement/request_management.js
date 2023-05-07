@@ -10,7 +10,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
 //Import scss
-import "./requestmanagement.scss";
+import "./request_management.scss";
 
 //Import Backend API
 import { API_ENDPOINT } from "../../../config.js";
@@ -70,18 +70,25 @@ let tempRows = rows;
 export default function RequestManagement() {
   //Set background color with js
   document.body.style.backgroundColor = "#ACACAC";
+  const [newTemp, setNewTemp] = useState([]);
   
 
   //Call functions on component mounting
   useEffect(() => {
     async function fetchRequestData(){
       await requestGet();
-      tempRows = rows;
-      console.log(tempRows.length)
+      setInitRowsState();
     }
 
     fetchRequestData()
   },[]);
+
+  function setInitRowsState(){
+    //This is just 4 update the render after adding rows
+    tempRows = rows.map((row) => row);
+    setNewTemp([rows])
+    console.log("Rows size: " + tempRows.length)
+  }
 
   const [search, setSearch] = useState('');
 

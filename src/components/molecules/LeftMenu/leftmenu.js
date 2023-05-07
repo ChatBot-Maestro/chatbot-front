@@ -27,6 +27,7 @@ export default function leftMenu() {
                 color="primary"
                 label="Dashboard"
                 id="button-menu"
+                href="/dashboard"
               />
             </div>
             <div className="section-button">
@@ -67,6 +68,16 @@ export default function leftMenu() {
                 color="primary"
                 label="G. Materias"
                 id="button-menu"
+                href="/sm"
+              />
+            </div>
+            <div className="section-button">
+              <ButtonAtom
+                variant="outlined"
+                color="primary"
+                label="G. Solicitudes"
+                id="button-menu"
+                href="/rm"
               />
             </div>
             <div className="section-button">
