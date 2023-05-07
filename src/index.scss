@@ -17,16 +17,9 @@ code {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   margin-left: 0 !important;
-  margin-right: 0 !important;
-
   //Delete paddings on container bootstrap
   padding-top: 0 !important;
   padding-bottom: 0 !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-
-  //Fix with and height
-  max-width: none !important;
 
   //Remove glutter container bootstrap
   --bs-gutter-x: 0rem !important;
@@ -42,14 +35,25 @@ code {
   padding-left: 0px !important;
 }
 
-.dashboard-main{
-  background-color: red;
+.dashboard{
+  &__left-menu{
+    display: flex;
+  }
 }
+
+.dashboard-main{
+  background-color: #F2F4F7;
+  display:grid;
+  height: 100vh;
+  width: calc(100% - 20vh);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 33%);
+  grid-template-areas: var(--grid-area-component);
+  gap: 25px;
+  padding: 25px;
+}
+
 .loader-atom {
-  // border-top-color: transparent !important;
-  // border-right-color: transparent !important;
-  // border-bottom-color: transparent !important;
-  // border-left-color: currentColor;
   border-style: solid;
   border-radius: 50%;
   animation: loader-atom-spin 1s infinite linear;
@@ -109,8 +113,10 @@ code {
 
 .button-atom{
   text-transform: capitalize !important;
-  border-radius: 40px !important;
-  font-size: 15px !important;
+  border-radius: 16px !important;
+  height: 40px;
+  font-size: 16px !important;
+  box-shadow: -3px 10px 10px 0px #8080801A;
 }
 
 

@@ -8,11 +8,14 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import './index.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux'
+import store from "./app/store"
 
 //Import organisms
 import Dashboard from './components/organisms/Dashboard/Dashboard.js';
 import LogIn from './components/organisms/LogIn/LogIn.js';
-import RequestManagement from './components/organisms/RequestManagement/request_management.js';
+import RequestManagement from './components/organisms/RequestManagement/requestmanagement.js';
+import UsersManagement from './components/organisms/userManagement/UserManagement.js';
 import SubjectManagement from './components/organisms/Subjects/subject_management.js';
 
 const theme = createTheme({
@@ -45,11 +48,15 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-    path: "/rm",
+    path: "/userManagement",
+    element: <UsersManagement />,
+  },
+  {
+    path: "/requestManagement",
     element: <RequestManagement />,
   },
   {
-    path: "/sm",
+    path: "/subjectManagement",
     element: <SubjectManagement />
   },
 ]);
@@ -58,9 +65,11 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ThemeProvider theme={theme}>
-  
-    <RouterProvider router={router} />
-  
+  <React.StrictMode>
+    <Provider Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </React.StrictMode>
   </ThemeProvider>
 );
 
