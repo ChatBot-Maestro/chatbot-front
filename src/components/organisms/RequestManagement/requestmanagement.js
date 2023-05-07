@@ -69,7 +69,7 @@ let tempRows = rows;
 
 export default function RequestManagement() {
   //Set background color with js
-  document.body.style.backgroundColor = "#ACACAC";
+  document.body.style.backgroundColor = "#F2F4F7";
   
 
   //Call functions on component mounting
@@ -91,33 +91,34 @@ export default function RequestManagement() {
   }
 
   return (
-    <div className="container">
-      <div className="navbar">
-        <div className="title">
-          <h3>
-            <a href="dashboard" className="title-anchor">
-              Dashboard
-            </a>{" "}
-            / Gestión de solicitudes{" "}
-          </h3>
+    <div class="d-flex">
+      <LeftMenu/>
+      <div class="w-100">
+        <div className="navbar">
+          <div className="title">
+            <h3>
+              <a href="dashboard" className="title-anchor">
+                Dashboard
+              </a>{" "}
+              / Gestión de solicitudes{" "}
+            </h3>
+          </div>
+          <SearchAtom searchEvent={handleSearch}/>
         </div>
-        <SearchAtom searchEvent={handleSearch}/>
-      </div>
-      <div className="row">
-        <div className="leftMenu col-lg-3">
-          <LeftMenu/>
-        </div>
-        <div className="col">
-          <h4 className="job-subtitle">Gestión de solicitudes</h4>
-          <Card className="table-card">
-            <CardContent>
-              <TableAtom 
-                tableHeader={tableHeader}
-                iterableFields={iterableFields}
-                rows={tempRows}
-              />
-            </CardContent>
-          </Card>
+        
+        <div className="row">
+          <div className="col">
+            <h4 className="job-subtitle">Gestión de solicitudes</h4>
+            <Card className="table-card">
+              <CardContent>
+                <TableAtom 
+                  tableHeader={tableHeader}
+                  iterableFields={iterableFields}
+                  rows={tempRows}
+                />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
