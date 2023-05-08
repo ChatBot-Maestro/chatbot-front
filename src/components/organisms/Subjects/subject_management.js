@@ -45,8 +45,28 @@ async function requestGet() {
       })
   );
 }
+
+//DELETE TABLE ROW WITH ID
+async function requestDeleteFromDB(id){
+
+  let deleteRequest = '/api/subjects/subjects/' + id + '/';
+
+  let deleteResponse =await fetch(API_ENDPOINT + deleteRequest, {
+    method : 'DELETE'
+  }).then((response) => response.json())
+  .then((data) => {
+    return true;
+  }).catch((error) => {
+    console.log(error)
+    return false;
+  });
+
+  return deleteResponse;
+
+}
+
 function organizeTableData(apiData) {
-  let resultRows = [];
+  rows = [];
 
   apiData.map((rq) => {
     let id, name;
@@ -57,38 +77,44 @@ function organizeTableData(apiData) {
 
     resultRowData = createData(id, name);
 
-    resultRows.push(resultRowData);
     rows.push(resultRowData);
     return resultRowData;
   });
 }
 
 //Create a temp variable to store the rows
-let tempRows = rows;
+let tempRows = [];
 
 export default function RequestManagement() {
-    const [nTempRows,setNTempRows] = useState([]);
+    const [newTemp,setNewTemp] = useState([rows]);
 
   //Set background color with js
-  document.body.style.backgroundColor = "#ACACAC";
+  document.body.style.backgroundColor = "#F2F4F7";
 
-  //Call functions on component mounting
-  useEffect(() => {
-    async function fetchRequestData() {
-      await requestGet();
-      initRowsState();
-    }
-
+   //Call functions on component mounting
+   useEffect(() => {
     fetchRequestData();
-  }, []);
+  },[]);
 
-  function initRowsState(){
-    tempRows = rows;
-    setNTempRows([rows])
-    console.log(tempRows.length);
+  async function fetchRequestData(){
+
+      
+    //Clean up rows
+    rows = [];
+    tempRows = [];
+    //Get data from backend
+    await requestGet();
+    setInitRowsState();
   }
 
+  function setInitRowsState(){
+    //This is just 4 update the render after adding rows
+    tempRows = rows.map((row) => row);
+    setNewTemp([rows])
+  }
   const [search, setSearch] = useState("");
+  const [idDelete, setIdDelete] = useState('');
+
 
   function handleSearch(searchData) {
     setSearch(searchData);
@@ -97,36 +123,53 @@ export default function RequestManagement() {
     );
   }
 
-  return (
-    <div className="container">
-      <div className="navbar">
-        <div className="title">
-          <h3>
-            <a href="dashboard" className="title-anchor">
-              Dashboard
-            </a>{" "}
-            / Gestión de materias{" "}
-          </h3>
+  async function requestDelete(id){
+    console.log('Id selected',id);
+    setIdDelete(id);
+    let deleteResponseStatus = await requestDeleteFromDB(id);
+
+    if(deleteResponseStatus){
+      //Delete row from list
+      rows = rows.filter((row) => row.id !== id);
+      tempRows = rows.map((row) => row);
+      setNewTemp([rows]);
+    }else{
+      alert("Error al eliminar la solicitud");
+    }
+    
+  }
+
+  return (<div class="d-flex">
+      <LeftMenu/>
+      <div class="w-100">
+        <div className="navbar">
+          <div className="title">
+            <h3>
+              <a href="dashboard" className="title-anchor">
+                Dashboard
+              </a>{" "}
+              / Gestión de materias{" "}
+            </h3>
+          </div>
+          <SearchAtom searchEvent={handleSearch}/>
         </div>
-        <SearchAtom searchEvent={handleSearch} />
-      </div>
-      <div className="row">
-        <div className="leftMenu col-lg-3">
-          <LeftMenu />
-        </div>
-        <div className="col">
-          <h4 className="job-subtitle">Gestión de materias</h4>
-          <Card className="table-card">
-            <CardContent>
-              <TableAtom
-                tableHeader={tableHeader}
-                iterableFields={iterableFields}
-                rows={tempRows}
-              />
-            </CardContent>
-          </Card>
+        
+        <div className="row">
+          <div className="col">
+            <h4 className="job-subtitle">Gestión de solicitudes</h4>
+            <Card className="table-card">
+              <CardContent>
+                <TableAtom 
+                  tableHeader={tableHeader}
+                  iterableFields={iterableFields}
+                  rows={tempRows}
+                  deleteEvent={requestDelete}
+                />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
-  );
-}
+    );
+  }
