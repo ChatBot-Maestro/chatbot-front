@@ -10,7 +10,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
 //Import scss
-import "./requestmanagement.scss";
+import "./schoolManagerManagement.scss";
 
 //Import Backend API
 import { API_ENDPOINT } from "../../../config.js";
@@ -19,37 +19,37 @@ import { API_ENDPOINT } from "../../../config.js";
 import React, { useState, useEffect } from "react";
 
 //Create the table
-const tableHeader = ["Nombre. Estudiane", "Materia", "Estado", "Fecha", "Editar/Eliminar"];
-const iterableFields = ["studentName","topic","status","sheduledDate"]
+const tableHeader = [
+  "Id", "Nombre colegio" ,"Nombre manager","Editar"
+];
+const iterableFields = ["id", "nameSchool", "nameManager"];
 
 //Declare empty rows
-var rows = []
+var rows = [];
 
-function createData(id, studentName, topic, status, sheduledDate) {
-  return { id, studentName, topic, status, sheduledDate };
+function createData(id, nameSchool, nameManager) {
+  return { id, nameSchool, nameManager };
 }
 
-//BACKEND CALLS
-//GET TABLE DATA
-async function requestGet(){
+//Get request data from backend
+async function requestGet() {
+  let getRequests = "/api/schools/school_managers/";
 
-  let getRequests = 'api/requests/requests/'
-
-  organizeTableData(await fetch(API_ENDPOINT + getRequests, {
-    method : 'GET' 
-  }).then((response) => response.json())
-  .then((data) => {
-    return data;
-  }).catch((error) => {
-    console.log(error)
-    alert("Error al obtener las solicitudes");
-  }));
+  organizeTableData(
+    await fetch(API_ENDPOINT + getRequests, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+  );
 }
 
 //DELETE TABLE ROW WITH ID
 async function requestDeleteFromDB(id){
 
-  let deleteRequest = '/api/requests/requests/' + id + '/';
+  let deleteRequest = '/api/schools/school_managers/' + id + '/';
 
   let deleteResponse =await fetch(API_ENDPOINT + deleteRequest, {
     method : 'DELETE'
@@ -65,44 +65,40 @@ async function requestDeleteFromDB(id){
 
 }
 
-function organizeTableData(apiData){
-  //Clean rows every single call
+function organizeTableData(apiData) {
   rows = [];
 
   apiData.map((rq) => {
-    let id, studentName, topic, status, sheduledDate;
+    let id, nameSchool, nameManager;
     let resultRowData;
-    id = rq.id
-    studentName = rq.student.first_name + ' ' + rq.student.last_name
-    topic = rq.subject.name
-    status = rq.status
-    //TEMPORAL :: CHECK WHAT'S THE SHEDULED DATE
-    sheduledDate = rq.created_date
+    id = rq.id;
+    nameSchool = rq.user.first_name + " " + rq.user.last_name;
+    nameManager = rq.school.name;
+ 
 
-    resultRowData = createData(id,studentName, topic, status, sheduledDate)
+    resultRowData = createData(id, nameSchool, nameManager);
 
-    rows.push(resultRowData)
-  })
-
+    rows.push(resultRowData);
+    return resultRowData;
+  });
 }
 
 //Create a temp variable to store the rows
 let tempRows = [];
 
 export default function RequestManagement() {
+    const [newTemp,setNewTemp] = useState([rows]);
+
   //Set background color with js
   document.body.style.backgroundColor = "#F2F4F7";
 
-  //Set state for the table
-  const [newTemp, setNewTemp] = useState([rows]);
-  
-
-  //Call functions on component mounting
-  useEffect(() => {
+   //Call functions on component mounting
+   useEffect(() => {
     fetchRequestData();
   },[]);
 
   async function fetchRequestData(){
+
       
     //Clean up rows
     rows = [];
@@ -117,14 +113,15 @@ export default function RequestManagement() {
     tempRows = rows.map((row) => row);
     setNewTemp([rows])
   }
-
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [idDelete, setIdDelete] = useState('');
 
 
   function handleSearch(searchData) {
     setSearch(searchData);
-    tempRows = rows.filter((row) => row.studentName.toLowerCase().includes(searchData.toLowerCase()));
+    tempRows = rows.filter((row) =>
+      row.name.toLowerCase().includes(searchData.toLowerCase())
+    );
   }
 
   async function requestDelete(id){
@@ -143,8 +140,7 @@ export default function RequestManagement() {
     
   }
 
-  return (
-    <div class="d-flex">
+  return (<div class="d-flex">
       <LeftMenu/>
       <div class="w-100">
         <div className="navbar">
@@ -153,7 +149,7 @@ export default function RequestManagement() {
               <a href="dashboard" className="title-anchor">
                 Dashboard
               </a>{" "}
-              / Gestión de solicitudes{" "}
+              / Gestión de Admin. Colegios{" "}
             </h3>
           </div>
           <SearchAtom searchEvent={handleSearch}/>
@@ -161,7 +157,7 @@ export default function RequestManagement() {
         
         <div className="row">
           <div className="col">
-            <h4 className="job-subtitle">Gestión de solicitudes</h4>
+            <h4 className="job-subtitle">Gestión de Admin. Colegios</h4>
             <Card className="table-card">
               <CardContent>
                 <TableAtom 
@@ -176,5 +172,5 @@ export default function RequestManagement() {
         </div>
       </div>
     </div>
-  );
-}
+    );
+  }
