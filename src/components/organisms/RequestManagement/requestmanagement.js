@@ -92,6 +92,9 @@ let tempRows = [];
 export default function RequestManagement() {
   //Set background color with js
   document.body.style.backgroundColor = "#F2F4F7";
+
+  //Set state for the table
+  const [newTemp, setNewTemp] = useState([rows]);
   
 
   //Call functions on component mounting
