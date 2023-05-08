@@ -10,17 +10,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PropTypes from 'prop-types';
 
-function handleDeleteEvent(event) {
-  console.log("TODO delete event");
-}
-
-
 
 function handleEditEvent(event) {
-  console.log("TODO edit event");
+  //get the id of the row
+   
 }
 
-export default function BasicTable({rows,tableHeader,iterableFields}) {
+export default function BasicTable({rows,tableHeader,iterableFields,deleteEvent}) {
 
   const tableHeaderList = tableHeader.map((header) => (
     <TableCell align="center" key={header}>{header}</TableCell>
@@ -36,7 +32,7 @@ export default function BasicTable({rows,tableHeader,iterableFields}) {
 
       <TableCell align="center"key={"edit" + row.id}>
         <EditIcon className="editIcon" onClick={handleEditEvent}/>
-        <DeleteIcon className="editIcon" onClick={handleDeleteEvent}/>
+        <DeleteIcon className="editIcon" onClick={() => deleteEvent(row.id)}/>
       </TableCell>
     </TableRow>
   ));

@@ -29,7 +29,8 @@ function createData(id, studentName, topic, status, sheduledDate) {
   return { id, studentName, topic, status, sheduledDate };
 }
 
-//Get request data from backend
+//BACKEND CALLS
+//GET TABLE DATA
 async function requestGet(){
 
   let getRequests = 'api/requests/requests/'
@@ -39,11 +40,34 @@ async function requestGet(){
   }).then((response) => response.json())
   .then((data) => {
     return data;
-  }))
-  
+  }).catch((error) => {
+    console.log(error)
+    alert("Error al obtener las solicitudes");
+  }));
 }
+
+//DELETE TABLE ROW WITH ID
+async function requestDeleteFromDB(id){
+
+  let deleteRequest = '/api/requests/requests/' + id + '/';
+
+  let deleteResponse =await fetch(API_ENDPOINT + deleteRequest, {
+    method : 'DELETE'
+  }).then((response) => response.json())
+  .then((data) => {
+    return true;
+  }).catch((error) => {
+    console.log(error)
+    return false;
+  });
+
+  return deleteResponse;
+
+}
+
 function organizeTableData(apiData){
-  let resultRows = [];
+  //Clean rows every single call
+  rows = [];
 
   apiData.map((rq) => {
     let id, studentName, topic, status, sheduledDate;
@@ -57,15 +81,13 @@ function organizeTableData(apiData){
 
     resultRowData = createData(id,studentName, topic, status, sheduledDate)
 
-    resultRows.push(resultRowData)
     rows.push(resultRowData)
-    return resultRowData
   })
 
 }
 
 //Create a temp variable to store the rows
-let tempRows = rows;
+let tempRows = [];
 
 export default function RequestManagement() {
   //Set background color with js
@@ -74,20 +96,49 @@ export default function RequestManagement() {
 
   //Call functions on component mounting
   useEffect(() => {
-    async function fetchRequestData(){
-      await requestGet();
-      tempRows = rows;
-      console.log(tempRows.length)
-    }
-
-    fetchRequestData()
+    fetchRequestData();
   },[]);
 
+  async function fetchRequestData(){
+
+      
+    //Clean up rows
+    rows = [];
+    tempRows = [];
+    //Get data from backend
+    await requestGet();
+    setInitRowsState();
+  }
+
+  function setInitRowsState(){
+    //This is just 4 update the render after adding rows
+    tempRows = rows.map((row) => row);
+    setNewTemp([rows])
+  }
+
   const [search, setSearch] = useState('');
+  const [idDelete, setIdDelete] = useState('');
+
 
   function handleSearch(searchData) {
     setSearch(searchData);
     tempRows = rows.filter((row) => row.studentName.toLowerCase().includes(searchData.toLowerCase()));
+  }
+
+  async function requestDelete(id){
+    console.log('Id selected',id);
+    setIdDelete(id);
+    let deleteResponseStatus = await requestDeleteFromDB(id);
+
+    if(deleteResponseStatus){
+      //Delete row from list
+      rows = rows.filter((row) => row.id !== id);
+      tempRows = rows.map((row) => row);
+      setNewTemp([rows]);
+    }else{
+      alert("Error al eliminar la solicitud");
+    }
+    
   }
 
   return (
@@ -115,6 +166,7 @@ export default function RequestManagement() {
                   tableHeader={tableHeader}
                   iterableFields={iterableFields}
                   rows={tempRows}
+                  deleteEvent={requestDelete}
                 />
               </CardContent>
             </Card>
