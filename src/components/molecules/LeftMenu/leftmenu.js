@@ -6,9 +6,8 @@ import { mdiViewDashboardOutline,
         mdiChartMultiline,
         mdiBadgeAccountHorizontalOutline,
         mdiHumanMaleFemaleChild,
-        mdiHumanMaleBoard,
-        mdiLightbulbVariantOutline,
-        mdiOfficeBuildingCogOutline } from '@mdi/js';
+        mdiLogout,
+        mdiLightbulbVariantOutline } from '@mdi/js';
 
 //Import style
 import "./leftmenu.scss";
@@ -16,8 +15,22 @@ import "./leftmenu.scss";
 import { useNavigate } from 'react-router-dom';
 
 
+//Import Backend API
+import { API_ENDPOINT } from "../../../config.js";
+
 export default function LeftMenu() {
   const navigate = useNavigate();
+  let urlLogout = "api/auth/logout/";
+  async function logout (){ 
+    await fetch(API_ENDPOINT + urlLogout, {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        navigate("/");
+        return data;
+      })
+  }
 
   return (
     <div className="menu">
@@ -97,7 +110,20 @@ export default function LeftMenu() {
                 disableShadow
                 iconPath={mdiHumanMaleFemaleChild}
                 size={2}
-                onClick={() => navigate("/subjectManagement")}
+                onClick={() => navigate("/homeworksManagement")}
+              />
+            </div>
+            <div className="section-button">
+              <ButtonAtom
+                variant="text"
+                color="primary"
+                label="Cerrar Sesión"
+                id="button-menu"
+                width="180px"
+                disableShadow
+                iconPath={mdiLogout}
+                size={2}
+                onClick={() => logout()}
               />
             </div>
           </div>

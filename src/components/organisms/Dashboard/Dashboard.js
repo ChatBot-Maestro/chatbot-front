@@ -10,7 +10,6 @@ import GColegios from '../../../assets/dashboard/gestion-colegios.svg';
 import GEstudiantes from '../../../assets/dashboard/gestion-estudiantes.svg';
 import GTemas from '../../../assets/dashboard/gestion-temas.svg';
 import GUsuarios from '../../../assets/dashboard/gestion-usuarios.svg';
-import SearchAtom from "../../atoms/Search.js";
 import LeftMenu from "../../molecules/LeftMenu/leftmenu.js";
 
 import React, { useState } from "react";
@@ -23,13 +22,24 @@ export default function Dashboard() {
   }
   return (
     <div className="dashboard__left-menu">
-      <LeftMenu/>
-      {/* <SearchAtom searchEvent={handleSearch}/> */}
-      <div className="dashboard-main">
-        <WidgetAtom image={GTemas} title="Gestión de Temas" cursor="pointer"/>
-        <WidgetAtom image={GUsuarios} title="Gestión de Usuarios" size="70%" cursor="pointer"/>
-        <WidgetAtom image={GColegios} title="Gestión de Colegios" size="75%" cursor="pointer"/>
-        <WidgetAtom image={GEstudiantes} title="Gestión de Estudiantes" cursor="pointer"/>
+      <LeftMenu />
+      <div className='users-management--container'>
+        <div className="navbar">
+          <div className="title">
+            <h3>
+              <a href="dashboard" className="title-anchor">
+                Dashboard
+              </a>{" "}
+            </h3>
+          </div>
+        </div>
+        {/* <SearchAtom searchEvent={handleSearch}/> */}
+        <div className="dashboard-main">
+          <WidgetAtom image={GTemas} title="Gestión de Temas" cursor="pointer" />
+          <WidgetAtom image={GUsuarios} title="Gestión de Usuarios" size="70%" cursor="pointer" />
+          <WidgetAtom image={GColegios} title="Gestión de Colegios" size="75%" cursor="pointer" />
+          <WidgetAtom image={GEstudiantes} title="Gestión de Estudiantes" cursor="pointer" />
+        </div>
       </div>
     </div>
   );

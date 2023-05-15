@@ -44,8 +44,8 @@ code {
 .dashboard-main{
   background-color: #F2F4F7;
   display:grid;
-  height: 100vh;
-  width: calc(100% - 20vh);
+  height: calc(100vh - 70px);
+  width: 100%;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 33%);
   grid-template-areas: var(--grid-area-component);

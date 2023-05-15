@@ -366,20 +366,22 @@ export default function UserManagement() {
 
   function handleSearch(searchData) {
     setSearch(searchData);
-    tempRows = rows[selectedUser.index].filter((row) =>
+    tempRows[selectedUser.index] = rows[selectedUser.index].filter((row) =>
       row.first_name.toLowerCase().includes(searchData.toLowerCase())
     );
+    console.log('tempRows', tempRows);
   }
   return (
     <div className="users-management">
       <LeftMenu />
+      <div className="users-management--container">
       <div className="navbar">
         <div className="title">
           <h3>
             <a href="dashboard" className="title-anchor">
               Dashboard
             </a>{" "}
-            / Gestión de materias{" "}
+            / Gestión de Usuarios{" "}
           </h3>
         </div>
         <SearchAtom searchEvent={handleSearch} />
@@ -425,6 +427,7 @@ export default function UserManagement() {
           fields={editableFields[selectedUser.index]}
           initialData={userInformation} />
       </Modal>
+      </div>
     </div>
   )
 }
