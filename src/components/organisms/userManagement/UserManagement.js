@@ -13,19 +13,21 @@ import SearchAtom from "../../atoms/Search.js";
 import { API_ENDPOINT } from "../../../config.js";
 Modal.setAppElement('#root');
 const tableHeader = [
-  ["Id", "Nombre", "Tipo de Doc.", "N. Documento", "Celular", "Grado", "Sexo", "Edad", "Jornada", "Colegio", "Editar"], // Students
+  ["Id", "Nombre", "Tipo de Doc.", "N. Documento", "Celular", "Grado", "Sexo", "Edad", "Jornada", "Colegio", "Acudiente", "Editar"], // Students
   ["Id", "Nombre", "Correo", "Celular", "Tipo de Doc.", "N. Documento", "Editar"], // Teachers
   ["Id", "Nombre", "Correo", "Celular", "Tipo de Doc.", "N. Documento", "Colegio", "Editar"], // School Managers
   ["Id", "Nombre", "Celular", "Tipo de Doc.", "N. Documento", "Editar"], // Parents
 ];
 
 const iterableFields = [
-  ["id", "first_name", "identification_type", "identification_number", "phone_number", "grade", "sex", "age", "working_hours", "school_name"], // Students
-  ["id", "first_name", "email"], // Teachers
+  ["id", "first_name", "identification_type", "identification_number", "phone_number", "grade", "sex", "age", "working_hours", "school_name", "relative"], // Students
+  ["id", "first_name", "email", "phone_number", "identification_type", "identification_number"], // Teachers
   ["id", "first_name", "email", "phone_number", "identification_type", "identification_number", "school_name"], // School Managers
   ["id", "first_name", "phone_number", "identification_type", "identification_number"]  // Parents
 ];
-let schoolsString = [];
+
+let schoolsObject = [];
+let subjectsObject = [];
 
 
 //Declare empty rows
@@ -52,7 +54,27 @@ async function requestGetSchools() {
 }
 function setSchools(apiData) {
   apiData.map((rq) => {
-    return schoolsString.push(rq.id);
+    return schoolsObject.push({id: rq.id, name: rq.name});
+  });
+}
+
+// Get subjects/subjects
+async function requestGetSubjects() {
+  let getRequests = "/api/subjects/subjects/";
+  // map data to subjects array string
+  setSubjects(
+    await fetch(API_ENDPOINT + getRequests, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+  );
+}
+function setSubjects(apiData) {
+  apiData.map((rq) => {
+    return subjectsObject.push({id: rq.id, name: rq.name});
   });
 }
 
@@ -121,7 +143,7 @@ function organizeTableDataStudents(apiData) {
   rows[0] = [];
 
   apiData.map((rq) => {
-    let id, first_name, identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name;
+    let id, first_name, identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school;
     let resultRowData;
     id = rq.id;
     first_name = rq.first_name + '' + rq.last_name;
@@ -133,7 +155,8 @@ function organizeTableDataStudents(apiData) {
     age = rq.age;
     working_hours = rq.working_hours;
     school_name = rq.school.name;
-    resultRowData = { id, first_name, identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name };
+    school = rq.school.id;
+    resultRowData = { id, first_name, identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school };
     return rows[0].push(resultRowData);
   });
 }
@@ -143,14 +166,16 @@ function organizeTableDataTeachers(apiData) {
   rows[1] = [];
 
   apiData.map((rq) => {
-    let id, first_name, identification_type, identification_number, phone_number;
+    let id, idUser, first_name, identification_type, identification_number, phone_number, email;
     let resultRowData;
     id = rq.id;
+    idUser = rq.user.id;
     first_name = rq.user.first_name + '' + rq.user.last_name;
     identification_type = rq.user.identification_type;
     identification_number = rq.user.identification_number;
     phone_number = rq.user.phone_number;
-    resultRowData = { id, first_name, identification_type, identification_number, phone_number };
+    email = rq.user.email;
+    resultRowData = { id, idUser, first_name, identification_type, identification_number, phone_number, email };
     return rows[1].push(resultRowData);
   });
 }
@@ -160,16 +185,17 @@ function organizeTableDataSchoolManagers(apiData) {
   rows[2] = [];
 
   apiData.map((rq) => {
-    let id, first_name, email, identification_type, identification_number, phone_number, school_name;
+    let id, idUser, first_name, email, identification_type, identification_number, phone_number, school_name;
     let resultRowData;
     id = rq.id;
+    idUser = rq.user?.id;
     first_name = rq.user?.first_name + '' + rq.user?.last_name;
     identification_type = rq.user?.identification_type;
     identification_number = rq.user?.identification_number;
     phone_number = rq.user?.phone_number;
     email = rq.user?.email;
     school_name = rq.school.name;
-    resultRowData = { id, first_name, email, identification_type, identification_number, phone_number, school_name };
+    resultRowData = { id, idUser, first_name, email, identification_type, identification_number, phone_number, school_name };
     return rows[2].push(resultRowData);
   });
 }
@@ -211,13 +237,15 @@ export default function UserManagement() {
     //Clean up rows
     rows = [[], [], [], []];
     tempRows = [[], [], [], []];
-    schoolsString = [];
+    schoolsObject = [];
+    subjectsObject = [];
     //Get data from backend
     await requestGetStudents();
     await requestGetTeachers();
     await requestGetSchoolManagers();
     await requestGetRelatives();
     await requestGetSchools();
+    await requestGetSubjects();
     setInitRowsState();
   }
 
@@ -269,6 +297,7 @@ export default function UserManagement() {
   const editUser = (userId) => {
     userInformation = {};
     userInformation = tempRows[selectedUser.index].find((u) => u.id === userId);
+
     if (selectedUser.index === 2) {
       delete editableFields[selectedUser.index][2]
       toggleModal();
@@ -292,7 +321,6 @@ export default function UserManagement() {
     }
 
   }
-
 
   async function requestDeleteFromDB(id) {
 
@@ -332,34 +360,38 @@ export default function UserManagement() {
   const editableFields = [
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
-      { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'] },
+      { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false},
       { name: 'identification_number', label: 'Número de documento', type: 'text' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
-      { name: 'grade', label: 'Grado', type: 'select', options: ['PJD', 'JD', 'TR', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'] },
-      { name: 'sex', label: 'Sexo', type: 'select', options: ['M', 'F'] },
+      { name: 'grade', label: 'Grado', type: 'select', options: ['PJD', 'JD', 'TR', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'], isObject: false},
+      { name: 'sex', label: 'Sexo', type: 'select', options: ['M', 'F'], isObject: false},
       { name: 'age', label: 'Edad', type: 'number' },
       { name: 'working_hours', label: 'Jornada', type: 'select', options: ['M', 'T'] },
-      { name: 'school', label: 'Colegio', type: 'select', options: schoolsString },
+      { name: 'school', label: 'Colegio', type: 'select', options: schoolsObject, isObject: true },
     ], // Students
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
       { name: 'email', label: 'Correo', type: 'text' },
+      { name: 'password', label: 'Contraseña', type: 'password' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
+      { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false },
+      { name: 'identification_number', label: 'Número de documento', type: 'text' },
+      { name: 'subjects', label: 'Materias', type: 'checkbox', options: subjectsObject, isObject: true}
     ], // Teachers
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
       { name: 'email', label: 'Correo', type: 'text' },
       { name: 'password', label: 'Contraseña', type: 'password' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
-      { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'] },
+      { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false },
       { name: 'identification_number', label: 'Número de documento', type: 'text' },
+      { name: 'school', label: 'Colegio', type: 'select', options: schoolsObject, isObject: true },
     ], // School managers
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
-      { name: 'email', label: 'Correo', type: 'text' },
+      { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false },
+      { name: 'identification_number', label: 'Número de documento', type: 'text' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
-      { name: 'student', label: 'Estudiante', type: 'select', options: [] },
-      { name: 'teacher', label: 'Profesor', type: 'select', options: [] },
     ], // Relatives
   ];
   const [search, setSearch] = useState("");
@@ -369,7 +401,6 @@ export default function UserManagement() {
     tempRows[selectedUser.index] = rows[selectedUser.index].filter((row) =>
       row.first_name.toLowerCase().includes(searchData.toLowerCase())
     );
-    console.log('tempRows', tempRows);
   }
   return (
     <div className="users-management">

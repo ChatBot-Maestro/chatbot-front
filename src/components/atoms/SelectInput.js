@@ -6,9 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import "../../styles/base/base.scss"
 
 const SelectInput = (props) => {
-  const { label, value, onChange, required, options } = props;
+  const { label, value, onChange, required, options, isObject } = props;
   const [error, setError] = React.useState(false);
-
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
 
@@ -18,8 +17,12 @@ const SelectInput = (props) => {
     } else {
       setError(false);
     }
-
-    onChange(event);
+    if(isObject){
+      console.log('event', event);
+      onChange(event);
+    } else {
+      onChange(event);
+    }
   };
 
   return (
@@ -32,7 +35,9 @@ const SelectInput = (props) => {
         required={required}
       >
         {options.map((option, index) => (
-          <MenuItem key={index} value={option}>{option}</MenuItem>
+          <MenuItem key={index} value={isObject ? option.id : option}>
+            {isObject ? option.name : option}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>

@@ -156,7 +156,7 @@ export default function RequestManagement() {
         
         <div className="row">
           <div className="col">
-            <h4 className="job-subtitle">Gestión de solicitudes</h4>
+            <h4 className="job-subtitle">Gestión de Colegios</h4>
             <Card className="table-card">
               <CardContent>
                 <TableAtom 

@@ -3,18 +3,18 @@ import TextFieldAtom from '../../atoms/TextField.js';
 import SelectInput from '../../atoms/SelectInput.js';
 import ButtonAtom from '../../atoms/Button.js';
 import TextAtom from "../../atoms/Text.js";
+import CheckAtom from '../../atoms/CheckAtom.js';
 import MdiIconAtom from '../../atoms/MDI.js';
 import { mdiClose } from '@mdi/js';
 import { API_ENDPOINT } from "../../../config.js";
 
 export default function NewUser(props) {
   let { fields } = props;
-  if(props.initialData !== {}) {
-    fields = props.fields.filter(obj => obj.name !== "password");
-  }
+  console.log('fields', fields);
+  console.log('initialData', props.initialData);
   useEffect(() => {
     // Set initial data if received as props
-    if (props.initialData !== {}) {
+    if (!isObjectEmpty(props.initialData)) {
       setSelectedValues(props.initialData);
     }
   }, [props.initialData]);
@@ -25,14 +25,22 @@ export default function NewUser(props) {
   };
 
   const [selectedValues, setSelectedValues] = useState({});
- 
+  const [checkboxValues, setCheckboxValues] = useState({});
 
+  const handleCheckboxChange = (fieldName, checked) => {
+    setCheckboxValues({
+      ...checkboxValues,
+      [fieldName]: checked
+    });
+    console.log('checkboxValues', checkboxValues);
+  };
   const handleSelectChange = (fieldName, value) => {
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
     });
   };
+  console.log(checkboxValues);
 
   const handleTextFieldChange = (fieldName, value) => {
     setSelectedValues({
@@ -46,6 +54,8 @@ export default function NewUser(props) {
   }
 
   const handleSave = async () => {
+    const mergedValues = { ...selectedValues, ...checkboxValues };
+    console.log('mergedValues', mergedValues);
     let url = '';
     let urlUser = '/api/users/users/';
     let methodUsed = 'POST';
@@ -82,16 +92,50 @@ export default function NewUser(props) {
       body: JSON.stringify(selectedValues)
     });
 
-  }
-  else if(props.selectedUser.index === 2){
-    if(props.initialData !== {}){
+  } else if (props.selectedUser.index === 1){
+    console.log('initialData', props.initialData);
+    if(!isObjectEmpty(props.initialData)){
       url = url + props.initialData.id + '/';
-      urlUser = urlUser + props.initialData.id + '/';
+      urlUser = urlUser + props.initialData.idUser + '/';
       methodUsed = 'PUT';
-      methodUserUsed = 'PATCH';
+      methodUserUsed = 'PUT';
       //delete id object in selectedValues
       delete selectedValues.id;
     }
+    
+    const response = await fetch(API_ENDPOINT + urlUser, {
+      method: methodUserUsed,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(selectedValues)
+    });
+
+    const result = await response.json();
+    const idUser = result.id;
+    const dataTeacher = {
+      user: idUser,
+      subjects: mergedValues['subjects'] ?? [],
+      schedules: [],
+    }
+
+    await fetch(API_ENDPOINT + url, {
+      method: methodUsed,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dataTeacher)
+    });
+  
+  } else if(props.selectedUser.index === 2){
+      if(!isObjectEmpty(props.initialData)){
+        url = url + props.initialData.id + '/';
+        urlUser = urlUser + props.initialData.idUser + '/';
+        methodUsed = 'PUT';
+        methodUserUsed = 'PUT';
+        //delete id object in selectedValues
+        delete mergedValues.id;
+      }
     const response = await fetch(API_ENDPOINT + urlUser, {
       method: methodUserUsed,
       headers: {
@@ -138,17 +182,25 @@ export default function NewUser(props) {
               onChange={(event) => handleSelectChange(field.name, event.target.value)}
               required={false}
               options={field.options}
+              isObject={field.isObject}
             />
-          ) : (
-            <TextFieldAtom
+          ) :  field.type === "checkbox" ? (
+            <CheckAtom
               key={index}
               label={field.label}
-              type={field.type}
-              minLength="1"
-              maxLength="20"
-              value={selectedValues[field.name] || ''}
-              onChange={(event) => handleTextFieldChange(field.name, event.target.value)}
+              checked={checkboxValues[field.name] || []}
+              onChange={(checkedValues) => handleCheckboxChange(field.name, checkedValues)}
+              options={field.options.map(option => ({ id: option.id, name: option.name }))} // Update the options prop
             />
+          ) : ( <TextFieldAtom
+                  key={index}
+                  label={field.label}
+                  type={field.type}
+                  minLength="1"
+                  maxLength="20"
+                  value={selectedValues[field.name] || ''}
+                  onChange={(event) => handleTextFieldChange(field.name, event.target.value)}
+                />
           )
         ))}
       </div>
