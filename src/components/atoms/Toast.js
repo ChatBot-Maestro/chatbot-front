@@ -1,20 +1,38 @@
-import { AlertTitle } from '@mui/material';
-import Alert from '@mui/material/Alert';
+import React from 'react';
+import MuiAlert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
-/*
-Props guide:
-    severity: Severity of the alert (error, warning, info, success)
-    title: Title of the alert
-    text: Text to show in the alert
-    enfatize: Text to show in the alert with a strong style
-*/
+const Toast = (props) => {
+  const { severity, title, text, open, onClose } = props;
 
-const AlertAtom = (props) => {
-    return(
-        <Alert severity={props.severity}>
-            <AlertTitle>{props.title}</AlertTitle>
-            {props.text}
-            <strong>{props.enfatize}</strong>
-        </Alert>
-    );
-}
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    onClose();
+  };
+  return (
+    <Snackbar
+      open={open}
+      autoHideDuration={6000}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+    >
+      <MuiAlert
+        elevation={6}
+        variant="filled"
+        onClose={handleClose}
+        severity={severity}
+        sx={{ top: '0', left: '0', right: '0', position: 'absolute' }}
+      >
+        <div>
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </div>
+      </MuiAlert>
+    </Snackbar>
+  );
+};
+
+export default Toast;

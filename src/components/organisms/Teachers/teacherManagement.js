@@ -68,7 +68,6 @@ async function requestDeleteFromDB(id){
 function organizeTableData(apiData) {
   rows = [];
 
-  console.log(apiData);
 
   apiData.map((rq) => {
     let id, name, lastName, email;
@@ -79,9 +78,8 @@ function organizeTableData(apiData) {
     email = rq.user.email; 
 
     resultRowData = createData(id, name + ' ' + lastName, email);
-    console.log(resultRowData);
 
-    rows.push(resultRowData);
+    return rows.push(resultRowData);
   });
 }
 
@@ -127,7 +125,6 @@ export default function RequestManagement() {
   }
 
   async function requestDelete(id){
-    console.log('Id selected',id);
     setIdDelete(id);
     let deleteResponseStatus = await requestDeleteFromDB(id);
 

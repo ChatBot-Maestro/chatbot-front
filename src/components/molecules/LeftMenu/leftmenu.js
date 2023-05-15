@@ -13,7 +13,12 @@ import { mdiViewDashboardOutline,
 //Import style
 import "./leftmenu.scss";
 
-export default function leftMenu() {
+import { useNavigate } from 'react-router-dom';
+
+
+export default function LeftMenu() {
+  const navigate = useNavigate();
+
   return (
     <div className="menu">
       <div className="row">
@@ -40,18 +45,20 @@ export default function leftMenu() {
                 disableShadow
                 iconPath={mdiViewDashboardOutline}
                 size={2}
+                onClick={() => navigate("/dashboard")}
               />
             </div>
             <div className="section-button">
               <ButtonAtom
                 variant="text"
                 color="primary"
-                label="Informes"
+                label="Request"
                 id="button-menu"
                 width="180px"
                 disableShadow
                 iconPath={mdiChartMultiline}
                 size={2}
+                onClick={() => navigate("/requestManagement")}
               />
             </div>
             <div className="section-button">
@@ -64,6 +71,7 @@ export default function leftMenu() {
                 disableShadow
                 iconPath={mdiBadgeAccountHorizontalOutline}
                 size={2}
+                onClick={() => navigate("/userManagement")}
               />
             </div>
             <div className="section-button">
@@ -76,6 +84,7 @@ export default function leftMenu() {
                 disableShadow
                 iconPath={mdiHumanMaleFemaleChild}
                 size={2}
+                onClick={() => navigate("/userManagement")}
               />
             </div>
             <div className="section-button">
@@ -88,18 +97,7 @@ export default function leftMenu() {
                 disableShadow
                 iconPath={mdiHumanMaleBoard}
                 size={2}
-              />
-            </div>
-            <div className="section-button">
-              <ButtonAtom
-                variant="text"
-                color="primary"
-                label="G. Materias"
-                id="button-menu"
-                width="180px"
-                disableShadow
-                iconPath={mdiLightbulbVariantOutline}
-                size={2}
+                onClick={() => navigate("/userManagement")}
               />
             </div>
             <div className="section-button">
@@ -111,6 +109,19 @@ export default function leftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiOfficeBuildingCogOutline}
+                size={2}
+                onClick={() => navigate("/userManagement")}
+              />
+            </div>
+            <div className="section-button">
+              <ButtonAtom
+                variant="text"
+                color="primary"
+                label="G. Materias"
+                id="button-menu"
+                width="180px"
+                disableShadow
+                iconPath={mdiLightbulbVariantOutline}
                 size={2}
               />
             </div>

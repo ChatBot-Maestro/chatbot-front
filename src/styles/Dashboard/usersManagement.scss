@@ -63,4 +63,11 @@
     bottom: 20px;
     right: 20px;
    }
+
+   &__fields{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+   }
 }

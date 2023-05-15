@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import "../../styles/base/base.scss"
 
 const TextInput = (props) => {
-  const { label, value, onChange, required, minLength, maxLength } = props;
+  const { label, value, onChange, required, minLength, maxLength, type } = props;
   const [error, setError] = React.useState(false);
 
   const handleInputChange = (event) => {
@@ -30,6 +30,7 @@ const TextInput = (props) => {
       value={value}
       onChange={handleInputChange}
       fullWidth
+      type={type}
       error={error}
       helperText={error ? 'Invalid input' : ''}
       required={required}

@@ -5,14 +5,53 @@ import CardContent from "@mui/material/CardContent";
 //Import atoms
 import ImageAtom from "../../atoms/Image.js";
 import TextFieldAtom from "../../atoms/TextField.js";
-import AnchorAtom from "../../atoms/Anchor.js";
 import ButtonAtom from "../../atoms/Button.js";
 import TextAtom from "../../atoms/Text.js";
+import Toast from "../../atoms/Toast.js";
 
 //Add css
 import "./LogIn.scss";
 
+import React, { useState, useEffect } from "react";
+
+//Import Backend API
+import { API_ENDPOINT } from "../../../config.js";
+
+
+import { useNavigate } from 'react-router-dom';
+
 export default function LogIn() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showToast, setShowToast] = useState(false); // add state variable
+  const navigate = useNavigate();
+
+
+  const handleSubmit = async (event) => {
+    
+    event.preventDefault();
+
+    const response = await fetch(API_ENDPOINT + 'api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
+
+    if (response.ok) {
+      // login successful, redirect to dashboard or homepage
+      navigate("/dashboard");
+    } else {
+      console.log('error');
+      setShowToast(true); // display the toast
+    }
+  };
+
   return (
     <div>
       <div className="row">
@@ -25,28 +64,30 @@ export default function LogIn() {
                 </div>
                 <div className="login-form">
                   <div className="email-input">
-                    <TextFieldAtom label="Email" required={true} />
+                    <TextFieldAtom 
+                      label="Email"
+                      type="email"
+                      required={true}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}  
+                    />
                   </div>
                   <div className="pass-input">
                     <TextFieldAtom
                       label="Contraseña"
+                      type="password"
                       required={true}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                 </div>
-                <div className="forget-pass">
-                  {/* <AnchorAtom
-                    class="forget-pass-anchor"
-                    text="¿Olvidaste tu contraseña?"
-                    href="#"
-                  /> */}
-                </div>
-
                 <div className="login-button">
                   <ButtonAtom 
                   label="Iniciar sesión" 
                   variant="contained"
                   width={"100%"}
+                  onClick={handleSubmit}
                   textColor={"white"}
                   />
                 </div>
@@ -73,6 +114,14 @@ export default function LogIn() {
           </div>
         </div>
       </div>
+      { showToast && ( // Conditionally render Toast component
+        <Toast
+          severity="error"
+          title="Error"
+          text="Usuario o contraseña incorrectos"
+          onClose={() => setShowToast(false)} // Optional: add onClose function to close Toast
+        />
+      )}
     </div>
   );
 }

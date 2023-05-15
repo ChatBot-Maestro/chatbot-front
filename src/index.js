@@ -19,7 +19,7 @@ import UsersManagement from './components/organisms/userManagement/UserManagemen
 import SubjectManagement from './components/organisms/Subjects/subject_management.js';
 import TeacherManagement from './components/organisms/Teachers/teacherManagement.js';
 import SchoolManagement from './components/organisms/Schools/schoolManagement.js';
-import ShooolManagerManagement from './components/organisms/SchoolManagers/schoolManagerManagement.js';
+import SchoolManagerManagement from './components/organisms/SchoolManagers/schoolManagerManagement.js';
 
 const theme = createTheme({
   palette: {
@@ -72,7 +72,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/schoolManagerManagement",
-    element: <ShooolManagerManagement />
+    element: <SchoolManagerManagement />
   },
 ]);
 
@@ -80,11 +80,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ThemeProvider theme={theme}>
-  <React.StrictMode>
     <Provider Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>
   </ThemeProvider>
 );
 

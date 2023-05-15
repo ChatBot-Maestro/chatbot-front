@@ -8,6 +8,16 @@
     }
 }
 
+.select-input{
+  .css-w0hz57-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{
+      border-radius: 16px !important;
+      background-color: #F2F4F7!important;
+  }
+  .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+      border-style: none !important;
+  }
+}
+
 .widget-atom{
     background-color: white;
     border-radius: 37px;

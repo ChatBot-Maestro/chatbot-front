@@ -11,12 +11,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PropTypes from 'prop-types';
 
 
-function handleEditEvent(event) {
-  //get the id of the row
-   
-}
-
-export default function BasicTable({rows,tableHeader,iterableFields,deleteEvent}) {
+export default function BasicTable({rows,tableHeader,iterableFields,deleteEvent, editEvent}) {
 
   const tableHeaderList = tableHeader.map((header) => (
     <TableCell align="center" key={header}>{header}</TableCell>
@@ -31,7 +26,7 @@ export default function BasicTable({rows,tableHeader,iterableFields,deleteEvent}
       ))}
 
       <TableCell align="center"key={"edit" + row.id}>
-        <EditIcon className="editIcon" onClick={handleEditEvent}/>
+        <EditIcon className="editIcon" onClick={() => editEvent(row.id)}/>
         <DeleteIcon className="editIcon" onClick={() => deleteEvent(row.id)}/>
       </TableCell>
     </TableRow>

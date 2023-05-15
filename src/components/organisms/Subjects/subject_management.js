@@ -124,7 +124,6 @@ export default function RequestManagement() {
   }
 
   async function requestDelete(id){
-    console.log('Id selected',id);
     setIdDelete(id);
     let deleteResponseStatus = await requestDeleteFromDB(id);
 
