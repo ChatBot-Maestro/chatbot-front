@@ -52,7 +52,7 @@ export default function LeftMenu() {
               <ButtonAtom
                 variant="text"
                 color="primary"
-                label="Request"
+                label="G. Solicitudes"
                 id="button-menu"
                 width="180px"
                 disableShadow
@@ -65,50 +65,11 @@ export default function LeftMenu() {
               <ButtonAtom
                 variant="text"
                 color="primary"
-                label="G. Estudiantes"
+                label="G.Usuarios"
                 id="button-menu"
                 width="180px"
                 disableShadow
                 iconPath={mdiBadgeAccountHorizontalOutline}
-                size={2}
-                onClick={() => navigate("/userManagement")}
-              />
-            </div>
-            <div className="section-button">
-              <ButtonAtom
-                variant="text"
-                color="primary"
-                label="G. Acudientes"
-                id="button-menu"
-                width="180px"
-                disableShadow
-                iconPath={mdiHumanMaleFemaleChild}
-                size={2}
-                onClick={() => navigate("/userManagement")}
-              />
-            </div>
-            <div className="section-button">
-              <ButtonAtom
-                variant="text"
-                color="primary"
-                label="G. Profesores"
-                id="button-menu"
-                width="180px"
-                disableShadow
-                iconPath={mdiHumanMaleBoard}
-                size={2}
-                onClick={() => navigate("/userManagement")}
-              />
-            </div>
-            <div className="section-button">
-              <ButtonAtom
-                variant="text"
-                color="primary"
-                label="G. Adm. Colegios"
-                id="button-menu"
-                width="180px"
-                disableShadow
-                iconPath={mdiOfficeBuildingCogOutline}
                 size={2}
                 onClick={() => navigate("/userManagement")}
               />
@@ -123,6 +84,20 @@ export default function LeftMenu() {
                 disableShadow
                 iconPath={mdiLightbulbVariantOutline}
                 size={2}
+                onClick={() => navigate("/subjectManagement")}
+              />
+            </div>
+            <div className="section-button">
+              <ButtonAtom
+                variant="text"
+                color="primary"
+                label="G. Tareas"
+                id="button-menu"
+                width="180px"
+                disableShadow
+                iconPath={mdiHumanMaleFemaleChild}
+                size={2}
+                onClick={() => navigate("/subjectManagement")}
               />
             </div>
           </div>
