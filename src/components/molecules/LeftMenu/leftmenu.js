@@ -65,19 +65,6 @@ export default function LeftMenu() {
               <ButtonAtom
                 variant="text"
                 color="primary"
-                label="G. Solicitudes"
-                id="button-menu"
-                width="180px"
-                disableShadow
-                iconPath={mdiChartMultiline}
-                size={2}
-                onClick={() => navigate("/requestManagement")}
-              />
-            </div>
-            <div className="section-button">
-              <ButtonAtom
-                variant="text"
-                color="primary"
                 label="G.Usuarios"
                 id="button-menu"
                 width="180px"
@@ -85,6 +72,19 @@ export default function LeftMenu() {
                 iconPath={mdiBadgeAccountHorizontalOutline}
                 size={2}
                 onClick={() => navigate("/userManagement")}
+              />
+            </div>
+            <div className="section-button">
+              <ButtonAtom
+                variant="text"
+                color="primary"
+                label="G. Solicitudes"
+                id="button-menu"
+                width="180px"
+                disableShadow
+                iconPath={mdiChartMultiline}
+                size={2}
+                onClick={() => navigate("/requestManagement")}
               />
             </div>
             <div className="section-button">
@@ -111,6 +111,19 @@ export default function LeftMenu() {
                 iconPath={mdiHumanMaleFemaleChild}
                 size={2}
                 onClick={() => navigate("/homeworksManagement")}
+              />
+            </div>
+            <div className="section-button">
+              <ButtonAtom
+                variant="text"
+                color="primary"
+                label="G. Colegios"
+                id="button-menu"
+                width="180px"
+                disableShadow
+                iconPath={mdiHumanMaleFemaleChild}
+                size={2}
+                onClick={() => navigate("/schoolManagement")}
               />
             </div>
             <div className="section-button">
