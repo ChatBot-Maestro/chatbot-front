@@ -57,7 +57,6 @@ async function requestDeleteFromDB(id){
   .then((data) => {
     return true;
   }).catch((error) => {
-    console.log(error)
     return false;
   });
 

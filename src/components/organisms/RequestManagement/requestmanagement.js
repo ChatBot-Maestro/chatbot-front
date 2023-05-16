@@ -46,7 +46,6 @@ async function requestGet() {
     .then((data) => {
       return data;
     }).catch((error) => {
-      console.log(error)
       alert("Error al obtener las solicitudes");
     }));
 }
@@ -62,7 +61,6 @@ async function requestDeleteFromDB(id) {
     .then((data) => {
       return true;
     }).catch((error) => {
-      console.log(error)
       return false;
     });
 
@@ -182,7 +180,6 @@ export default function RequestManagement() {
 
   const editRequest = (requestId) => {
     requestInformation = {};
-    console.log(tempRows.find((u) => u.id === requestId));
     requestInformation = tempRows.find((u) => u.id === requestId);
     toggleModal();
   };

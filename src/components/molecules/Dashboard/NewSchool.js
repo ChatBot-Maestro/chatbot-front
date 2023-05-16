@@ -7,7 +7,7 @@ import MdiIconAtom from '../../atoms/MDI.js';
 import { mdiClose } from '@mdi/js';
 import { API_ENDPOINT } from "../../../config.js";
 
-export default function NewHomework(props) {
+export default function NewSchool(props) {
   const {fields} = props;
   useEffect(() => {
     // Set initial data if received as props
@@ -15,6 +15,8 @@ export default function NewHomework(props) {
       setSelectedValues(props.initialData);
     }
   }, [props.initialData]);
+
+  console.log('initialData', props.initialData);
 
   const handleAdd = () => {
     // Add logic here
@@ -43,12 +45,12 @@ export default function NewHomework(props) {
   }
 
   const handleSave = async () => {
-    let url = '/api/homeworks/homeworks/';
+    let url = '/api/schools/schools/';
     let methodUsed = 'POST';
     
     if(!isObjectEmpty(props.initialData)){
-      url = url + props.initialData.id + '/';
       methodUsed = 'PUT';
+      url = url + props.initialData.id + '/';
       //delete id object in selectedValues
       delete selectedValues.id;
     }

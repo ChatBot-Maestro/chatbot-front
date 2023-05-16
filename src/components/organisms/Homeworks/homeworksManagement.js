@@ -63,7 +63,6 @@ async function requestDeleteFromDB(id) {
     .then((data) => {
       return true;
     }).catch((error) => {
-      console.log(error)
       return false;
     });
 
@@ -74,7 +73,6 @@ async function requestDeleteFromDB(id) {
 function organizeTableData(apiData) {
   rows = [];
   apiData.map((rq) => {
-    console.log(rq);
     let id, status, topic, details, time_spent, scheduled_date, request;
     let resultRowData;
     id = rq.id;

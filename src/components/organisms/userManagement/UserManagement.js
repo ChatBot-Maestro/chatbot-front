@@ -350,7 +350,6 @@ export default function UserManagement() {
       .then((data) => {
         return true;
       }).catch((error) => {
-        console.log(error)
         return false;
       });
 

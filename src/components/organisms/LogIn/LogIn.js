@@ -47,7 +47,6 @@ export default function LogIn() {
       // login successful, redirect to dashboard or homepage
       navigate("/dashboard");
     } else {
-      console.log('error');
       setShowToast(true); // display the toast
     }
   };

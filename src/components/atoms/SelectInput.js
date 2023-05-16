@@ -18,7 +18,6 @@ const SelectInput = (props) => {
       setError(false);
     }
     if(isObject){
-      console.log('event', event);
       onChange(event);
     } else {
       onChange(event);

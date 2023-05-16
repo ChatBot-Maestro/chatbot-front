@@ -10,8 +10,6 @@ import { API_ENDPOINT } from "../../../config.js";
 
 export default function NewUser(props) {
   let { fields } = props;
-  console.log('fields', fields);
-  console.log('initialData', props.initialData);
   useEffect(() => {
     // Set initial data if received as props
     if (!isObjectEmpty(props.initialData)) {
@@ -32,7 +30,6 @@ export default function NewUser(props) {
       ...checkboxValues,
       [fieldName]: checked
     });
-    console.log('checkboxValues', checkboxValues);
   };
   const handleSelectChange = (fieldName, value) => {
     setSelectedValues({
@@ -40,7 +37,6 @@ export default function NewUser(props) {
       [fieldName]: value
     });
   };
-  console.log(checkboxValues);
 
   const handleTextFieldChange = (fieldName, value) => {
     setSelectedValues({
@@ -55,7 +51,6 @@ export default function NewUser(props) {
 
   const handleSave = async () => {
     const mergedValues = { ...selectedValues, ...checkboxValues };
-    console.log('mergedValues', mergedValues);
     let url = '';
     let urlUser = '/api/users/users/';
     let methodUsed = 'POST';
@@ -93,7 +88,6 @@ export default function NewUser(props) {
     });
 
   } else if (props.selectedUser.index === 1){
-    console.log('initialData', props.initialData);
     if(!isObjectEmpty(props.initialData)){
       url = url + props.initialData.id + '/';
       urlUser = urlUser + props.initialData.idUser + '/';
