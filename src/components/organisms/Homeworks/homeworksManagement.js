@@ -6,7 +6,7 @@ import TextAtom from "../../atoms/Text.js";
 
 //import molecules
 import LeftMenu from "../../molecules/LeftMenu/leftmenu.js";
-import NewUser from '../../molecules/Dashboard/NewSubject.js';
+import NewUser from '../../molecules/Dashboard/NewHomework.js';
 
 //import mui
 import Card from "@mui/material/Card";
@@ -26,20 +26,20 @@ import { mdiPlus } from '@mdi/js';
 
 //Create the table
 const tableHeader = [
-  "Id", "Nombre materia", "Editar"
+  "Id", "Estado", "Tema", "Detalles", "Tiempo dedicado", "Fecha programada", "Solicitud", "Editar"
 ];
-const iterableFields = ["id", "name"];
+const iterableFields = ["id", "status", "topic", "details", "time_spent", "scheduled_date", "request"];
 
 //Declare empty rows
 var rows = [];
 
-function createData(id, name) {
-  return { id, name };
+function createData(id, status, topic, details, time_spent, scheduled_date, request) {
+  return { id, status, topic, details, time_spent, scheduled_date, request };
 }
 
 //Get request data from backend
 async function requestGet() {
-  let getRequests = "api/subjects/subjects/";
+  let getRequests = "api/homeworks/homeworks/";
 
   organizeTableData(
     await fetch(API_ENDPOINT + getRequests, {
@@ -55,7 +55,7 @@ async function requestGet() {
 //DELETE TABLE ROW WITH ID
 async function requestDeleteFromDB(id) {
 
-  let deleteRequest = '/api/subjects/subjects/' + id + '/';
+  let deleteRequest = '/api/homeworks/homeworks/' + id + '/';
 
   let deleteResponse = await fetch(API_ENDPOINT + deleteRequest, {
     method: 'DELETE'
@@ -73,15 +73,19 @@ async function requestDeleteFromDB(id) {
 
 function organizeTableData(apiData) {
   rows = [];
-
   apiData.map((rq) => {
-    let id, name;
+    console.log(rq);
+    let id, status, topic, details, time_spent, scheduled_date, request;
     let resultRowData;
     id = rq.id;
-    name = rq.name;
+    status = rq.status;
+    topic = rq.topic;
+    details = rq.details;
+    time_spent = rq.time_spent;
+    scheduled_date = rq.scheduled_date;
+    request = rq.request.id;
 
-
-    resultRowData = createData(id, name);
+    resultRowData = createData(id, status, topic, details, time_spent, scheduled_date, request);
 
     rows.push(resultRowData);
     return resultRowData;
@@ -91,14 +95,7 @@ function organizeTableData(apiData) {
 //Create a temp variable to store the rows
 let tempRows = [];
 let subjectInformation = {};
-
-const editableFields = [
-  {
-    name: "name",
-    label: "Nombre materia",
-    type: "text",
-  }
-];
+let requestObject = [];
 
 export default function HomeworksManagement() {
   const [newTemp, setNewTemp] = useState([rows]);
@@ -117,8 +114,11 @@ export default function HomeworksManagement() {
     //Clean up rows
     rows = [];
     tempRows = [];
+    requestObject = [];
+
     //Get data from backend
     await requestGet();
+    await requestGetRequest();
     setInitRowsState();
   }
 
@@ -164,10 +164,68 @@ export default function HomeworksManagement() {
     subjectInformation = {};
     subjectInformation = tempRows.find((u) => u.id === subjectId);
     toggleModal();
-  };
+  };  
 
+    // Get school/schools
+  async function requestGetRequest() {
+    let getRequests = "/api/requests/requests/";
+    // map data to schools array string
+    setRequest(
+      await fetch(API_ENDPOINT + getRequests, {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          return data;
+        })
+    );
+  }
+  function setRequest(apiData) {
+    apiData.map((rq) => {
+      return requestObject.push(rq.id);
+    });
+  }
 
-  return (<div class="d-flex">
+  const editableFields = [
+    {
+      name: "status",
+      label: "Estado",
+      type: "select",
+      options: [
+        "PENDIENTE",
+        "COMPLETADO",
+        "SIN RESPUESTA",
+      ]
+    },
+    {
+      name: "topic",
+      label: "Tema",
+      type: "text",
+    },
+    {
+      name: "details",
+      label: "Detalles",
+      type: "text",
+    },
+    {
+      name: "time_spent",
+      label: "Tiempo dedicado",
+      type: "number",
+    },
+    {
+      name: "scheduled_date",
+      label: "Fecha programada",
+      type: "date",
+    },
+    {
+      name: "request",
+      label: "Solicitud",
+      type: "select",
+      options: requestObject,
+    },
+  ];
+
+  return (<div className="d-flex">
     <LeftMenu />
     <div class="w-100">
       <div className="navbar">

@@ -36,7 +36,7 @@ const TextInput = (props) => {
       required={required}
       inputProps={{
         minLength: minLength,
-        maxLength: maxLength
+        maxLength: maxLength,
       }}
     />
   );

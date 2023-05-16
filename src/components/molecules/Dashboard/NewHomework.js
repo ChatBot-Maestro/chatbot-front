@@ -7,7 +7,7 @@ import MdiIconAtom from '../../atoms/MDI.js';
 import { mdiClose } from '@mdi/js';
 import { API_ENDPOINT } from "../../../config.js";
 
-export default function NewUser(props) {
+export default function NewHomework(props) {
   const {fields} = props;
   useEffect(() => {
     // Set initial data if received as props
@@ -43,7 +43,7 @@ export default function NewUser(props) {
   }
 
   const handleSave = async () => {
-    let url = '/api/requests/requests/';
+    let url = '/api/homeworks/homeworks/';
     let methodUsed = 'POST';
     
     if(!isObjectEmpty(props.initialData)){
@@ -67,10 +67,12 @@ export default function NewUser(props) {
     props.toggleModal();
   };
 
+  console.log('fileds', fields);
+
   return (
     <div className="new-user">
       <div className="d-flex justify-content-between mb-3">
-        <TextAtom text="Nueva Solicitud" weight="bold" align="left" size="22px"/>
+        <TextAtom text="Nueva Tarea" weight="bold" align="left" size="22px"/>
         <MdiIconAtom onClick={handleAdd} path={mdiClose} size={1} spin={false} cursor="pointer"/>
       </div>
       <div className="new-user__fields">

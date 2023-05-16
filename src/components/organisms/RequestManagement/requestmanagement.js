@@ -96,49 +96,8 @@ function organizeTableData(apiData) {
 //Create a temp variable to store the rows
 let tempRows = [];
 let requestInformation = {};
+let subjectsObject = [];
 
-const editableFields = [
-  {
-    name: "status",
-    label: "Estado",
-    type: "select",
-    options: [
-      "PENDIENTE",
-      "COMPLETADO",
-      "CONTACTADO",
-      "CANCELADO",
-    ]
-  },
-  {
-    name: "request_type",
-    label: "Tipo de solicitud",
-    type: "select",
-    options: [
-      "TAREAS",
-      "REFUERZO",
-    ]
-  },
-  {
-    name: "contact_times",
-    label: "Veces contactado",
-    type: "number",
-  },
-  {
-    name: "student",
-    label: "Estudiante",
-    type: "search", //dropdownsearch
-  },
-  // {
-  //   name: "teacher",
-  //   label: "Profesor",
-  //   type: "search", //dropdownsearch
-  // },
-  {
-    name: "subject",
-    label: "Materia",
-    type: "search", //dropdownsearch
-  }
-];
 export default function RequestManagement() {
 
   //Set background color with js
@@ -158,9 +117,30 @@ export default function RequestManagement() {
     //Clean up rows
     rows = [];
     tempRows = [];
+    subjectsObject = [];
     //Get data from backend
     await requestGet();
+    await requestGetSubjects();
     setInitRowsState();
+  }
+  // Get subjects/subjects
+  async function requestGetSubjects() {
+    let getRequests = "/api/subjects/subjects/";
+    // map data to subjects array string
+    setSubjects(
+      await fetch(API_ENDPOINT + getRequests, {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          return data;
+        })
+    );
+  }
+  function setSubjects(apiData) {
+    apiData.map((rq) => {
+      return subjectsObject.push({id: rq.id, name: rq.name});
+    });
   }
 
   function setInitRowsState() {
@@ -206,7 +186,50 @@ export default function RequestManagement() {
     requestInformation = tempRows.find((u) => u.id === requestId);
     toggleModal();
   };
-
+  const editableFields = [
+    {
+      name: "status",
+      label: "Estado",
+      type: "select",
+      options: [
+        "PENDIENTE",
+        "COMPLETADO",
+        "CONTACTADO",
+        "CANCELADO",
+      ]
+    },
+    {
+      name: "request_type",
+      label: "Tipo de solicitud",
+      type: "select",
+      options: [
+        "TAREAS",
+        "REFUERZO",
+      ]
+    },
+    {
+      name: "contact_times",
+      label: "Veces contactado",
+      type: "number",
+    },
+    {
+      name: "student",
+      label: "Estudiante",
+      type: "search", //dropdownsearch
+    },
+    {
+      name: "teacher",
+      label: "Profesor",
+      type: "search", //dropdownsearch
+    },
+    {
+      name: "subject",
+      label: "Materia",
+      type: "select",
+      options: subjectsObject,
+      isObject: true,
+    }
+  ];
   return (
     <div className="d-flex">
       <LeftMenu />
