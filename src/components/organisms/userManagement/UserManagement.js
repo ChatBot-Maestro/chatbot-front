@@ -389,12 +389,8 @@ export default function UserManagement() {
 
   const editableFields = [
     [
-<<<<<<< HEAD
       { name: 'first_name', label: 'Nombre', type: 'text'},
       { name: 'last_name', label: 'Apellidos', type: 'text'},
-=======
-      { name: 'first_name', label: 'Nombre', type: 'text', minLength: 3, maxLength: 5 },
->>>>>>> bc9b8d5501fd2f6517efac3e976a2384e92b691a
       { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false},
       { name: 'identification_number', label: 'Número de documento', type: 'text' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
@@ -407,14 +403,9 @@ export default function UserManagement() {
     ], // Students
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
-<<<<<<< HEAD
       { name: 'last_name', label: 'Apellidos', type: 'text'},
       { name: 'email', label: 'Correo', type: 'text' },
       { name: 'password', label: 'Contraseña', type: 'password' },
-=======
-      { name: 'email', label: 'Correo', type: 'email', required: true },
-      { name: 'password', label: 'Contraseña', type: 'password', required: true },
->>>>>>> bc9b8d5501fd2f6517efac3e976a2384e92b691a
       { name: 'phone_number', label: 'Celular', type: 'number' },
       { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false },
       { name: 'identification_number', label: 'Número de documento', type: 'search' },
@@ -422,14 +413,9 @@ export default function UserManagement() {
     ], // Teachers
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
-<<<<<<< HEAD
       { name: 'last_name', label: 'Apellidos', type: 'text'},
       { name: 'email', label: 'Correo', type: 'text' },
       { name: 'password', label: 'Contraseña', type: 'password' },
-=======
-      { name: 'email', label: 'Correo', type: 'email', required: true },
-      { name: 'password', label: 'Contraseña', type: 'password', required: true },
->>>>>>> bc9b8d5501fd2f6517efac3e976a2384e92b691a
       { name: 'phone_number', label: 'Celular', type: 'number' },
       { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false },
       { name: 'identification_number', label: 'Número de documento', type: 'text' },
