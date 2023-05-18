@@ -24,13 +24,13 @@ import { mdiPlus } from '@mdi/js';
 
 //Create the table
 const tableHeader = ["Id", "Día", "Hora inicial", "Hora final", "Tipo de Solicitud", "Id Profesor", "Nombre Profesor"];
-const iterableFields = ["id", "day", "start_hour", "end_hour", "request_type", "teacher_id", "teacher_name"];
+const iterableFields = ["id", "day_of_week", "start_time", "end_time", "request_type", "teacher_id", "teacher_name"];
 
 //Declare empty rows
 var rows = [];
 
-function createData(id, day, start_hour, end_hour, request_type, teacher_id, teacher_name) {
-    return { id, day, start_hour, end_hour, request_type, teacher_id, teacher_name };
+function createData(id, day_of_week, start_time, end_time, request_type, teacher_id, teacher_name) {
+    return { id, day_of_week, start_time, end_time, request_type, teacher_id, teacher_name };
 }
 
 //Get request data from backend
@@ -47,6 +47,32 @@ async function requestGet() {
             })
     );
 }
+
+async function getTeachersPreAdd() {
+
+    let teachersList = [];
+  
+    let getTeachers = 'api/teachers/teachers/'
+  
+    let teachersData = await fetch(API_ENDPOINT + getTeachers, {
+      method: 'GET'
+    }).then((response) => response.json())
+      .then((data) => {
+        return data;
+      }).catch((error) => {
+        alert("Error al obtener los profesores");
+      });
+  
+    teachersData.map((teacher) => {
+      let teacherObject = {
+        id: teacher.id,
+        data: teacher.user.first_name + ' ' + teacher.user.last_name + ' | ' + teacher.user.identification_number
+      }
+      teachersList.push(teacherObject);
+    })
+  
+    return teachersList;
+  }
 
 //DELETE TABLE ROW WITH ID
 async function requestDeleteFromDB(id) {
@@ -70,17 +96,17 @@ function organizeTableData(apiData) {
     rows = [];
 
     apiData.map((rq) => {
-        let id, day, start_hour, end_hour, request_type, teacher_id, teacher_name;
+        let id, day_of_week, start_time, end_time, request_type, teacher_id, teacher_name;
         let resultRowData;
         id = rq.id;
-        day = rq.day;
-        start_hour = rq.start_hour;
-        end_hour = rq.end_hour;
+        day_of_week = rq.day_of_week;
+        start_time = rq.start_time;
+        end_time = rq.end_time;
         request_type = rq.request_type;
         teacher_id = rq.teacher.id;
         teacher_name = rq.teacher.user.first_name;
 
-        resultRowData = createData(id, day, start_hour, end_hour, request_type, teacher_id, teacher_name);
+        resultRowData = createData(id, day_of_week, start_time, end_time, request_type, teacher_id, teacher_name);
 
         rows.push(resultRowData);
         return resultRowData;
@@ -90,49 +116,8 @@ function organizeTableData(apiData) {
 //Create a temp variable to store the rows
 let tempRows = [];
 let subjectInformation = {};
+let teacherList = [];
 
-const editableFields = [
-    {
-        name: "day",
-        label: "Día",
-        type: "select",
-        options: [
-            "LUNES",
-            "MARTES",
-            "MIERCOLES",
-            "JUEVES",
-            "VIERNES",
-            "SÁBADO",
-            "DOMINGO"
-        ],
-        isObject: true,
-    },
-    {
-        name: "start_hour",
-        label: "Hora inicial",
-        type: "time",
-    },
-    {
-        name: "end_hour",
-        label: "Hora final",
-        type: "time",
-    },
-    {
-        name: "request_type",
-        label: "Tipo de solicitud",
-        type: "select",
-        options: [
-            "TAREAS",
-            "REFUERZO",
-        ],
-        isObject: true,
-    },
-    {
-        name: "teacher",
-        label: "Profesor",
-        type: "search",
-    },
-];
 
 export default function ScheduleManagement() {
     const [newTemp, setNewTemp] = useState([rows]);
@@ -146,13 +131,14 @@ export default function ScheduleManagement() {
     }, []);
 
     async function fetchRequestData() {
-
-
         //Clean up rows
         rows = [];
         tempRows = [];
+        teacherList = [];
         //Get data from backend
         await requestGet();
+        teacherList = await getTeachersPreAdd();
+        console.log(teacherList);
         setInitRowsState();
     }
 
@@ -172,6 +158,50 @@ export default function ScheduleManagement() {
             row.name.toLowerCase().includes(searchData.toLowerCase())
         );
     }
+
+    const editableFields = [
+        {
+            name: "day",
+            label: "Día",
+            type: "select",
+            options: [
+                "LUNES",
+                "MARTES",
+                "MIERCOLES",
+                "JUEVES",
+                "VIERNES",
+                "SÁBADO",
+                "DOMINGO"
+            ],
+            isObject: true,
+        },
+        {
+            name: "start_time",
+            label: "Hora inicial",
+            type: "time",
+        },
+        {
+            name: "end_time",
+            label: "Hora final",
+            type: "time",
+        },
+        {
+            name: "request_type",
+            label: "Tipo de solicitud",
+            type: "select",
+            options: [
+                "TAREAS",
+                "REFUERZO",
+            ],
+            isObject: true,
+        },
+        {
+            name: "teacher",
+            label: "Profesor",
+            type: "search",
+            info: teacherList
+        },
+    ];
 
     async function requestDelete(id) {
         setIdDelete(id);

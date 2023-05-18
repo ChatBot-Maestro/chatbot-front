@@ -23,6 +23,7 @@ export default function NewSchedule(props) {
   };
 
   const [selectedValues, setSelectedValues] = useState({});
+  const [showingValues, setShowingValues] = useState({});
  
 
   const handleSelectChange = (fieldName, value) => {
@@ -38,6 +39,27 @@ export default function NewSchedule(props) {
       [fieldName]: value
     });
   };
+
+  const handleSearchBoxChange = (fieldName, value) => {
+    setShowingValues({
+      ...showingValues,
+      [fieldName]: value
+    });
+  };
+
+  function onSearchClick(searchTerm, field){
+
+    setShowingValues({
+      ...showingValues,
+      [field.name]: searchTerm.data
+    });
+
+    setSelectedValues({
+      ...selectedValues,
+      [field.name]: searchTerm.id
+    });
+  }
+
 
   function isObjectEmpty(obj) {
     return Object.keys(obj).length === 0;
@@ -87,6 +109,35 @@ export default function NewSchedule(props) {
               required={false}
               options={field.options}
             />
+          ): field.type === "search" ? (
+            <div className="search-container">
+              <div className="search-inner">
+              <TextFieldAtom
+                  key={index}
+                  label={field.label}
+                  type={field.type}
+                  minLength="1"
+                  maxLength="20"
+                  value={showingValues[field.name] || ''}
+                  onChange={(event) => handleSearchBoxChange(field.name, event.target.value)}
+                />
+              </div>
+              {console.log('field.info', field.info)}
+              <div className="dropdown">
+                {field.info.filter(item => {
+                  try {
+                    const searchTerm = showingValues[field.name].toLowerCase();
+                    const fullName = item.data.toLowerCase();
+                    return searchTerm && fullName.includes(searchTerm) && fullName !== searchTerm;
+                  } catch (error) {
+                  }
+
+                })
+                .map((item)=> (<div className='dropdown-row' onClick={() => onSearchClick(item,field)}>
+                  {item.data}
+                </div>))}
+              </div>
+            </div> 
           ) : (
             <TextFieldAtom
               key={index}
