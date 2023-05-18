@@ -59,7 +59,7 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiViewDashboardOutline}
-                size={2}
+                size={1.2}
                 onClick={() => navigate("/dashboard")}
               />
             </div>
@@ -72,7 +72,7 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiBadgeAccountHorizontalOutline}
-                size={2}
+                size={1.2}
                 onClick={() => navigate("/userManagement")}
               />
             </div>
@@ -85,7 +85,7 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiChartMultiline}
-                size={2}
+                size={1.2}
                 onClick={() => navigate("/requestManagement")}
               />
             </div>
@@ -98,7 +98,7 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiLightbulbVariantOutline}
-                size={2}
+                size={1.2}
                 onClick={() => navigate("/subjectManagement")}
               />
             </div>
@@ -111,7 +111,7 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiHumanMaleFemaleChild}
-                size={2}
+                size={1.2}
                 onClick={() => navigate("/homeworksManagement")}
               />
             </div>
@@ -124,7 +124,7 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiClockOutline}
-                size={2}
+                size={1.2}
                 onClick={() => navigate("/scheduleManagement")}
               />
             </div>
@@ -137,7 +137,7 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiTownHall}
-                size={2}
+                size={1.2}
                 onClick={() => navigate("/schoolManagement")}
               />
             </div>
@@ -150,7 +150,7 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiLogout}
-                size={2}
+                size={1.2}
                 onClick={() => logout()}
               />
             </div>

@@ -1,6 +1,6 @@
 const Anchor = (props) => {
     return(
-        <a class={props.class} href={props.href}><p class={props.class}>{props.text}</p></a>
+        <a className={props.class} href={props.href}><p className={props.class}>{props.text}</p></a>
     );
 }
 

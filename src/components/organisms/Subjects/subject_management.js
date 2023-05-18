@@ -166,9 +166,9 @@ export default function RequestManagement() {
   };
 
 
-  return (<div class="d-flex">
+  return (<div className="d-flex">
     <LeftMenu />
-    <div class="w-100">
+    <div className="w-100">
       <div className="navbar">
         <div className="title">
           <h3>

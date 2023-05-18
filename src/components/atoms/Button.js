@@ -9,7 +9,7 @@ export default function ButtonAtom({ label, variant = 'contained', color = 'prim
       variant={variant}
       color={color}
       onClick={onClick}
-      startIcon={iconPath && <MdiIconAtom path={iconPath} size/>} 
+      startIcon={iconPath && <MdiIconAtom path={iconPath} size={size} />} 
       style={{width: width, color: textColor, boxShadow: disableShadow ? 'none' : null}}>
       {label}
     </Button>

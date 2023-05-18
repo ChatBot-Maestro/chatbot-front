@@ -133,7 +133,7 @@ export default function HomeworksManagement() {
   function handleSearch(searchData) {
     setSearch(searchData);
     tempRows = rows.filter((row) =>
-      row.name.toLowerCase().includes(searchData.toLowerCase())
+      row.topic.toLowerCase().includes(searchData.toLowerCase())
     );
   }
 
@@ -225,7 +225,7 @@ export default function HomeworksManagement() {
 
   return (<div className="d-flex">
     <LeftMenu />
-    <div class="w-100">
+    <div className="w-100">
       <div className="navbar">
         <div className="title">
           <h3>

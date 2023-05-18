@@ -216,7 +216,7 @@ export default function RequestManagement() {
 
   function handleSearch(searchData) {
     setSearch(searchData);
-    tempRows = rows.filter((row) => row.studentName.toLowerCase().includes(searchData.toLowerCase()));
+    tempRows = rows.filter((row) => row.name.toLowerCase().includes(searchData.toLowerCase()));
   }
 
   async function requestDelete(id) {

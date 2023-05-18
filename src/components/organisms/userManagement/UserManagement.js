@@ -428,8 +428,9 @@ export default function UserManagement() {
   const [search, setSearch] = useState("");
 
   function handleSearch(searchData) {
+    tempRows = rows.map((row) => row);
     setSearch(searchData);
-    tempRows[selectedUser.index] = rows[selectedUser.index].filter((row) =>
+    tempRows[selectedUser.index] = tempRows[selectedUser.index].filter((row) =>
       row.first_name.toLowerCase().includes(searchData.toLowerCase())
     );
   }

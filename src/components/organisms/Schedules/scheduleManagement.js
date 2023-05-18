@@ -155,7 +155,7 @@ export default function ScheduleManagement() {
     function handleSearch(searchData) {
         setSearch(searchData);
         tempRows = rows.filter((row) =>
-            row.name.toLowerCase().includes(searchData.toLowerCase())
+            row.teacher_name.toLowerCase().includes(searchData.toLowerCase())
         );
     }
 
@@ -231,9 +231,9 @@ export default function ScheduleManagement() {
     };
 
 
-    return (<div class="d-flex">
+    return (<div className="d-flex">
         <LeftMenu />
-        <div class="w-100">
+        <div className="w-100">
             <div className="navbar">
                 <div className="title">
                     <h3>
