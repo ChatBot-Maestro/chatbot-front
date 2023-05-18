@@ -390,6 +390,7 @@ export default function UserManagement() {
   const editableFields = [
     [
       { name: 'first_name', label: 'Nombre', type: 'text'},
+      { name: 'last_name', label: 'Apellidos', type: 'text'},
       { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false},
       { name: 'identification_number', label: 'Número de documento', type: 'text' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
@@ -402,6 +403,7 @@ export default function UserManagement() {
     ], // Students
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
+      { name: 'last_name', label: 'Apellidos', type: 'text'},
       { name: 'email', label: 'Correo', type: 'text' },
       { name: 'password', label: 'Contraseña', type: 'password' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
@@ -411,6 +413,7 @@ export default function UserManagement() {
     ], // Teachers
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
+      { name: 'last_name', label: 'Apellidos', type: 'text'},
       { name: 'email', label: 'Correo', type: 'text' },
       { name: 'password', label: 'Contraseña', type: 'password' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
@@ -420,6 +423,7 @@ export default function UserManagement() {
     ], // School managers
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
+      { name: 'last_name', label: 'Apellidos', type: 'text'},
       { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false },
       { name: 'identification_number', label: 'Número de documento', type: 'text' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
