@@ -241,7 +241,7 @@ export default function NewUser(props) {
                 })
                 .map((item)=> (<div className='dropdown-row' onClick={() => onSearchClick(item,field.name+'1',field.name,0)}>
                   {item.data}
-                </div>))}
+                </div>)).slice(0, 3)}
               </div>
             </div> 
             <div className="search-container">
@@ -268,7 +268,7 @@ export default function NewUser(props) {
                 })
                 .map((item)=> (<div className='dropdown-row' onClick={() => onSearchClick(item,field.name+'2',field.name,1)}>
                   {item.data}
-                </div>))}
+                </div>)).slice(0, 3)}
               </div>
             </div> 
             </div>

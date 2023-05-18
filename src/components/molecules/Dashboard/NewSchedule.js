@@ -135,7 +135,7 @@ export default function NewSchedule(props) {
                 })
                 .map((item)=> (<div className='dropdown-row' onClick={() => onSearchClick(item,field)}>
                   {item.data}
-                </div>))}
+                </div>)).slice(0,3)}
               </div>
             </div> 
           ) : (
