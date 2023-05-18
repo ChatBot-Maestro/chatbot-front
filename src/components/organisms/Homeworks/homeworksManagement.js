@@ -199,11 +199,13 @@ export default function HomeworksManagement() {
       name: "topic",
       label: "Tema",
       type: "text",
+      required: true,
     },
     {
       name: "details",
       label: "Detalles",
       type: "text",
+      required: true,
     },
     {
       name: "time_spent",
@@ -214,12 +216,14 @@ export default function HomeworksManagement() {
       name: "scheduled_date",
       label: "Fecha programada",
       type: "date",
+      required: true,
     },
     {
       name: "request",
       label: "Solicitud",
       type: "select",
       options: requestObject,
+      required: true,
     },
   ];
 

@@ -71,7 +71,7 @@ async function getStudentsPreAdd() {
   studentsData.map((student) => {
     let studentObject = {
       id: student.id,
-      data: student.first_name + ' ' + student.last_name + ' | ' + student.identification_number
+      data: student?.first_name + ' ' + student?.last_name + ' | ' + student?.identification_number
     }
     studentsList.push(studentObject);
   })
@@ -98,7 +98,7 @@ async function getTeachersPreAdd() {
   teachersData.map((teacher) => {
     let teacherObject = {
       id: teacher.id,
-      data: teacher.user.first_name + ' ' + teacher.user.last_name + ' | ' + teacher.user.identification_number
+      data: teacher.user?.first_name + ' ' + teacher.user?.last_name + ' | ' + teacher.user?.identification_number
     }
     teachersList.push(teacherObject);
   })
@@ -132,7 +132,7 @@ function organizeTableData(apiData) {
     let id, name, subject, status, scheduled_date, request_type, contact_times;
     let resultRowData;
     id = rq.id
-    name = rq.student.first_name + ' ' + rq.student.last_name
+    name = rq.student?.first_name + ' ' + rq.student?.last_name
     request_type = rq.request_type
     subject = rq.subject.name
     status = rq.status
@@ -274,8 +274,9 @@ export default function RequestManagement() {
     {
       name: "student",
       label: "Estudiante",
-      type: "search", //dropdownsearch
+      type: "search",
       required: true,
+      info: currStudents,
     },
     {
       name: "teacher",

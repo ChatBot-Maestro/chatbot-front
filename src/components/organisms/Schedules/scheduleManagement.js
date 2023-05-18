@@ -66,7 +66,7 @@ async function getTeachersPreAdd() {
     teachersData.map((teacher) => {
       let teacherObject = {
         id: teacher.id,
-        data: teacher.user.first_name + ' ' + teacher.user.last_name + ' | ' + teacher.user.identification_number
+        data: teacher.user?.first_name + ' ' + teacher.user?.last_name + ' | ' + teacher.user?.identification_number
       }
       teachersList.push(teacherObject);
     })
@@ -104,7 +104,7 @@ function organizeTableData(apiData) {
         end_time = rq.end_time;
         request_type = rq.request_type;
         teacher_id = rq.teacher.id;
-        teacher_name = rq.teacher.user.first_name;
+        teacher_name = rq.teacher.user?.first_name;
 
         resultRowData = createData(id, day_of_week, start_time, end_time, request_type, teacher_id, teacher_name);
 
@@ -138,7 +138,6 @@ export default function ScheduleManagement() {
         //Get data from backend
         await requestGet();
         teacherList = await getTeachersPreAdd();
-        console.log(teacherList);
         setInitRowsState();
     }
 
@@ -161,7 +160,7 @@ export default function ScheduleManagement() {
 
     const editableFields = [
         {
-            name: "day",
+            name: "day_of_week",
             label: "Día",
             type: "select",
             options: [
@@ -174,16 +173,19 @@ export default function ScheduleManagement() {
                 "DOMINGO"
             ],
             isObject: true,
+            required: true,
         },
         {
             name: "start_time",
             label: "Hora inicial",
             type: "time",
+            required: true,
         },
         {
             name: "end_time",
             label: "Hora final",
             type: "time",
+            required: true,
         },
         {
             name: "request_type",
@@ -194,12 +196,14 @@ export default function ScheduleManagement() {
                 "REFUERZO",
             ],
             isObject: true,
+            required: true,
         },
         {
             name: "teacher",
             label: "Profesor",
             type: "search",
-            info: teacherList
+            info: teacherList,
+            required: true,
         },
     ];
 

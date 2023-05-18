@@ -16,7 +16,11 @@ export default function NewUser(props) {
 
   const checkFormValidity = () => {
     for (const field of fields) {
-      if (field.required && (!selectedValues[field.name] || selectedValues[field.name] === "") && field.type !== 'checkbox') {
+      if(field.type === 'search' && field.required && (!showingValues[field.name] || showingValues[field.name] === "")){
+        setIsFormValid(false);
+        return;
+      }
+      if (field.required && (!selectedValues[field.name] || selectedValues[field.name] === "") && field.type !== 'search') {
         setIsFormValid(false);
         return;
       }
@@ -26,10 +30,11 @@ export default function NewUser(props) {
 
   useEffect(() => {
     // Set initial data if received as props
-    if (props.initialData !== {}) {
+    if (!isObjectEmpty(props.initialData)) {
       setSelectedValues(props.initialData);
     }
-  }, [props.initialData]);
+    checkFormValidity();
+  }, [props.initialData, isFormValid, selectedValues, showingValues]);
 
   const handleAdd = () => {
     // Add logic here
@@ -70,6 +75,7 @@ export default function NewUser(props) {
       ...selectedValues,
       [field.name]: searchTerm.id
     });
+    checkFormValidity();
   }
 
   function isObjectEmpty(obj) {
@@ -133,7 +139,7 @@ export default function NewUser(props) {
                 />
               </div>
               <div className="dropdown">
-                {field.info.filter(item => {
+                {field?.info?.filter(item => {
                   try {
                     const searchTerm = showingValues[field.name].toLowerCase();
                     const fullName = item.data.toLowerCase();

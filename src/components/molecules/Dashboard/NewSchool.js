@@ -17,9 +17,6 @@ export default function NewSchool(props) {
     }
   }, [props.initialData]);
 
-  console.log('initialData', props.initialData);
-  console.log('props', props);
-
   const handleAdd = () => {
     // Add logic here
     props.toggleModal(); // Call the toggleModal function passed from the parent
@@ -72,7 +69,6 @@ export default function NewSchool(props) {
     if (!isFormValid) {
       return;
     }
-    console.log('checkboxValues', checkboxValues);
     checkboxValues['shifts'].forEach(shift => {
       if(shift === 1){
         selectedValues['has_morning_hours'] = true;
@@ -89,7 +85,6 @@ export default function NewSchool(props) {
       selectedValues['has_afternoon_hours'] = false;
     }
 
-    console.log('selectedValues after', selectedValues);
     let url = '/api/schools/schools/';
     let methodUsed = 'POST';
     

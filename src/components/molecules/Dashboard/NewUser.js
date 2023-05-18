@@ -83,7 +83,6 @@ export default function NewUser(props) {
     });
 
     tempRelatives[position] = searchTerm.id;
-    console.log(tempRelatives);
 
     setSelectedValues({
       ...selectedValues,
