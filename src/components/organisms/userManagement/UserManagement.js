@@ -146,7 +146,7 @@ function organizeTableDataStudents(apiData) {
     let id, first_name, identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school;
     let resultRowData;
     id = rq.id;
-    first_name = rq.first_name + '' + rq.last_name;
+    first_name = rq.first_name + ' ' + rq.last_name;
     identification_type = rq.identification_type;
     identification_number = rq.identification_number;
     phone_number = rq.phone_number;
@@ -170,7 +170,7 @@ function organizeTableDataTeachers(apiData) {
     let resultRowData;
     id = rq.id;
     idUser = rq.user?.id;
-    first_name = rq?.user?.first_name + '' + rq?.user?.last_name;
+    first_name = rq?.user?.first_name + ' ' + rq?.user?.last_name;
     identification_type = rq?.user?.identification_type;
     identification_number = rq?.user?.identification_number;
     phone_number = rq?.user?.phone_number;
@@ -189,7 +189,7 @@ function organizeTableDataSchoolManagers(apiData) {
     let resultRowData;
     id = rq.id;
     idUser = rq.user?.id;
-    first_name = rq.user?.first_name + '' + rq.user?.last_name;
+    first_name = rq.user?.first_name + ' ' + rq.user?.last_name;
     identification_type = rq.user?.identification_type;
     identification_number = rq.user?.identification_number;
     phone_number = rq.user?.phone_number;
@@ -207,7 +207,7 @@ function organizeTableDataRelatives(apiData) {
     let id, first_name, identification_type, identification_number, phone_number;
     let resultRowData;
     id = rq.id;
-    first_name = rq.first_name + '' + rq.last_name;
+    first_name = rq.first_name + ' ' + rq.last_name;
     identification_type = rq.identification_type;
     identification_number = rq.identification_number;
     phone_number = rq.phone_number;
