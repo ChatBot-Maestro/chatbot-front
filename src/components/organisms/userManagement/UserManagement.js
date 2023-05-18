@@ -20,10 +20,10 @@ const tableHeader = [
 ];
 
 const iterableFields = [
-  ["id", "first_name", "identification_type", "identification_number", "phone_number", "grade", "sex", "age", "working_hours", "school_name", "relative"], // Students
-  ["id", "first_name", "email", "phone_number", "identification_type", "identification_number"], // Teachers
-  ["id", "first_name", "email", "phone_number", "identification_type", "identification_number", "school_name"], // School Managers
-  ["id", "first_name", "phone_number", "identification_type", "identification_number"]  // Parents
+  ["id", "complete_name", "identification_type", "identification_number", "phone_number", "grade", "sex", "age", "working_hours", "school_name", "relative"], // Students
+  ["id", "complete_name", "email", "phone_number", "identification_type", "identification_number"], // Teachers
+  ["id", "complete_name", "email", "phone_number", "identification_type", "identification_number", "school_name"], // School Managers
+  ["id", "complete_name", "phone_number", "identification_type", "identification_number"]  // Parents
 ];
 
 let schoolsObject = [];
@@ -143,10 +143,12 @@ function organizeTableDataStudents(apiData) {
   rows[0] = [];
 
   apiData.map((rq) => {
-    let id, first_name, identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school;
+    let id, first_name,last_name,complete_name, identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school;
     let resultRowData;
     id = rq.id;
-    first_name = rq.first_name + ' ' + rq.last_name;
+    first_name = rq.first_name;
+    last_name = rq.last_name;
+    complete_name = first_name + " " + last_name;
     identification_type = rq.identification_type;
     identification_number = rq.identification_number;
     phone_number = rq.phone_number;
@@ -156,7 +158,7 @@ function organizeTableDataStudents(apiData) {
     working_hours = rq.working_hours;
     school_name = rq.school.name;
     school = rq.school.id;
-    resultRowData = { id, first_name, identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school };
+    resultRowData = { id, first_name, last_name, complete_name,identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school };
     return rows[0].push(resultRowData);
   });
 }
@@ -166,16 +168,18 @@ function organizeTableDataTeachers(apiData) {
   rows[1] = [];
 
   apiData.map((rq) => {
-    let id, idUser, first_name, identification_type, identification_number, phone_number, email;
+    let id, idUser, first_name,last_name, complete_name,identification_type, identification_number, phone_number, email;
     let resultRowData;
     id = rq.id;
     idUser = rq.user?.id;
-    first_name = rq?.user?.first_name + ' ' + rq?.user?.last_name;
+    first_name = rq.user?.first_name;
+    last_name = rq.user?.last_name;
+    complete_name = first_name + " " + last_name;
     identification_type = rq?.user?.identification_type;
     identification_number = rq?.user?.identification_number;
     phone_number = rq?.user?.phone_number;
     email = rq?.user?.email;
-    resultRowData = { id, idUser, first_name, identification_type, identification_number, phone_number, email };
+    resultRowData = { id, idUser, first_name,last_name,complete_name,identification_type, identification_number, phone_number, email };
     return rows[1].push(resultRowData);
   });
 }
@@ -185,17 +189,19 @@ function organizeTableDataSchoolManagers(apiData) {
   rows[2] = [];
 
   apiData.map((rq) => {
-    let id, idUser, first_name, email, identification_type, identification_number, phone_number, school_name;
+    let id, idUser, first_name,last_name,complete_name, email, identification_type, identification_number, phone_number, school_name;
     let resultRowData;
     id = rq.id;
     idUser = rq.user?.id;
-    first_name = rq.user?.first_name + ' ' + rq.user?.last_name;
+    first_name = rq.user?.first_name;
+    last_name = rq.user?.last_name;
+    complete_name = first_name + " " + last_name;
     identification_type = rq.user?.identification_type;
     identification_number = rq.user?.identification_number;
     phone_number = rq.user?.phone_number;
     email = rq.user?.email;
     school_name = rq.school.name;
-    resultRowData = { id, idUser, first_name, email, identification_type, identification_number, phone_number, school_name };
+    resultRowData = { id, idUser, first_name,last_name,complete_name, email, identification_type, identification_number, phone_number, school_name };
     return rows[2].push(resultRowData);
   });
 }
@@ -204,15 +210,17 @@ function organizeTableDataRelatives(apiData) {
   rows[3] = [];
 
   apiData.map((rq) => {
-    let id, first_name, identification_type, identification_number, phone_number;
+    let id, first_name,last_name,complete_name, identification_type, identification_number, phone_number;
     let resultRowData;
     id = rq.id;
-    first_name = rq.first_name + ' ' + rq.last_name;
+    first_name = rq.first_name;
+    last_name = rq.last_name;
+    complete_name = first_name + " " + last_name;
     identification_type = rq.identification_type;
     identification_number = rq.identification_number;
     phone_number = rq.phone_number;
     // students = rq.students;
-    resultRowData = { id, first_name, identification_type, identification_number, phone_number };
+    resultRowData = { id, first_name,last_name,complete_name, identification_type, identification_number, phone_number };
     return rows[3].push(resultRowData);
   });
 }
