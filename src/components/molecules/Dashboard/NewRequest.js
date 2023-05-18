@@ -9,6 +9,21 @@ import { API_ENDPOINT } from "../../../config.js";
 
 export default function NewUser(props) {
   const {fields} = props;
+
+  const [selectedValues, setSelectedValues] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [showingValues, setShowingValues] = useState({}); 
+
+  const checkFormValidity = () => {
+    for (const field of fields) {
+      if (field.required && (!selectedValues[field.name] || selectedValues[field.name] === "") && field.type !== 'checkbox') {
+        setIsFormValid(false);
+        return;
+      }
+    }
+    setIsFormValid(true);
+  };
+
   useEffect(() => {
     // Set initial data if received as props
     if (props.initialData !== {}) {
@@ -21,14 +36,12 @@ export default function NewUser(props) {
     props.toggleModal(); // Call the toggleModal function passed from the parent
   };
 
-  const [selectedValues, setSelectedValues] = useState({});
-  const [showingValues, setShowingValues] = useState({}); 
-
   const handleSelectChange = (fieldName, value) => {
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   const handleTextFieldChange = (fieldName, value) => {
@@ -36,6 +49,7 @@ export default function NewUser(props) {
       ...selectedValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   const handleSearchBoxChange = (fieldName, value) => {
@@ -147,7 +161,7 @@ export default function NewUser(props) {
         ))}
       </div>
       <div className='new-user__save'>
-        <ButtonAtom label="Guardar" variant='contained' textColor={'white'} width={'200px'} onClick={handleSave} />
+        <ButtonAtom label="Guardar" variant='contained' textColor={'white'} width={'200px'} onClick={handleSave} disabled={!isFormValid} />
       </div>
     </div>
   );

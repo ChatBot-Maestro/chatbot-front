@@ -89,6 +89,7 @@ function organizeTableData(apiData) {
 //Create a temp variable to store the rows
 let tempRows = [];
 let schoolInformation = [];
+let shiftsOptions = [];
 
 export default function RequestManagement() {
     const [newTemp,setNewTemp] = useState([rows]);
@@ -107,9 +108,16 @@ export default function RequestManagement() {
     //Clean up rows
     rows = [];
     tempRows = [];
+    shiftsOptions = [];
     //Get data from backend
     await requestGet();
+    await setShifts();
     setInitRowsState();
+  }
+
+  function setShifts() {
+    shiftsOptions.push({id: 1, name: "Mañana"});
+    shiftsOptions.push({id: 2, name: "Tarde"});
   }
 
   function setInitRowsState(){
@@ -160,22 +168,21 @@ export default function RequestManagement() {
       name: "name",
       label: "Nombre",
       type: "text",
+      required: true
     },
     {
       name: "address",
       label: "Dirección",
       type: "text",
+      required: true
     },
     {
-      name: "has_morning_hours",
-      label: "Tiene horas mañana",
-      type: "switch",
-    },
-    {
-      name: "has_afternoon_hours",
-      label: "Tiene horas tarde",
-      type: "switch",
-    },
+      name: "shifts",
+      label: "Jornadas",
+      type: "checkbox",
+      options: shiftsOptions,
+      isObject: true,
+    }
   ];
 
   return (<div className="d-flex">
@@ -187,7 +194,7 @@ export default function RequestManagement() {
               <a href="dashboard" className="title-anchor">
                 Dashboard
               </a>{" "}
-              / Gestión de materias{" "}
+              / Gestión de Colegios{" "}
             </h3>
           </div>
           <SearchAtom searchEvent={handleSearch}/>
@@ -195,8 +202,8 @@ export default function RequestManagement() {
         
         <div className="subject__content">
           <div className='d-flex justify-content-between mt-5 mb-4'>
-            <TextAtom text="Gestión de Tareas" weight="bold" align="left" size="22px" />
-            <ButtonAtom onClick={toggleModal} label="Nueva Tarea" variant='contained' iconPath={mdiPlus} size={1} textColor={"white"} />
+            <TextAtom text="Gestión de Colegios" weight="bold" align="left" size="22px" />
+            <ButtonAtom onClick={toggleModal} label="Nuevo Colegio" variant='contained' iconPath={mdiPlus} size={1} textColor={"white"} />
           </div>
             <Card className="table-card">
               <CardContent>

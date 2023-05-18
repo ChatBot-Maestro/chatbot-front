@@ -3,6 +3,7 @@ import TextFieldAtom from '../../atoms/TextField.js';
 import SelectInput from '../../atoms/SelectInput.js';
 import ButtonAtom from '../../atoms/Button.js';
 import TextAtom from "../../atoms/Text.js";
+import CheckAtom from '../../atoms/CheckAtom.js';
 import MdiIconAtom from '../../atoms/MDI.js';
 import { mdiClose } from '@mdi/js';
 import { API_ENDPOINT } from "../../../config.js";
@@ -17,6 +18,7 @@ export default function NewSchool(props) {
   }, [props.initialData]);
 
   console.log('initialData', props.initialData);
+  console.log('props', props);
 
   const handleAdd = () => {
     // Add logic here
@@ -24,13 +26,24 @@ export default function NewSchool(props) {
   };
 
   const [selectedValues, setSelectedValues] = useState({});
- 
+  const [checkboxValues, setCheckboxValues] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+
+  const handleCheckboxChange = (fieldName, checked) => {
+    setCheckboxValues({
+      ...checkboxValues,
+      [fieldName]: checked
+    });
+    checkFormValidity();
+  };
 
   const handleSelectChange = (fieldName, value) => {
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   const handleTextFieldChange = (fieldName, value) => {
@@ -38,13 +51,45 @@ export default function NewSchool(props) {
       ...selectedValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   function isObjectEmpty(obj) {
     return Object.keys(obj).length === 0;
   }
+  const checkFormValidity = () => {
+    for (const field of fields) {
+      if (field.required && (!selectedValues[field.name] || selectedValues[field.name] === "")) {
+        setIsFormValid(false);
+        return;
+      }
+    }
+    setIsFormValid(true);
+  };
+  
 
   const handleSave = async () => {
+    if (!isFormValid) {
+      return;
+    }
+    console.log('checkboxValues', checkboxValues);
+    checkboxValues['shifts'].forEach(shift => {
+      if(shift === 1){
+        selectedValues['has_morning_hours'] = true;
+      }
+      if(shift === 2){
+        selectedValues['has_afternoon_hours'] = true;
+      }
+    });
+
+    if(selectedValues['has_morning_hours'] === undefined){
+      selectedValues['has_morning_hours'] = false;
+    }
+    if(selectedValues['has_afternoon_hours'] === undefined){
+      selectedValues['has_afternoon_hours'] = false;
+    }
+
+    console.log('selectedValues after', selectedValues);
     let url = '/api/schools/schools/';
     let methodUsed = 'POST';
     
@@ -64,6 +109,7 @@ export default function NewSchool(props) {
 
     // Reset selectedValues state
     setSelectedValues({});
+    checkFormValidity();
 
     // Close modal
     props.toggleModal();
@@ -72,7 +118,7 @@ export default function NewSchool(props) {
   return (
     <div className="new-user">
       <div className="d-flex justify-content-between mb-3">
-        <TextAtom text="Nueva Tarea" weight="bold" align="left" size="22px"/>
+        <TextAtom text="Nuevo Colegio" weight="bold" align="left" size="22px"/>
         <MdiIconAtom onClick={handleAdd} path={mdiClose} size={1} spin={false} cursor="pointer"/>
       </div>
       <div className="new-user__fields">
@@ -87,8 +133,15 @@ export default function NewSchool(props) {
               options={field.options}
               isObject={field.isObject}
             />
-          ) : (
-            <TextFieldAtom
+          ) :  field.type === "checkbox" ? (
+            <CheckAtom
+              key={index}
+              label={field.label}
+              checked={checkboxValues[field.name] || []}
+              onChange={(checkedValues) => handleCheckboxChange(field.name, checkedValues)}
+              options={field.options.map(option => ({ id: option.id, name: option.name }))} // Update the options prop
+            />
+          ) : ( <TextFieldAtom
               key={index}
               label={field.label}
               type={field.type}
@@ -101,7 +154,7 @@ export default function NewSchool(props) {
         ))}
       </div>
       <div className='new-user__save'>
-        <ButtonAtom label="Guardar" variant='contained' textColor={'white'} width={'200px'} onClick={handleSave} />
+        <ButtonAtom label="Guardar" variant='contained' textColor={'white'} width={'200px'} onClick={handleSave} disabled={!isFormValid}/>
       </div>
     </div>
   );

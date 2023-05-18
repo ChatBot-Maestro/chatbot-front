@@ -12,33 +12,52 @@ const tempRelatives = [null,null];
 
 export default function NewUser(props) {
   let { fields } = props;
+  const [selectedValues, setSelectedValues] = useState({});
+  const [checkboxValues, setCheckboxValues] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [showingValues, setShowingValues] = useState({});
+  
+  const checkFormValidity = () => {
+    for (const field of fields) {
+      if (field.required && (!checkboxValues[field.name] || checkboxValues[field.name] === "") && field.type === 'checkbox') {
+        setIsFormValid(false);
+        return;
+      }
+      if (field.required && (!selectedValues[field.name] || selectedValues[field.name] === "") && field.type !== 'checkbox') {
+        setIsFormValid(false);
+        return;
+      }
+    }
+    setIsFormValid(true);
+  };
+
   useEffect(() => {
     // Set initial data if received as props
     if (!isObjectEmpty(props.initialData)) {
       setSelectedValues(props.initialData);
     }
-  }, [props.initialData]);
+     checkFormValidity();
+  }, [props.initialData, isFormValid, selectedValues, checkboxValues]);
+
 
   const handleAdd = () => {
     // Add logic here
     props.toggleModal(); // Call the toggleModal function passed from the parent
   };
 
-  const [selectedValues, setSelectedValues] = useState({});
-  const [checkboxValues, setCheckboxValues] = useState({});
-  const [showingValues, setShowingValues] = useState({});
-
   const handleCheckboxChange = (fieldName, checked) => {
     setCheckboxValues({
       ...checkboxValues,
       [fieldName]: checked
     });
+    checkFormValidity();
   };
   const handleSelectChange = (fieldName, value) => {
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   const handleTextFieldChange = (fieldName, value) => {
@@ -46,6 +65,7 @@ export default function NewUser(props) {
       ...selectedValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   const handleSearchBoxChange = (fieldName, value) => {
@@ -77,7 +97,11 @@ export default function NewUser(props) {
     return Object.keys(obj).length === 0;
   }
 
+
   const handleSave = async () => {
+    if (!isFormValid) {
+      return;
+    }
     const mergedValues = { ...selectedValues, ...checkboxValues };
     let url = '';
     let urlUser = '/api/users/users/';
@@ -276,8 +300,8 @@ export default function NewUser(props) {
                   key={index}
                   label={field.label}
                   type={field.type}
-                  minLength="1"
-                  maxLength="20"
+                  minLength={field.minLength}
+                  maxLength={field.maxLength}
                   value={selectedValues[field.name] || ''}
                   onChange={(event) => handleTextFieldChange(field.name, event.target.value)}
                 />
@@ -285,7 +309,7 @@ export default function NewUser(props) {
         ))}
       </div>
       <div className='new-user__save'>
-        <ButtonAtom label="Guardar" variant='contained' textColor={'white'} width={'200px'} onClick={handleSave} />
+        <ButtonAtom label="Guardar" variant='contained' textColor={'white'} width={'200px'} onClick={handleSave} disabled={!isFormValid}/>
       </div>
     </div>
   );

@@ -274,8 +274,8 @@ export default function RequestManagement() {
     {
       name: "student",
       label: "Estudiante",
-      type: "search", 
-      info: currStudents,
+      type: "search", //dropdownsearch
+      required: true,
     },
     {
       name: "teacher",
@@ -289,6 +289,7 @@ export default function RequestManagement() {
       type: "select",
       options: subjectsObject,
       isObject: true,
+      required: true,
     }
   ];
   return (

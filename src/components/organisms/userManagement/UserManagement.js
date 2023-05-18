@@ -389,34 +389,34 @@ export default function UserManagement() {
 
   const editableFields = [
     [
-      { name: 'first_name', label: 'Nombre', type: 'text'},
+      { name: 'first_name', label: 'Nombre', type: 'text', minLength: 3, maxLength: 5 },
       { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false},
       { name: 'identification_number', label: 'Número de documento', type: 'text' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
-      { name: 'grade', label: 'Grado', type: 'select', options: ['PJD', 'JD', 'TR', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'], isObject: false},
+      { name: 'grade', label: 'Grado', type: 'select', options: ['PJD', 'JD', 'TR', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'], isObject: false, required: true },
       { name: 'sex', label: 'Sexo', type: 'select', options: ['M', 'F'], isObject: false},
-      { name: 'age', label: 'Edad', type: 'number' },
+      { name: 'age', label: 'Edad', type: 'number', required: true },
       { name: 'working_hours', label: 'Jornada', type: 'select', options: ['M', 'T'] },
       { name: 'school', label: 'Colegio', type: 'select', options: schoolsObject, isObject: true },
       { name: 'relatives', label: 'Acudientes' ,sing_label : 'Acudiente', type: 'addSearch', info: currRelatives}
     ], // Students
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
-      { name: 'email', label: 'Correo', type: 'text' },
-      { name: 'password', label: 'Contraseña', type: 'password' },
+      { name: 'email', label: 'Correo', type: 'email', required: true },
+      { name: 'password', label: 'Contraseña', type: 'password', required: true },
       { name: 'phone_number', label: 'Celular', type: 'number' },
       { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false },
       { name: 'identification_number', label: 'Número de documento', type: 'search' },
-      { name: 'subjects', label: 'Materias', type: 'checkbox', options: subjectsObject, isObject: true}
+      { name: 'subjects', label: 'Materias', type: 'checkbox', options: subjectsObject, isObject: true, required: true}
     ], // Teachers
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
-      { name: 'email', label: 'Correo', type: 'text' },
-      { name: 'password', label: 'Contraseña', type: 'password' },
+      { name: 'email', label: 'Correo', type: 'email', required: true },
+      { name: 'password', label: 'Contraseña', type: 'password', required: true },
       { name: 'phone_number', label: 'Celular', type: 'number' },
       { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false },
       { name: 'identification_number', label: 'Número de documento', type: 'text' },
-      { name: 'school', label: 'Colegio', type: 'select', options: schoolsObject, isObject: true },
+      { name: 'school', label: 'Colegio', type: 'select', options: schoolsObject, isObject: true, required: true },
     ], // School managers
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
