@@ -111,8 +111,6 @@ export default function RequestManagement() {
   }, []);
 
   async function fetchRequestData() {
-
-
     //Clean up rows
     rows = [];
     tempRows = [];
@@ -212,7 +210,7 @@ export default function RequestManagement() {
           appElement={document.getElementById('root')}
           toggleModal={toggleModal}
           fields={editableFields}
-          initialData={subjectInformation} />
+          initialData={subjectInformation}/>
       </Modal>
   </div>
   );

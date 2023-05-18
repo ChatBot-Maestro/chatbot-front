@@ -269,7 +269,8 @@ export default function HomeworksManagement() {
           appElement={document.getElementById('root')}
           toggleModal={toggleModal}
           fields={editableFields}
-          initialData={subjectInformation} />
+          initialData={subjectInformation}
+          />
       </Modal>
   </div>
   );

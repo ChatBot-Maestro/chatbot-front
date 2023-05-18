@@ -338,7 +338,8 @@ export default function RequestManagement() {
           appElement={document.getElementById('root')}
           toggleModal={toggleModal}
           fields={editableFields}
-          initialData={requestInformation} />
+          initialData={requestInformation}
+           />
       </Modal>
     </div>
   );
