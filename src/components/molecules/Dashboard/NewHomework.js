@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import TextFieldAtom from '../../atoms/TextField.js';
 import SelectInput from '../../atoms/SelectInput.js';
 import ButtonAtom from '../../atoms/Button.js';
@@ -9,26 +9,40 @@ import { API_ENDPOINT } from "../../../config.js";
 
 export default function NewHomework(props) {
   const {fields} = props;
+  
+  const [selectedValues, setSelectedValues] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+
+  const checkFormValidity = useCallback(() => {
+    for (const field of fields) {
+      if (field.required && (!selectedValues[field.name] || selectedValues[field.name] === "") && field.type !== 'checkbox') {
+        setIsFormValid(false);
+        return;
+      }
+    }
+    setIsFormValid(true);
+  });
+
   useEffect(() => {
     // Set initial data if received as props
-    if (props.initialData !== {}) {
+    if (!isObjectEmpty(props.initialData)) {
       setSelectedValues(props.initialData);
     }
-  }, [props.initialData]);
+    checkFormValidity();
+  }, [props.initialData, isFormValid, checkFormValidity]);
 
   const handleAdd = () => {
     // Add logic here
     props.toggleModal(); // Call the toggleModal function passed from the parent
   };
 
-  const [selectedValues, setSelectedValues] = useState({});
- 
-
   const handleSelectChange = (fieldName, value) => {
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   const handleTextFieldChange = (fieldName, value) => {
@@ -36,6 +50,7 @@ export default function NewHomework(props) {
       ...selectedValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   function isObjectEmpty(obj) {
@@ -99,7 +114,7 @@ export default function NewHomework(props) {
         ))}
       </div>
       <div className='new-user__save'>
-        <ButtonAtom label="Guardar" variant='contained' textColor={'white'} width={'200px'} onClick={handleSave} />
+        <ButtonAtom label="Guardar" variant='contained' textColor={'white'} width={'200px'} onClick={handleSave} disabled={!isFormValid}/>
       </div>
     </div>
   );

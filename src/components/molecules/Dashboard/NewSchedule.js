@@ -9,28 +9,43 @@ import { API_ENDPOINT } from "../../../config.js";
 
 export default function NewSchedule(props) {
   const {fields} = props;
+
+  const [selectedValues, setSelectedValues] = useState({});
+  const [showingValues, setShowingValues] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+  const checkFormValidity = () => {
+    for (const field of fields) {
+      if(field.type === 'search' && field.required && (!showingValues[field.name] || showingValues[field.name] === "")){
+        setIsFormValid(false);
+        return;
+      }
+      if (field.required && (!selectedValues[field.name] || selectedValues[field.name] === "") && field.type !== 'search') {
+        setIsFormValid(false);
+        return;
+      }
+    }
+    setIsFormValid(true);
+  };
+
   useEffect(() => {
     // Set initial data if received as props
     if (props.initialData !== {}) {
       setSelectedValues(props.initialData);
     }
+    checkFormValidity();
   }, [props.initialData]);
-  console.log('props.initialData', props.initialData);
 
   const handleAdd = () => {
-    // Add logic here
+    // Add logic here d
     props.toggleModal(); // Call the toggleModal function passed from the parent
   };
-
-  const [selectedValues, setSelectedValues] = useState({});
-  const [showingValues, setShowingValues] = useState({});
- 
 
   const handleSelectChange = (fieldName, value) => {
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   const handleTextFieldChange = (fieldName, value) => {
@@ -38,6 +53,7 @@ export default function NewSchedule(props) {
       ...selectedValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   const handleSearchBoxChange = (fieldName, value) => {
@@ -45,6 +61,7 @@ export default function NewSchedule(props) {
       ...showingValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   function onSearchClick(searchTerm, field){
@@ -58,6 +75,7 @@ export default function NewSchedule(props) {
       ...selectedValues,
       [field.name]: searchTerm.id
     });
+    checkFormValidity();
   }
 
 
@@ -75,7 +93,6 @@ export default function NewSchedule(props) {
       //delete id object in selectedValues
       delete selectedValues.id;
       delete selectedValues.teacher_name;
-      console.log('selectedValues', selectedValues);
     }
     await fetch(API_ENDPOINT + url, {
       method: methodUsed,
@@ -122,7 +139,6 @@ export default function NewSchedule(props) {
                   onChange={(event) => handleSearchBoxChange(field.name, event.target.value)}
                 />
               </div>
-              {console.log('field.info', field.info)}
               <div className="dropdown">
                 {field.info.filter(item => {
                   try {
@@ -152,7 +168,7 @@ export default function NewSchedule(props) {
         ))}
       </div>
       <div className='new-user__save'>
-        <ButtonAtom label="Guardar" variant='contained' textColor={'white'} width={'200px'} onClick={handleSave} />
+        <ButtonAtom label="Guardar" variant='contained' textColor={'white'} width={'200px'} onClick={handleSave} disabled={!isFormValid}/>
       </div>
     </div>
   );
