@@ -7,7 +7,9 @@ import { mdiViewDashboardOutline,
         mdiBadgeAccountHorizontalOutline,
         mdiHumanMaleFemaleChild,
         mdiLogout,
-        mdiLightbulbVariantOutline } from '@mdi/js';
+        mdiLightbulbVariantOutline,
+        mdiTownHall,
+        mdiClockOutline } from '@mdi/js';
 
 //Import style
 import "./leftmenu.scss";
@@ -65,7 +67,7 @@ export default function LeftMenu() {
               <ButtonAtom
                 variant="text"
                 color="primary"
-                label="G.Usuarios"
+                label="G. Usuarios"
                 id="button-menu"
                 width="180px"
                 disableShadow
@@ -117,11 +119,24 @@ export default function LeftMenu() {
               <ButtonAtom
                 variant="text"
                 color="primary"
+                label="G. Horarios"
+                id="button-menu"
+                width="180px"
+                disableShadow
+                iconPath={mdiClockOutline}
+                size={2}
+                onClick={() => navigate("/scheduleManagement")}
+              />
+            </div>
+            <div className="section-button">
+              <ButtonAtom
+                variant="text"
+                color="primary"
                 label="G. Colegios"
                 id="button-menu"
                 width="180px"
                 disableShadow
-                iconPath={mdiHumanMaleFemaleChild}
+                iconPath={mdiTownHall}
                 size={2}
                 onClick={() => navigate("/schoolManagement")}
               />

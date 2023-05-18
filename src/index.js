@@ -21,6 +21,7 @@ import TeacherManagement from './components/organisms/Teachers/teacherManagement
 import SchoolManagement from './components/organisms/Schools/schoolManagement.js';
 import SchoolManagerManagement from './components/organisms/SchoolManagers/schoolManagerManagement.js';
 import HomeworksManagement from './components/organisms/Homeworks/homeworksManagement.js';
+import ScheduleManagement from './components/organisms/Schedules/scheduleManagement';
 
 const theme = createTheme({
   palette: {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
   {
     path: "/homeworksManagement",
     element: <HomeworksManagement />
+  },
+  {
+    path: "/scheduleManagement",
+    element: <ScheduleManagement />
   },
 ]);
 

@@ -169,17 +169,17 @@ function organizeTableDataTeachers(apiData) {
     let id, idUser, first_name, identification_type, identification_number, phone_number, email;
     let resultRowData;
     id = rq.id;
-    idUser = rq.user.id;
-    first_name = rq.user.first_name + '' + rq.user.last_name;
-    identification_type = rq.user.identification_type;
-    identification_number = rq.user.identification_number;
-    phone_number = rq.user.phone_number;
-    email = rq.user.email;
+    idUser = rq.user?.id;
+    first_name = rq?.user?.first_name + '' + rq?.user?.last_name;
+    identification_type = rq?.user?.identification_type;
+    identification_number = rq?.user?.identification_number;
+    phone_number = rq?.user?.phone_number;
+    email = rq?.user?.email;
     resultRowData = { id, idUser, first_name, identification_type, identification_number, phone_number, email };
     return rows[1].push(resultRowData);
   });
 }
-
+// id acudientes array to string
 // Organize table SchoolManagers
 function organizeTableDataSchoolManagers(apiData) {
   rows[2] = [];
@@ -358,7 +358,7 @@ export default function UserManagement() {
 
   const editableFields = [
     [
-      { name: 'first_name', label: 'Nombre', type: 'text' },
+      { name: 'first_name', label: 'Nombre', type: 'text'},
       { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false},
       { name: 'identification_number', label: 'Número de documento', type: 'text' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
@@ -367,6 +367,7 @@ export default function UserManagement() {
       { name: 'age', label: 'Edad', type: 'number' },
       { name: 'working_hours', label: 'Jornada', type: 'select', options: ['M', 'T'] },
       { name: 'school', label: 'Colegio', type: 'select', options: schoolsObject, isObject: true },
+      // { name: 'relative', label: 'Acudiente', type: 'select'},
     ], // Students
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },
@@ -374,7 +375,7 @@ export default function UserManagement() {
       { name: 'password', label: 'Contraseña', type: 'password' },
       { name: 'phone_number', label: 'Celular', type: 'number' },
       { name: 'identification_type', label: 'Tipo de documento', type: 'select', options: ['TI', 'CC', 'CE', 'NUIP', 'PA'], isObject: false },
-      { name: 'identification_number', label: 'Número de documento', type: 'text' },
+      { name: 'identification_number', label: 'Número de documento', type: 'search' },
       { name: 'subjects', label: 'Materias', type: 'checkbox', options: subjectsObject, isObject: true}
     ], // Teachers
     [
