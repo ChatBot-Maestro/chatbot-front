@@ -141,7 +141,7 @@ export default function NewSchool(props) {
               label={field.label}
               type={field.type}
               minLength="1"
-              maxLength="20"
+              maxLength="200"
               value={selectedValues[field.name] || ''}
               onChange={(event) => handleTextFieldChange(field.name, event.target.value)}
             />
