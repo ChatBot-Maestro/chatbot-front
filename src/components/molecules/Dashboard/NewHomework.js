@@ -30,7 +30,7 @@ export default function NewHomework(props) {
       setSelectedValues(props.initialData);
     }
     checkFormValidity();
-  }, [props.initialData, isFormValid, checkFormValidity]);
+  }, [props.initialData]);
 
   const handleAdd = () => {
     // Add logic here
@@ -38,6 +38,7 @@ export default function NewHomework(props) {
   };
 
   const handleSelectChange = (fieldName, value) => {
+    checkFormValidity();
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
@@ -46,6 +47,7 @@ export default function NewHomework(props) {
   };
 
   const handleTextFieldChange = (fieldName, value) => {
+    checkFormValidity();
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
@@ -106,7 +108,7 @@ export default function NewHomework(props) {
               label={field.label}
               type={field.type}
               minLength="1"
-              maxLength="20"
+              maxLength="100"
               value={selectedValues[field.name] || ''}
               onChange={(event) => handleTextFieldChange(field.name, event.target.value)}
             />

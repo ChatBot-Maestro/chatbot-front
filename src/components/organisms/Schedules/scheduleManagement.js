@@ -169,7 +169,7 @@ export default function ScheduleManagement() {
                 "MIERCOLES",
                 "JUEVES",
                 "VIERNES",
-                "SÁBADO",
+                "SABADO",
                 "DOMINGO"
             ],
             isObject: true,

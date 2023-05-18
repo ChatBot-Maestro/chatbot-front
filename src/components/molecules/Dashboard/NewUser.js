@@ -37,7 +37,7 @@ export default function NewUser(props) {
       setSelectedValues(props.initialData);
     }
      checkFormValidity();
-  }, [props.initialData, isFormValid, selectedValues, checkboxValues]);
+  }, [props.initialData]);
 
 
   const handleAdd = () => {
@@ -46,6 +46,7 @@ export default function NewUser(props) {
   };
 
   const handleCheckboxChange = (fieldName, checked) => {
+    checkFormValidity()
     setCheckboxValues({
       ...checkboxValues,
       [fieldName]: checked
@@ -53,6 +54,7 @@ export default function NewUser(props) {
     checkFormValidity();
   };
   const handleSelectChange = (fieldName, value) => {
+    checkFormValidity()
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
@@ -61,6 +63,7 @@ export default function NewUser(props) {
   };
 
   const handleTextFieldChange = (fieldName, value) => {
+    checkFormValidity()
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
@@ -69,14 +72,16 @@ export default function NewUser(props) {
   };
 
   const handleSearchBoxChange = (fieldName, value) => {
+    checkFormValidity()
     setShowingValues({
       ...showingValues,
       [fieldName]: value
     });
+    checkFormValidity()
   };
 
   function onSearchClick(searchTerm, fieldNameSh, fieldNameRes, position){
-
+    checkFormValidity()
     setShowingValues({
       ...showingValues,
       [fieldNameSh]: searchTerm.data
@@ -88,6 +93,7 @@ export default function NewUser(props) {
       ...selectedValues,
       [fieldNameRes]: tempRelatives
     });
+    checkFormValidity()
 
   }
 
@@ -247,7 +253,7 @@ export default function NewUser(props) {
                   label={field.sing_label + ' 1'}
                   type={field.type}
                   minLength="1"
-                  maxLength="20"
+                  maxLength="100"
                   value={showingValues[field.name+'1'] || ''}
                   onChange={(event) => handleSearchBoxChange(field.name+'1', event.target.value)}
                 />
@@ -274,7 +280,7 @@ export default function NewUser(props) {
                   label={field.sing_label + ' 2'}
                   type={field.type}
                   minLength="1"
-                  maxLength="20"
+                  maxLength="100"
                   value={showingValues[field.name+'2'] || ''}
                   onChange={(event) => handleSearchBoxChange(field.name+'2', event.target.value)}
                 />

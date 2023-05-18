@@ -34,7 +34,7 @@ export default function NewUser(props) {
       setSelectedValues(props.initialData);
     }
     checkFormValidity();
-  }, [props.initialData, isFormValid, selectedValues, showingValues]);
+  }, [props.initialData]);
 
   const handleAdd = () => {
     // Add logic here
@@ -42,6 +42,7 @@ export default function NewUser(props) {
   };
 
   const handleSelectChange = (fieldName, value) => {
+    checkFormValidity();
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
@@ -50,6 +51,7 @@ export default function NewUser(props) {
   };
 
   const handleTextFieldChange = (fieldName, value) => {
+    checkFormValidity();
     setSelectedValues({
       ...selectedValues,
       [fieldName]: value
@@ -58,13 +60,16 @@ export default function NewUser(props) {
   };
 
   const handleSearchBoxChange = (fieldName, value) => {
+    checkFormValidity();
     setShowingValues({
       ...showingValues,
       [fieldName]: value
     });
+    checkFormValidity();
   };
 
   function onSearchClick(searchTerm, field){
+    checkFormValidity();
 
     setShowingValues({
       ...showingValues,
@@ -133,7 +138,7 @@ export default function NewUser(props) {
                   label={field.label}
                   type={field.type}
                   minLength="1"
-                  maxLength="20"
+                  maxLength="100"
                   value={showingValues[field.name] || ''}
                   onChange={(event) => handleSearchBoxChange(field.name, event.target.value)}
                 />
@@ -159,7 +164,7 @@ export default function NewUser(props) {
               label={field.label}
               type={field.type}
               minLength="1"
-              maxLength="20"
+              maxLength="100"
               value={selectedValues[field.name] || ''}
               onChange={(event) => handleTextFieldChange(field.name, event.target.value)}
             />
