@@ -36,6 +36,7 @@ function createData(id, name,subject, status, scheduled_date, request_type, cont
 
 //BACKEND CALLS
 //GET TABLE DATA
+//REQUESTS
 async function requestGet() {
 
   let getRequests = 'api/requests/requests/'
@@ -48,6 +49,61 @@ async function requestGet() {
     }).catch((error) => {
       alert("Error al obtener las solicitudes");
     }));
+}
+
+//STUDENTS
+async function getStudentsPreAdd() {
+
+  let studentsList = [];
+
+  let getStudents = 'api/students/students/'
+
+  let studentsData = await fetch(API_ENDPOINT + getStudents, {
+    method: 'GET'
+  }).then((response) => response.json())
+    .then((data) => {
+      return data;
+    }).catch((error) => {
+      alert("Error al obtener los estudiantes");
+    });
+
+
+  studentsData.map((student) => {
+    let studentObject = {
+      id: student.id,
+      data: student.first_name + ' ' + student.last_name + ' | ' + student.identification_number
+    }
+    studentsList.push(studentObject);
+  })
+
+  return studentsList;
+}
+
+//TEACHERS
+async function getTeachersPreAdd() {
+
+  let teachersList = [];
+
+  let getTeachers = 'api/teachers/teachers/'
+
+  let teachersData = await fetch(API_ENDPOINT + getTeachers, {
+    method: 'GET'
+  }).then((response) => response.json())
+    .then((data) => {
+      return data;
+    }).catch((error) => {
+      alert("Error al obtener los profesores");
+    });
+
+  teachersData.map((teacher) => {
+    let teacherObject = {
+      id: teacher.id,
+      data: teacher.user.first_name + ' ' + teacher.user.last_name + ' | ' + teacher.user.identification_number
+    }
+    teachersList.push(teacherObject);
+  })
+
+  return teachersList;
 }
 
 //DELETE TABLE ROW WITH ID
@@ -95,6 +151,8 @@ function organizeTableData(apiData) {
 let tempRows = [];
 let requestInformation = {};
 let subjectsObject = [];
+let currStudents = [];
+let currTeachers = [];
 
 export default function RequestManagement() {
 
@@ -116,9 +174,13 @@ export default function RequestManagement() {
     rows = [];
     tempRows = [];
     subjectsObject = [];
+    currStudents = [];
+    currTeachers = [];
     //Get data from backend
     await requestGet();
     await requestGetSubjects();
+    currStudents = await getStudentsPreAdd();
+    currTeachers = await getTeachersPreAdd();
     setInitRowsState();
   }
   // Get subjects/subjects
@@ -212,12 +274,14 @@ export default function RequestManagement() {
     {
       name: "student",
       label: "Estudiante",
-      type: "search", //dropdownsearch
+      type: "search", 
+      info: currStudents,
     },
     {
       name: "teacher",
       label: "Profesor",
-      type: "search", //dropdownsearch
+      type: "search", 
+      info: currTeachers,
     },
     {
       name: "subject",

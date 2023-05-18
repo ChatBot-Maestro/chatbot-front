@@ -224,6 +224,35 @@ let tempRows = [[],
 []
 ];
 let userInformation = {};
+
+async function getRelativesAdd(){
+
+  let relativesList = [];
+
+  let getRequests = "/api/students/relatives/";
+
+  let relativesData = await fetch(API_ENDPOINT + getRequests, {
+    method: 'GET'
+  }).then((response) => response.json())
+    .then((data) => {
+      return data;
+    }).catch((error) => {
+      alert("Error al obtener los estudiantes");
+    });
+
+    relativesData.map((relative) => {
+      let relativeObject = {
+        id: relative.id,
+        data: relative.first_name + ' ' + relative.last_name + ' | ' + relative.identification_number
+      }
+      relativesList.push(relativeObject);
+    });
+    
+    return relativesList;
+}
+
+let currRelatives = [];
+
 export default function UserManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [idDelete, setIdDelete] = useState('');
@@ -239,6 +268,7 @@ export default function UserManagement() {
     tempRows = [[], [], [], []];
     schoolsObject = [];
     subjectsObject = [];
+    currRelatives = [];
     //Get data from backend
     await requestGetStudents();
     await requestGetTeachers();
@@ -246,6 +276,7 @@ export default function UserManagement() {
     await requestGetRelatives();
     await requestGetSchools();
     await requestGetSubjects();
+    currRelatives = await getRelativesAdd();
     setInitRowsState();
   }
 
@@ -367,6 +398,7 @@ export default function UserManagement() {
       { name: 'age', label: 'Edad', type: 'number' },
       { name: 'working_hours', label: 'Jornada', type: 'select', options: ['M', 'T'] },
       { name: 'school', label: 'Colegio', type: 'select', options: schoolsObject, isObject: true },
+      { name: 'relatives', label: 'Acudientes' ,sing_label : 'Acudiente', type: 'addSearch', info: currRelatives}
     ], // Students
     [
       { name: 'first_name', label: 'Nombre', type: 'text' },

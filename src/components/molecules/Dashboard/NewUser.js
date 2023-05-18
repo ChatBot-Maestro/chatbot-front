@@ -8,6 +8,8 @@ import MdiIconAtom from '../../atoms/MDI.js';
 import { mdiClose } from '@mdi/js';
 import { API_ENDPOINT } from "../../../config.js";
 
+const tempRelatives = [null,null];
+
 export default function NewUser(props) {
   let { fields } = props;
   useEffect(() => {
@@ -24,6 +26,7 @@ export default function NewUser(props) {
 
   const [selectedValues, setSelectedValues] = useState({});
   const [checkboxValues, setCheckboxValues] = useState({});
+  const [showingValues, setShowingValues] = useState({});
 
   const handleCheckboxChange = (fieldName, checked) => {
     setCheckboxValues({
@@ -44,6 +47,31 @@ export default function NewUser(props) {
       [fieldName]: value
     });
   };
+
+  const handleSearchBoxChange = (fieldName, value) => {
+    setShowingValues({
+      ...showingValues,
+      [fieldName]: value
+    });
+  };
+
+  function onSearchClick(searchTerm, fieldNameSh, fieldNameRes, position){
+
+    setShowingValues({
+      ...showingValues,
+      [fieldNameSh]: searchTerm.data
+    });
+
+    tempRelatives[position] = searchTerm.id;
+    console.log(tempRelatives);
+
+    setSelectedValues({
+      ...selectedValues,
+      [fieldNameRes]: tempRelatives
+    });
+
+  }
+
 
   function isObjectEmpty(obj) {
     return Object.keys(obj).length === 0;
@@ -186,6 +214,64 @@ export default function NewUser(props) {
               onChange={(checkedValues) => handleCheckboxChange(field.name, checkedValues)}
               options={field.options.map(option => ({ id: option.id, name: option.name }))} // Update the options prop
             />
+          ):  field.type === "addSearch" ? (
+            <div className="dropdown-items">
+              <h6>{field.label}</h6>
+              <div className="search-container">
+              <div className="search-inner">
+              <TextFieldAtom
+                  key={index}
+                  label={field.sing_label + ' 1'}
+                  type={field.type}
+                  minLength="1"
+                  maxLength="20"
+                  value={showingValues[field.name+'1'] || ''}
+                  onChange={(event) => handleSearchBoxChange(field.name+'1', event.target.value)}
+                />
+              </div>
+              <div className="dropdown">
+                {field.info.filter(item => {
+                  try {
+                    const searchTerm = showingValues[field.name+1].toLowerCase();
+                    const fullName = item.data.toLowerCase();
+                    return searchTerm && fullName.includes(searchTerm) && fullName !== searchTerm;
+                  } catch (error) {
+                  }
+
+                })
+                .map((item)=> (<div className='dropdown-row' onClick={() => onSearchClick(item,field.name+'1',field.name,0)}>
+                  {item.data}
+                </div>))}
+              </div>
+            </div> 
+            <div className="search-container">
+              <div className="search-inner">
+              <TextFieldAtom
+                  key={index}
+                  label={field.sing_label + ' 2'}
+                  type={field.type}
+                  minLength="1"
+                  maxLength="20"
+                  value={showingValues[field.name+'2'] || ''}
+                  onChange={(event) => handleSearchBoxChange(field.name+'2', event.target.value)}
+                />
+              </div>
+              <div className="dropdown">
+                {field.info.filter(item => {
+                  try {
+                    const searchTerm = showingValues[field.name+2].toLowerCase();
+                    const fullName = item.data.toLowerCase();
+                    return searchTerm && fullName.includes(searchTerm) && fullName !== searchTerm;
+                  } catch (error) {
+                  }
+
+                })
+                .map((item)=> (<div className='dropdown-row' onClick={() => onSearchClick(item,field.name+'2',field.name,1)}>
+                  {item.data}
+                </div>))}
+              </div>
+            </div> 
+            </div>
           ) : ( <TextFieldAtom
                   key={index}
                   label={field.label}
@@ -204,4 +290,3 @@ export default function NewUser(props) {
     </div>
   );
 }
-
