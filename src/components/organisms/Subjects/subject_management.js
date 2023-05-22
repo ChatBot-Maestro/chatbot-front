@@ -155,7 +155,19 @@ export default function RequestManagement() {
       subjectInformation = {};
     }
     setIsModalOpen(!isModalOpen); // update state variable to show/hide modal
+    updateRowsData();
   };
+
+  async function updateRowsData() {
+    //Clean up rows
+    rows = [];
+    tempRows = [];
+
+    //Get data from backend
+    await requestGet();
+    setInitRowsState();
+    setSearch("");
+  }
 
   const editSubject = (subjectId) => {
     subjectInformation = {};

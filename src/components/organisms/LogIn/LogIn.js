@@ -32,7 +32,7 @@ export default function LogIn() {
     
     event.preventDefault();
 
-    const response = await fetch(API_ENDPOINT + 'api/auth/login', {
+    const response = await fetch(API_ENDPOINT + 'api/auth/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -332,6 +332,9 @@ export default function UserManagement() {
       userInformation = {};
     }
     setIsModalOpen(!isModalOpen); // update state variable to show/hide modal
+
+    fetchRequestData();
+    setSearch("");
   };
   const editUser = (userId) => {
     userInformation = {};
