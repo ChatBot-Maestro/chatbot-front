@@ -24,13 +24,13 @@ import { mdiPlus } from '@mdi/js';
 
 //Create the table
 const tableHeader = ["Id", "Día", "Hora inicial", "Hora final", "Tipo de Solicitud", "Id Profesor", "Nombre Profesor"];
-const iterableFields = ["id", "day_of_week", "start_time", "end_time", "request_type", "teacher_id", "teacher_name"];
+const iterableFields = ["id", "day", "start_hour", "end_hour", "request_type", "teacher_id", "teacher_name"];
 
 //Declare empty rows
 var rows = [];
 
-function createData(id, day_of_week, start_time, end_time, request_type, teacher_id, teacher_name) {
-    return { id, day_of_week, start_time, end_time, request_type, teacher_id, teacher_name };
+function createData(id, day, start_hour, end_hour, request_type, teacher_id, teacher_name) {
+    return { id, day, start_hour, end_hour, request_type, teacher_id, teacher_name };
 }
 
 //Get request data from backend
@@ -96,17 +96,17 @@ function organizeTableData(apiData) {
     rows = [];
 
     apiData.map((rq) => {
-        let id, day_of_week, start_time, end_time, request_type, teacher_id, teacher_name;
+        let id, day, start_hour, end_hour, request_type, teacher_id, teacher_name;
         let resultRowData;
         id = rq.id;
-        day_of_week = rq.day_of_week;
-        start_time = rq.start_time;
-        end_time = rq.end_time;
+        day = rq.day
+        start_hour = rq.start_hour;
+        end_hour = rq.end_hour;
         request_type = rq.request_type;
         teacher_id = rq.teacher.id;
         teacher_name = rq.teacher.user?.first_name;
 
-        resultRowData = createData(id, day_of_week, start_time, end_time, request_type, teacher_id, teacher_name);
+        resultRowData = createData(id, day, start_hour, end_hour, request_type, teacher_id, teacher_name);
 
         rows.push(resultRowData);
         return resultRowData;
@@ -160,7 +160,7 @@ export default function ScheduleManagement() {
 
     const editableFields = [
         {
-            name: "day_of_week",
+            name: "day",
             label: "Día",
             type: "select",
             options: [
@@ -176,13 +176,13 @@ export default function ScheduleManagement() {
             required: true,
         },
         {
-            name: "start_time",
+            name: "start_hour",
             label: "Hora inicial",
             type: "time",
             required: true,
         },
         {
-            name: "end_time",
+            name: "end_hour",
             label: "Hora final",
             type: "time",
             required: true,

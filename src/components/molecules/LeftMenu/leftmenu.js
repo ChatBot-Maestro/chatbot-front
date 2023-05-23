@@ -14,14 +14,10 @@ import { mdiViewDashboardOutline,
 //Import style
 import "./leftmenu.scss";
 
-import { useNavigate } from 'react-router-dom';
-
-
 //Import Backend API
 import { API_ENDPOINT } from "../../../config.js";
 
 export default function LeftMenu() {
-  const navigate = useNavigate();
   let urlLogout = "api/auth/logout/";
   async function logout (){ 
     await fetch(API_ENDPOINT + urlLogout, {
@@ -29,7 +25,7 @@ export default function LeftMenu() {
     })
       .then((response) => response.json())
       .then((data) => {
-        navigate("/");
+        window.location.href = "/";
         return data;
       })
   }
@@ -59,8 +55,8 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiViewDashboardOutline}
-                size={1.2}
-                onClick={() => navigate("/dashboard")}
+                size={1}
+                onClick={() => window.location.href = "/dashboard"}
               />
             </div>
             <div className="section-button">
@@ -72,8 +68,8 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiBadgeAccountHorizontalOutline}
-                size={1.2}
-                onClick={() => navigate("/userManagement")}
+                size={1}
+                onClick={() => window.location.href = "/userManagement"}
               />
             </div>
             <div className="section-button">
@@ -85,8 +81,8 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiChartMultiline}
-                size={1.2}
-                onClick={() => navigate("/requestManagement")}
+                size={1}
+                onClick={() => window.location.href = "/requestManagement"}
               />
             </div>
             <div className="section-button">
@@ -98,8 +94,8 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiLightbulbVariantOutline}
-                size={1.2}
-                onClick={() => navigate("/subjectManagement")}
+                size={1}
+                onClick={() => window.location.href = "/subjectManagement"}
               />
             </div>
             <div className="section-button">
@@ -111,8 +107,8 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiHumanMaleFemaleChild}
-                size={1.2}
-                onClick={() => navigate("/homeworksManagement")}
+                size={1}
+                onClick={() => window.location.href = "/homeworksManagement"}
               />
             </div>
             <div className="section-button">
@@ -124,8 +120,8 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiClockOutline}
-                size={1.2}
-                onClick={() => navigate("/scheduleManagement")}
+                size={1}
+                onClick={() => window.location.href = "/scheduleManagement"}
               />
             </div>
             <div className="section-button">
@@ -137,8 +133,8 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiTownHall}
-                size={1.2}
-                onClick={() => navigate("/schoolManagement")}
+                size={1}
+                onClick={() => window.location.href = "/schoolManagement"}
               />
             </div>
             <div className="section-button">
@@ -150,7 +146,7 @@ export default function LeftMenu() {
                 width="180px"
                 disableShadow
                 iconPath={mdiLogout}
-                size={1.2}
+                size={1}
                 onClick={() => logout()}
               />
             </div>

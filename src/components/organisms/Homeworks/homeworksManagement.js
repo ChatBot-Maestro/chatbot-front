@@ -3,6 +3,8 @@ import SearchAtom from "../../atoms/Search.js";
 import TableAtom from "../../atoms/Table.js";
 import ButtonAtom from '../../atoms/Button.js';
 import TextAtom from "../../atoms/Text.js";
+import reportWebVitals from '../../../reportWebVitals'; // Import reportWebVitals function
+
 
 //import molecules
 import LeftMenu from "../../molecules/LeftMenu/leftmenu.js";
@@ -97,6 +99,8 @@ let requestObject = [];
 
 export default function HomeworksManagement() {
   const [newTemp, setNewTemp] = useState([rows]);
+  const [metrics, setMetrics] = useState([]);
+
 
   //Set background color with js
   document.body.style.backgroundColor = "#F2F4F7";
@@ -104,7 +108,21 @@ export default function HomeworksManagement() {
   //Call functions on component mounting
   useEffect(() => {
     fetchRequestData();
+    const handleMetric = (metric) => {
+      setMetrics((prevMetrics) => [...prevMetrics, metric]);
+    };
+  
+    reportWebVitals(handleMetric);
   }, []);
+
+  console.log('Performance Metrics Report:');
+metrics.forEach((metric) => {
+  console.log('Metric:', metric.name);
+  console.log('Value:', metric.value);
+  console.log('ID:', metric.id);
+  console.log('Delta:', metric.delta);
+  console.log('-----------------------');
+});
 
   async function fetchRequestData() {
 
