@@ -9,6 +9,10 @@ import ButtonAtom from "../../atoms/Button.js";
 import TextAtom from "../../atoms/Text.js";
 import Toast from "../../atoms/Toast.js";
 
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../../redux/users/usersSlice.js'; 
+
+
 //Add css
 import "./LogIn.scss";
 
@@ -21,7 +25,7 @@ import { API_ENDPOINT } from "../../../config.js";
 import { useNavigate } from 'react-router-dom';
 
 export default function LogIn() {
-
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showToast, setShowToast] = useState(false); // add state variable
@@ -44,7 +48,9 @@ export default function LogIn() {
     });
 
     if (response.ok) {
-      // login successful, redirect to dashboard or homepage
+      // login successful, redirect to dashboard
+      const user = await response.json();
+      dispatch(setUser(user));
       navigate("/dashboard");
     } else {
       setShowToast(true); // display the toast

@@ -18,14 +18,15 @@ export const usersSlice = createSlice({
     reducers: {
         // General
         setUser: (state, action) => {
-            state.id = action.payload.id
-            state.email = action.payload.email
-            state.first_name = action.payload.first_name
-            state.last_name = action.payload.last_name
-            state.identification_type = action.payload.identification_type
-            state.identification_number = action.payload.identification_number
-            state.phone_number = action.payload.phone_number
-            state.is_active = action.payload.is_active
+            console.log('payload', action.payload);
+            state.id = action.payload.user.id
+            state.email = action.payload.user.email
+            state.first_name = action.payload.user.first_name
+            state.last_name = action.payload.user.last_name
+            state.identification_type = action.payload.user.identification_type
+            state.identification_number = action.payload.user.identification_number
+            state.phone_number = action.payload.user.phone_number
+            state.is_active = action.payload.user.is_active
             state.token = action.payload.token
         },
         unsetUser: (state) => {
@@ -43,5 +44,8 @@ export const usersSlice = createSlice({
 })
 
 export const { setUser, unsetUser } = usersSlice.actions
+
+// Add getToken selector
+export const getToken = (state) => state.users.token;
 
 export default usersSlice.reducer

@@ -2,6 +2,10 @@
 import ImageAtom from "../../atoms/Image.js";
 import ButtonAtom from "../../atoms/Button.js";
 
+
+import { useDispatch } from 'react-redux';
+import { unsetUser } from '../../../redux/users/usersSlice.js'; 
+
 import { mdiViewDashboardOutline, 
         mdiChartMultiline,
         mdiBadgeAccountHorizontalOutline,
@@ -18,6 +22,9 @@ import "./leftmenu.scss";
 import { API_ENDPOINT } from "../../../config.js";
 
 export default function LeftMenu() {
+
+  const dispatch = useDispatch();
+  
   let urlLogout = "api/auth/logout/";
   async function logout (){ 
     await fetch(API_ENDPOINT + urlLogout, {
@@ -25,6 +32,7 @@ export default function LeftMenu() {
     })
       .then((response) => response.json())
       .then((data) => {
+        dispatch(unsetUser());
         window.location.href = "/";
         return data;
       })
