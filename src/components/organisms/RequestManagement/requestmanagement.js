@@ -235,7 +235,6 @@ export default function RequestManagement() {
 
   }
   const toggleModal = () => {
-    console.log('toggleModal');
     if (isModalOpen) {
       requestInformation = {};
     }

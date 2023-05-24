@@ -143,7 +143,6 @@ function organizeTableDataStudents(apiData) {
   rows[0] = [];
 
   apiData.map((rq) => {
-    console.log('rq', rq);
     
     let id, first_name,last_name,complete_name, identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school;
     let resultRowData;
