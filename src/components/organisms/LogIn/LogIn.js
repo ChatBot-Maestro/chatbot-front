@@ -28,13 +28,32 @@ export default function LogIn() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showToast, setShowToast] = useState(false); // add state variable
   const navigate = useNavigate();
+  // Toast
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastSeverity, setToastSeverity] = useState('');
+  const [toastTitle, setToastTitle] = useState('');
+  const [toastText, setToastText] = useState('');
 
+  const handleOpenToast = () => {
+    setToastOpen(true);
+  };
+
+  const handleCloseToast = () => {
+    setToastOpen(false);
+  };
 
   const handleSubmit = async (event) => {
     
     event.preventDefault();
+    const responseError = {
+      severity: 'error',
+      title: 'Error',
+      text: 'Autenticación fallida, por favor intente de nuevo',
+    };
+    setToastSeverity(responseError.severity);
+    setToastTitle(responseError.title);
+    setToastText(responseError.text);
 
     const response = await fetch(API_ENDPOINT + 'api/auth/login', {
       method: 'POST',
@@ -53,9 +72,11 @@ export default function LogIn() {
       dispatch(setUser(user));
       navigate("/dashboard");
     } else {
-      setShowToast(true); // display the toast
+      handleOpenToast();
     }
   };
+
+  
 
   return (
     <div>
@@ -119,14 +140,13 @@ export default function LogIn() {
           </div>
         </div>
       </div>
-      { showToast && ( // Conditionally render Toast component
-        <Toast
-          severity="error"
-          title="Error"
-          text="Usuario o contraseña incorrectos"
-          onClose={() => setShowToast(false)} // Optional: add onClose function to close Toast
-        />
-      )}
+      <Toast
+        severity={toastSeverity}
+        title={toastTitle}
+        text={toastText}
+        open={toastOpen}
+        onClose={handleCloseToast}
+      />
     </div>
   );
 }
