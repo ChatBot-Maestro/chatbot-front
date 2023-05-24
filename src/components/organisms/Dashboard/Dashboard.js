@@ -6,10 +6,8 @@ import GUsuarios from '../../../assets/dashboard/gestion-usuarios.svg';
 import LeftMenu from "../../molecules/LeftMenu/leftmenu.js";
 
 import React from "react";
-import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
-  const navigate = useNavigate();
   return (
     <div className="dashboard__left-menu">
       <LeftMenu />
@@ -25,10 +23,10 @@ export default function Dashboard() {
         </div>
         {/* <SearchAtom searchEvent={handleSearch}/> */}
         <div className="dashboard-main">
-          <WidgetAtom image={GTemas} title="Gestión de Materias" cursor="pointer" onClick={() => navigate("/subjectManagement")}/>
-          <WidgetAtom image={GUsuarios} title="Gestión de Usuarios" size="70%" cursor="pointer" onClick={() => navigate("/userManagement")} />
-          <WidgetAtom image={GColegios} title="Gestión de Colegios" size="75%" cursor="pointer" onClick={() => navigate("/schoolManagement")}/>
-          <WidgetAtom image={GEstudiantes} title="Gestión de Tareas" cursor="pointer" onClick={() => navigate("/homeworksManagement")}/>
+          <WidgetAtom image={GTemas} title="Gestión de Materias" cursor="pointer" onClick={() => window.location.href = "/subjectManagement"}/>
+          <WidgetAtom image={GUsuarios} title="Gestión de Usuarios" size="60%" cursor="pointer" onClick={() => window.location.href = "/userManagement"} />
+          <WidgetAtom image={GColegios} title="Gestión de Colegios" size="65%" cursor="pointer" onClick={() => window.location.href = "/schoolManagement"}/>
+          <WidgetAtom image={GEstudiantes} title="Gestión de Tareas" cursor="pointer" onClick={() => window.location.href =  "/homeworksManagement"}/>
         </div>
       </div>
     </div>
