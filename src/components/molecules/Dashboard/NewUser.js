@@ -95,6 +95,13 @@ export default function NewUser(props) {
     });
     checkFormValidity()
 
+    //Clean null spaces 
+    tempRelatives.forEach((item, index) => {
+      if(item === null){
+        tempRelatives.splice(index, 1);
+      }
+    });
+
   }
 
 
