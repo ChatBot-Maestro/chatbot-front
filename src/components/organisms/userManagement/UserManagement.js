@@ -13,14 +13,14 @@ import SearchAtom from "../../atoms/Search.js";
 import { API_ENDPOINT } from "../../../config.js";
 Modal.setAppElement('#root');
 const tableHeader = [
-  ["Id", "Nombre", "Tipo de Doc.", "N. Documento", "Celular", "Grado", "Sexo", "Edad", "Jornada", "Colegio", "Acudiente", "Editar"], // Students
+  ["Id", "Nombre", "Tipo de Doc.", "N. Documento", "Celular", "Grado", "Sexo", "Edad", "Jornada", "Colegio", "Acudientes", "Editar"], // Students
   ["Id", "Nombre", "Correo", "Celular", "Tipo de Doc.", "N. Documento", "Editar"], // Teachers
   ["Id", "Nombre", "Correo", "Celular", "Tipo de Doc.", "N. Documento", "Colegio", "Editar"], // School Managers
   ["Id", "Nombre", "Celular", "Tipo de Doc.", "N. Documento", "Editar"], // Parents
 ];
 
 const iterableFields = [
-  ["id", "complete_name", "identification_type", "identification_number", "phone_number", "grade", "sex", "age", "working_hours", "school_name", "relative"], // Students
+  ["id", "complete_name", "identification_type", "identification_number", "phone_number", "grade", "sex", "age", "working_hours", "school_name", "relatives"], // Students
   ["id", "complete_name", "email", "phone_number", "identification_type", "identification_number"], // Teachers
   ["id", "complete_name", "email", "phone_number", "identification_type", "identification_number", "school_name"], // School Managers
   ["id", "complete_name", "phone_number", "identification_type", "identification_number"]  // Parents
@@ -143,6 +143,8 @@ function organizeTableDataStudents(apiData) {
   rows[0] = [];
 
   apiData.map((rq) => {
+    console.log('rq', rq);
+    
     let id, first_name,last_name,complete_name, identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school;
     let resultRowData;
     id = rq.id;
@@ -155,10 +157,11 @@ function organizeTableDataStudents(apiData) {
     grade = rq.grade;
     sex = rq.sex;
     age = rq.age;
+    let relatives = rq.relatives.map(relative => relative.first_name + ' ' + relative.last_name).join(', ');
     working_hours = rq.working_hours;
     school_name = rq.school.name;
     school = rq.school.id;
-    resultRowData = { id, first_name, last_name, complete_name,identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school };
+    resultRowData = { id, first_name, last_name, complete_name,identification_type, identification_number, phone_number, grade, sex, age, working_hours, school_name, school, relatives };
     return rows[0].push(resultRowData);
   });
 }
