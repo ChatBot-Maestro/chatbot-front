@@ -12,19 +12,19 @@ const Toast = (props) => {
 
     onClose();
   };
+
   return (
     <Snackbar
       open={open}
-      autoHideDuration={6000}
+      autoHideDuration={2000}
       onClose={handleClose}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
       <MuiAlert
         elevation={6}
         variant="filled"
         onClose={handleClose}
         severity={severity}
-        sx={{ top: '0', left: '0', right: '0', position: 'absolute' }}
+        sx={{ width: '100%' }}
       >
         <div>
           <h3>{title}</h3>

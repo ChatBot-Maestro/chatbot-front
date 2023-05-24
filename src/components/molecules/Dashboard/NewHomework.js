@@ -69,13 +69,18 @@ export default function NewHomework(props) {
       //delete id object in selectedValues
       delete selectedValues.id;
     }
-    await fetch(API_ENDPOINT + url, {
+    const response = await fetch(API_ENDPOINT + url, {
       method: methodUsed,
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(selectedValues)
     });
+    if(response.status === 201 || response.status === 200){
+      props.handleFetchResponse({ success: true});
+    }else{
+      props.handleFetchResponse({ success: false});
+    }
 
     // Reset selectedValues state
     setSelectedValues({});

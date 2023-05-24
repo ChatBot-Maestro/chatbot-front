@@ -94,14 +94,18 @@ export default function NewSchedule(props) {
       delete selectedValues.id;
       delete selectedValues.teacher_name;
     }
-    await fetch(API_ENDPOINT + url, {
+    const response = await fetch(API_ENDPOINT + url, {
       method: methodUsed,
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(selectedValues)
     });
-
+    if(response.status === 201 || response.status === 200){
+      props.handleFetchResponse({ success: true});
+    } else{
+      props.handleFetchResponse({ success: false});
+    }
     // Reset selectedValues state
     setSelectedValues({});
 

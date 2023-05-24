@@ -3,8 +3,7 @@ import SearchAtom from "../../atoms/Search.js";
 import TableAtom from "../../atoms/Table.js";
 import ButtonAtom from '../../atoms/Button.js';
 import TextAtom from "../../atoms/Text.js";
-import reportWebVitals from '../../../reportWebVitals'; // Import reportWebVitals function
-
+import Toast from '../../atoms/Toast.js';
 
 //import molecules
 import LeftMenu from "../../molecules/LeftMenu/leftmenu.js";
@@ -111,18 +110,9 @@ export default function HomeworksManagement() {
     const handleMetric = (metric) => {
       setMetrics((prevMetrics) => [...prevMetrics, metric]);
     };
-  
-    reportWebVitals(handleMetric);
+
   }, []);
 
-  console.log('Performance Metrics Report:');
-metrics.forEach((metric) => {
-  console.log('Metric:', metric.name);
-  console.log('Value:', metric.value);
-  console.log('ID:', metric.id);
-  console.log('Delta:', metric.delta);
-  console.log('-----------------------');
-});
 
   async function fetchRequestData() {
 
@@ -192,9 +182,9 @@ metrics.forEach((metric) => {
     subjectInformation = {};
     subjectInformation = tempRows.find((u) => u.id === subjectId);
     toggleModal();
-  };  
+  };
 
-    // Get school/schools
+  // Get school/schools
   async function requestGetRequest() {
     let getRequests = "/api/requests/requests/";
     // map data to schools array string
@@ -256,6 +246,47 @@ metrics.forEach((metric) => {
       required: true,
     },
   ];
+  // Toast
+ const [toastOpen, setToastOpen] = useState(false);
+ const [toastSeverity, setToastSeverity] = useState('');
+ const [toastTitle, setToastTitle] = useState('');
+ const [toastText, setToastText] = useState('');
+
+ const handleOpenToast = () => {
+   setToastOpen(true);
+ };
+
+ const handleCloseToast = () => {
+   setToastOpen(false);
+ };
+ const handleFetchResponse = (response) => {
+
+   const responseSuccess = {
+     severity: 'success',
+     title: 'Exitoso',
+     text: 'Cambios guardados correctamente',
+   };
+
+   const responseError = {
+     severity: 'error',
+     title: 'Error',
+     text: 'Error al guardar los cambios',
+   };
+   if (response.success) {
+
+     setToastSeverity(responseSuccess.severity);
+     setToastTitle(responseSuccess.title);
+     setToastText(responseSuccess.text);
+     // Handle success
+     handleOpenToast();
+   } else {
+     setToastSeverity(responseError.severity);
+     setToastTitle(responseError.title);
+     setToastText(responseError.text);
+     // Handle error
+     handleOpenToast();
+   }
+ };
 
   return (<div className="d-flex">
     <LeftMenu />
@@ -294,18 +325,26 @@ metrics.forEach((metric) => {
       </div>
     </div>
     <Modal
-        isOpen={isModalOpen}
-        onRequestClose={toggleModal}
-        className="users-management--modal"
-      >
-        {/* labels Array, edit or new, (if edit, send user data, so do GET of the user before sending it) */}
-        <NewUser
-          appElement={document.getElementById('root')}
-          toggleModal={toggleModal}
-          fields={editableFields}
-          initialData={subjectInformation}
-          />
-      </Modal>
+      isOpen={isModalOpen}
+      onRequestClose={toggleModal}
+      className="users-management--modal"
+    >
+      {/* labels Array, edit or new, (if edit, send user data, so do GET of the user before sending it) */}
+      <NewUser
+        appElement={document.getElementById('root')}
+        toggleModal={toggleModal}
+        fields={editableFields}
+        initialData={subjectInformation}
+        handleFetchResponse={handleFetchResponse}
+      />
+    </Modal>
+    <Toast
+      severity={toastSeverity}
+      title={toastTitle}
+      text={toastText}
+      open={toastOpen}
+      onClose={handleCloseToast}
+    />
   </div>
   );
 }

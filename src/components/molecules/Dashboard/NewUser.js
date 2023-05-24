@@ -8,6 +8,7 @@ import MdiIconAtom from '../../atoms/MDI.js';
 import { mdiClose } from '@mdi/js';
 import { API_ENDPOINT } from "../../../config.js";
 
+
 const tempRelatives = [null,null];
 
 export default function NewUser(props) {
@@ -16,7 +17,7 @@ export default function NewUser(props) {
   const [checkboxValues, setCheckboxValues] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const [showingValues, setShowingValues] = useState({});
-  
+ 
   const checkFormValidity = () => {
     for (const field of fields) {
       if (field.required && (!checkboxValues[field.name] || checkboxValues[field.name] === "") && field.type === 'checkbox') {
@@ -111,6 +112,7 @@ export default function NewUser(props) {
 
 
   const handleSave = async () => {
+
     if (!isFormValid) {
       return;
     }
@@ -143,13 +145,18 @@ export default function NewUser(props) {
       //delete id object in selectedValues
       delete selectedValues.id;
     }
-    await fetch(API_ENDPOINT + url, {
+    const response = await fetch(API_ENDPOINT + url, {
       method: methodUsed,
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(selectedValues)
     });
+    if(response.status === 201 || response.status === 200){
+      props.handleFetchResponse({ success: true});
+    }else{
+      props.handleFetchResponse({ success: false});
+    }
 
   } else if (props.selectedUser.index === 1){
     if(!isObjectEmpty(props.initialData)){
@@ -177,13 +184,19 @@ export default function NewUser(props) {
       schedules: [],
     }
 
-    await fetch(API_ENDPOINT + url, {
+    const responseData = await fetch(API_ENDPOINT + url, {
       method: methodUsed,
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(dataTeacher)
     });
+
+    if(responseData.status === 201 || responseData.status === 200){
+      props.handleFetchResponse({ success: true});
+    }else{
+      props.handleFetchResponse({ success: false});
+    }
   
   } else if(props.selectedUser.index === 2){
       if(!isObjectEmpty(props.initialData)){
@@ -208,13 +221,19 @@ export default function NewUser(props) {
       user: idUser,
       school: selectedValues['school'],
     }
-    await fetch(API_ENDPOINT + url, {
+    const responseData = await fetch(API_ENDPOINT + url, {
       method: methodUsed,
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(dataManager)
     });
+    if(responseData.status === 201 || responseData.status === 200){
+      props.handleFetchResponse({ success: true});
+    }else{
+      props.handleFetchResponse({ success: false});
+    }
+  
   }
 
     // Reset selectedValues state

@@ -3,6 +3,8 @@ import SearchAtom from "../../atoms/Search.js";
 import TableAtom from "../../atoms/Table.js";
 import TextAtom from "../../atoms/Text.js";
 import ButtonAtom from '../../atoms/Button.js';
+import Toast from '../../atoms/Toast.js';
+
 //import molecules
 import LeftMenu from "../../molecules/LeftMenu/leftmenu.js";
 import NewSchool from '../../molecules/Dashboard/NewSchool.js';
@@ -24,7 +26,7 @@ import React, { useState, useEffect } from "react";
 
 //Create the table
 const tableHeader = [
-  "Id", "Nombre colegio" ,"Dirección","Editar"
+  "Id", "Nombre colegio", "Dirección", "Editar"
 ];
 const iterableFields = ["id", "name", "address"];
 
@@ -51,18 +53,18 @@ async function requestGet() {
 }
 
 //DELETE TABLE ROW WITH ID
-async function requestDeleteFromDB(id){
+async function requestDeleteFromDB(id) {
 
   let deleteRequest = '/api/schools/schools/' + id + '/';
 
-  let deleteResponse =await fetch(API_ENDPOINT + deleteRequest, {
-    method : 'DELETE'
+  let deleteResponse = await fetch(API_ENDPOINT + deleteRequest, {
+    method: 'DELETE'
   }).then((response) => response.json())
-  .then((data) => {
-    return true;
-  }).catch((error) => {
-    return false;
-  });
+    .then((data) => {
+      return true;
+    }).catch((error) => {
+      return false;
+    });
 
   return deleteResponse;
 
@@ -77,7 +79,7 @@ function organizeTableData(apiData) {
     id = rq.id;
     nameSchool = rq.name;
     address = rq.address;
- 
+
 
     resultRowData = createData(id, nameSchool, address);
 
@@ -92,19 +94,19 @@ let schoolInformation = [];
 let shiftsOptions = [];
 
 export default function RequestManagement() {
-    const [newTemp,setNewTemp] = useState([rows]);
+  const [newTemp, setNewTemp] = useState([rows]);
 
   //Set background color with js
   document.body.style.backgroundColor = "#F2F4F7";
 
-   //Call functions on component mounting
-   useEffect(() => {
+  //Call functions on component mounting
+  useEffect(() => {
     fetchRequestData();
-  },[]);
+  }, []);
 
-  async function fetchRequestData(){
+  async function fetchRequestData() {
 
-      
+
     //Clean up rows
     rows = [];
     tempRows = [];
@@ -116,11 +118,11 @@ export default function RequestManagement() {
   }
 
   function setShifts() {
-    shiftsOptions.push({id: 1, name: "Mañana"});
-    shiftsOptions.push({id: 2, name: "Tarde"});
+    shiftsOptions.push({ id: 1, name: "Mañana" });
+    shiftsOptions.push({ id: 2, name: "Tarde" });
   }
 
-  function setInitRowsState(){
+  function setInitRowsState() {
     //This is just 4 update the render after adding rows
     tempRows = rows.map((row) => row);
     setNewTemp([rows])
@@ -136,16 +138,16 @@ export default function RequestManagement() {
     );
   }
 
-  async function requestDelete(id){
+  async function requestDelete(id) {
     setIdDelete(id);
     let deleteResponseStatus = await requestDeleteFromDB(id);
 
-    if(deleteResponseStatus){
+    if (deleteResponseStatus) {
       //Delete row from list
       rows = rows.filter((row) => row.id !== id);
       tempRows = rows.map((row) => row);
       setNewTemp([rows]);
-    }else{
+    } else {
       alert("Error al eliminar la solicitud");
     }
   }
@@ -173,7 +175,7 @@ export default function RequestManagement() {
     schoolInformation = {};
     schoolInformation = tempRows.find((u) => u.id === schoolId);
     toggleModal();
-  };  
+  };
 
   const editableFields = [
     {
@@ -196,52 +198,102 @@ export default function RequestManagement() {
       isObject: true,
     }
   ];
+  // Toast
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastSeverity, setToastSeverity] = useState('');
+  const [toastTitle, setToastTitle] = useState('');
+  const [toastText, setToastText] = useState('');
+
+  const handleOpenToast = () => {
+    setToastOpen(true);
+  };
+
+  const handleCloseToast = () => {
+    setToastOpen(false);
+  };
+  const handleFetchResponse = (response) => {
+
+    const responseSuccess = {
+      severity: 'success',
+      title: 'Exitoso',
+      text: 'Cambios guardados correctamente',
+    };
+
+    const responseError = {
+      severity: 'error',
+      title: 'Error',
+      text: 'Error al guardar los cambios',
+    };
+    if (response.success) {
+
+      setToastSeverity(responseSuccess.severity);
+      setToastTitle(responseSuccess.title);
+      setToastText(responseSuccess.text);
+      // Handle success
+      handleOpenToast();
+    } else {
+      setToastSeverity(responseError.severity);
+      setToastTitle(responseError.title);
+      setToastText(responseError.text);
+      // Handle error
+      handleOpenToast();
+    }
+  };
 
   return (<div className="d-flex">
-      <LeftMenu/>
-      <div className="w-100">
-        <div className="navbar">
-          <div className="title">
-            <h3>
-              <a href="dashboard" className="title-anchor">
-                Dashboard
-              </a>{" "}
-              / Gestión de Colegios{" "}
-            </h3>
-          </div>
-          <SearchAtom searchEvent={handleSearch}/>
+    <LeftMenu />
+    <div className="w-100">
+      <div className="navbar">
+        <div className="title">
+          <h3>
+            <a href="dashboard" className="title-anchor">
+              Dashboard
+            </a>{" "}
+            / Gestión de Colegios{" "}
+          </h3>
         </div>
-        
-        <div className="subject__content">
-          <div className='d-flex justify-content-between mt-5 mb-4'>
-            <TextAtom text="Gestión de Colegios" weight="bold" align="left" size="22px" />
-            <ButtonAtom onClick={toggleModal} label="Nuevo Colegio" variant='contained' iconPath={mdiPlus} size={1} textColor={"white"} />
-          </div>
-            <Card className="table-card">
-              <CardContent>
-                <TableAtom 
-                  tableHeader={tableHeader}
-                  iterableFields={iterableFields}
-                  rows={tempRows}
-                  editEvent={editSchool}
-                  deleteEvent={requestDelete}
-                />
-              </CardContent>
-            </Card>
-        </div>
+        <SearchAtom searchEvent={handleSearch} />
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={toggleModal}
-        className="users-management--modal"
-      >
-        {/* labels Array, edit or new, (if edit, send user data, so do GET of the user before sending it) */}
-        <NewSchool
-          appElement={document.getElementById('root')}
-          toggleModal={toggleModal}
-          fields={editableFields}
-          initialData={schoolInformation} />
-      </Modal>
+
+      <div className="subject__content">
+        <div className='d-flex justify-content-between mt-5 mb-4'>
+          <TextAtom text="Gestión de Colegios" weight="bold" align="left" size="22px" />
+          <ButtonAtom onClick={toggleModal} label="Nuevo Colegio" variant='contained' iconPath={mdiPlus} size={1} textColor={"white"} />
+        </div>
+        <Card className="table-card">
+          <CardContent>
+            <TableAtom
+              tableHeader={tableHeader}
+              iterableFields={iterableFields}
+              rows={tempRows}
+              editEvent={editSchool}
+              deleteEvent={requestDelete}
+            />
+          </CardContent>
+        </Card>
+      </div>
     </div>
-    );
-  }
+    <Modal
+      isOpen={isModalOpen}
+      onRequestClose={toggleModal}
+      className="users-management--modal"
+    >
+      {/* labels Array, edit or new, (if edit, send user data, so do GET of the user before sending it) */}
+      <NewSchool
+        appElement={document.getElementById('root')}
+        toggleModal={toggleModal}
+        fields={editableFields}
+        initialData={schoolInformation}
+        handleFetchResponse={handleFetchResponse}
+      />
+    </Modal>
+    <Toast
+      severity={toastSeverity}
+      title={toastTitle}
+      text={toastText}
+      open={toastOpen}
+      onClose={handleCloseToast}
+    />
+  </div>
+  );
+}

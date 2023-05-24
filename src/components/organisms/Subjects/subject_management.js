@@ -3,6 +3,7 @@ import SearchAtom from "../../atoms/Search.js";
 import TableAtom from "../../atoms/Table.js";
 import ButtonAtom from '../../atoms/Button.js';
 import TextAtom from "../../atoms/Text.js";
+import Toast from '../../atoms/Toast.js';
 
 //import molecules
 import LeftMenu from "../../molecules/LeftMenu/leftmenu.js";
@@ -174,7 +175,47 @@ export default function RequestManagement() {
     subjectInformation = tempRows.find((u) => u.id === subjectId);
     toggleModal();
   };
+ // Toast
+ const [toastOpen, setToastOpen] = useState(false);
+ const [toastSeverity, setToastSeverity] = useState('');
+ const [toastTitle, setToastTitle] = useState('');
+ const [toastText, setToastText] = useState('');
 
+ const handleOpenToast = () => {
+   setToastOpen(true);
+ };
+
+ const handleCloseToast = () => {
+   setToastOpen(false);
+ };
+ const handleFetchResponse = (response) => {
+
+   const responseSuccess = {
+     severity: 'success',
+     title: 'Exitoso',
+     text: 'Cambios guardados correctamente',
+   };
+
+   const responseError = {
+     severity: 'error',
+     title: 'Error',
+     text: 'Error al guardar los cambios',
+   };
+   if (response.success) {
+
+     setToastSeverity(responseSuccess.severity);
+     setToastTitle(responseSuccess.title);
+     setToastText(responseSuccess.text);
+     // Handle success
+     handleOpenToast();
+   } else {
+     setToastSeverity(responseError.severity);
+     setToastTitle(responseError.title);
+     setToastText(responseError.text);
+     // Handle error
+     handleOpenToast();
+   }
+ };
 
   return (<div className="d-flex">
     <LeftMenu />
@@ -213,17 +254,25 @@ export default function RequestManagement() {
       </div>
     </div>
     <Modal
-        isOpen={isModalOpen}
-        onRequestClose={toggleModal}
-        className="users-management--modal"
-      >
-        {/* labels Array, edit or new, (if edit, send user data, so do GET of the user before sending it) */}
-        <NewUser
-          appElement={document.getElementById('root')}
-          toggleModal={toggleModal}
-          fields={editableFields}
-          initialData={subjectInformation}/>
-      </Modal>
+      isOpen={isModalOpen}
+      onRequestClose={toggleModal}
+      className="users-management--modal"
+    >
+      {/* labels Array, edit or new, (if edit, send user data, so do GET of the user before sending it) */}
+      <NewUser
+        appElement={document.getElementById('root')}
+        toggleModal={toggleModal}
+        fields={editableFields}
+        initialData={subjectInformation}
+        handleFetchResponse={handleFetchResponse} />
+    </Modal>
+    <Toast
+      severity={toastSeverity}
+      title={toastTitle}
+      text={toastText}
+      open={toastOpen}
+      onClose={handleCloseToast}
+    />
   </div>
   );
 }

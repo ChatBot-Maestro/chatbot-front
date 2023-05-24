@@ -8,7 +8,7 @@ import TextAtom from "../../atoms/Text.js";
 import NewUser from '../../molecules/Dashboard/NewUser.js';
 import TableAtom from "../../atoms/Table.js";
 import SearchAtom from "../../atoms/Search.js";
-
+import Toast from '../../atoms/Toast.js';
 //Import Backend API
 import { API_ENDPOINT } from "../../../config.js";
 Modal.setAppElement('#root');
@@ -327,6 +327,20 @@ export default function UserManagement() {
     },
   ]
   const [selectedUser, setSelectedUser] = useState(users[0]);
+   // Toast
+   const [toastOpen, setToastOpen] = useState(false);
+   const [toastSeverity, setToastSeverity] = useState('');
+   const [toastTitle, setToastTitle] = useState('');
+   const [toastText, setToastText] = useState('');
+
+   const handleOpenToast = () => {
+    setToastOpen(true);
+  };
+
+  const handleCloseToast = () => {
+    setToastOpen(false);
+  };
+   
   const handleUserClick = (user) => {
     setSelectedUser(user);
   };
@@ -452,6 +466,35 @@ export default function UserManagement() {
       row.first_name.toLowerCase().includes(searchData.toLowerCase())
     );
   }
+
+  const handleFetchResponse = (response) => {
+
+    const responseSuccess = {
+      severity: 'success',
+      title: 'Exitoso',
+      text: 'Cambios guardados correctamente',
+    };
+
+    const responseError = {
+      severity: 'error',
+      title: 'Error',
+      text: 'Error al guardar los cambios',
+    };
+    if (response.success) {
+
+      setToastSeverity(responseSuccess.severity);
+      setToastTitle(responseSuccess.title);
+      setToastText(responseSuccess.text);
+      // Handle success
+      handleOpenToast();
+    } else {
+      setToastSeverity(responseError.severity);
+      setToastTitle(responseError.title);
+      setToastText(responseError.text);
+      // Handle error
+      handleOpenToast();
+    }
+  };
   return (
     <div className="users-management">
       <LeftMenu />
@@ -506,9 +549,17 @@ export default function UserManagement() {
           toggleModal={toggleModal}
           selectedUser={selectedUser}
           fields={editableFields[selectedUser.index]}
-          initialData={userInformation} />
+          initialData={userInformation}
+          handleFetchResponse={handleFetchResponse} />
       </Modal>
       </div>
+      <Toast
+        severity={toastSeverity}
+        title={toastTitle}
+        text={toastText}
+        open={toastOpen}
+        onClose={handleCloseToast}
+      />
     </div>
   )
 }

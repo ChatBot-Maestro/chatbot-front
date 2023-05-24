@@ -3,6 +3,7 @@ import SearchAtom from "../../atoms/Search.js";
 import TableAtom from "../../atoms/Table.js";
 import ButtonAtom from '../../atoms/Button.js';
 import TextAtom from "../../atoms/Text.js";
+import Toast from '../../atoms/Toast.js';
 
 //import molecules
 import LeftMenu from "../../molecules/LeftMenu/leftmenu.js";
@@ -30,7 +31,7 @@ const iterableFields = ["name", "request_type", "subject", "status", "contact_ti
 //Declare empty rows
 var rows = []
 
-function createData(id, name,subject, status, scheduled_date, request_type, contact_times) {
+function createData(id, name, subject, status, scheduled_date, request_type, contact_times) {
   return { id, name, subject, status, scheduled_date, request_type, contact_times };
 }
 
@@ -199,7 +200,7 @@ export default function RequestManagement() {
   }
   function setSubjects(apiData) {
     apiData.map((rq) => {
-      return subjectsObject.push({id: rq.id, name: rq.name});
+      return subjectsObject.push({ id: rq.id, name: rq.name });
     });
   }
 
@@ -234,6 +235,7 @@ export default function RequestManagement() {
 
   }
   const toggleModal = () => {
+    console.log('toggleModal');
     if (isModalOpen) {
       requestInformation = {};
     }
@@ -293,7 +295,7 @@ export default function RequestManagement() {
     {
       name: "teacher",
       label: "Profesor",
-      type: "search", 
+      type: "search",
       info: currTeachers,
     },
     {
@@ -305,6 +307,47 @@ export default function RequestManagement() {
       required: true,
     }
   ];
+  // Toast
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastSeverity, setToastSeverity] = useState('');
+  const [toastTitle, setToastTitle] = useState('');
+  const [toastText, setToastText] = useState('');
+
+  const handleOpenToast = () => {
+    setToastOpen(true);
+  };
+
+  const handleCloseToast = () => {
+    setToastOpen(false);
+  };
+  const handleFetchResponse = (response) => {
+
+    const responseSuccess = {
+      severity: 'success',
+      title: 'Exitoso',
+      text: 'Cambios guardados correctamente',
+    };
+
+    const responseError = {
+      severity: 'error',
+      title: 'Error',
+      text: 'Error al guardar los cambios',
+    };
+    if (response.success) {
+
+      setToastSeverity(responseSuccess.severity);
+      setToastTitle(responseSuccess.title);
+      setToastText(responseSuccess.text);
+      // Handle success
+      handleOpenToast();
+    } else {
+      setToastSeverity(responseError.severity);
+      setToastTitle(responseError.title);
+      setToastText(responseError.text);
+      // Handle error
+      handleOpenToast();
+    }
+  };
   return (
     <div className="d-flex">
       <LeftMenu />
@@ -353,8 +396,16 @@ export default function RequestManagement() {
           toggleModal={toggleModal}
           fields={editableFields}
           initialData={requestInformation}
-           />
+          handleFetchResponse={handleFetchResponse}
+        />
       </Modal>
+      <Toast
+        severity={toastSeverity}
+        title={toastTitle}
+        text={toastText}
+        open={toastOpen}
+        onClose={handleCloseToast}
+      />
     </div>
   );
 }
