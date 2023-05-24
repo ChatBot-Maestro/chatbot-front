@@ -110,7 +110,7 @@ export default function NewUser(props) {
     return Object.keys(obj).length === 0;
   }
 
-
+  const buttonText = isObjectEmpty(props.initialData) ? 'Nuevo' : 'Editar';
   const handleSave = async () => {
 
     if (!isFormValid) {
@@ -246,7 +246,7 @@ export default function NewUser(props) {
   return (
     <div className="new-user">
       <div className="d-flex justify-content-between mb-3">
-        <TextAtom text={`Nuevo ${props.selectedUser.singleName}`} weight="bold" align="left" size="22px"/>
+        <TextAtom text={`${buttonText} ${props.selectedUser.singleName}`} weight="bold" align="left" size="22px"/>
         <MdiIconAtom onClick={handleAdd} path={mdiClose} size={1} spin={false} cursor="pointer"/>
       </div>
       <div className="new-user__fields">

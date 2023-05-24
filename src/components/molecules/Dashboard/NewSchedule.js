@@ -112,11 +112,12 @@ export default function NewSchedule(props) {
     // Close modal
     props.toggleModal();
   };
+  const buttonText = isObjectEmpty(props.initialData) ? 'Nuevo' : 'Editar';
 
   return (
     <div className="new-user">
       <div className="d-flex justify-content-between mb-3">
-        <TextAtom text="Nueva Horario" weight="bold" align="left" size="22px"/>
+        <TextAtom text={`${buttonText} Horario`} weight="bold" align="left" size="22px"/>
         <MdiIconAtom onClick={handleAdd} path={mdiClose} size={1} spin={false} cursor="pointer"/>
       </div>
       <div className="new-user__fields">
