@@ -55,7 +55,7 @@ export default function LogIn() {
     setToastTitle(responseError.title);
     setToastText(responseError.text);
 
-    const response = await fetch(API_ENDPOINT + 'api/auth/login', {
+    const response = await fetch(API_ENDPOINT + 'api/auth/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
